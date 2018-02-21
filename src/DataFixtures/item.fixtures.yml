@@ -1,0 +1,5 @@
+App\Entity\Item:
+    item{1..10}:
+        question: '<paragraph()>'
+        answer: '<paragraph()>'
+        dueAt: '<date_create()>'

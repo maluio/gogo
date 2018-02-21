@@ -11,6 +11,9 @@
                 <td>
                     {{ item.answer }}
                 </td>
+                <td>
+                    {{ item.dueAt|date('Y-M-D H:i:s') }}
+                </td>
             </tr>
             {% endfor %}
         </tbody>

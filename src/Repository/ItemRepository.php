@@ -32,7 +32,7 @@ class ItemRepository extends ServiceEntityRepository
 
         try{
             $result = $this->createQueryBuilder('item')
-                ->andWhere('item.dueAt > :now')
+                ->andWhere('item.dueAt < :now')
                 ->setParameter('now', $now->format('Y-m-d H:i:s'))
                 ->orderBy('item.dueAt', 'DESC')
                 // this kinda works around the NonUniqueResultException, but it needs to be catches in any case
