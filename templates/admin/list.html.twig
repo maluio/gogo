@@ -12,7 +12,7 @@
                     {{ item.answer }}
                 </td>
                 <td>
-                    {{ item.dueAt|date('Y-M-D H:i:s') }}
+                    {{ item.dueAt|due_since }}
                 </td>
                 <td>
                     <a href="{{ path('item_edit', {'id': item.id}) }}">Edit</a>

@@ -75,7 +75,7 @@ class ItemController extends Controller
      */
     public function list(ItemRepository $itemRepository)
     {
-        $items = $itemRepository->findAll();
+        $items = $itemRepository->findBy([], ['dueAt' => 'DESC']);
 
         return $this->render('admin/list.html.twig',
             [
