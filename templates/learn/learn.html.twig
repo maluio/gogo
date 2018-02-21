@@ -1,26 +1,35 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {% if item %}
-        <div id="question" class="card card-outline-secondary mb-3 text-center">
-            <div class="card-body">
+<div id="learn-view">    {% if item %}
+        <div class="row">
+            <div id="question" class="card card-outline-secondary mb-3 text-center">
+                <div class="card-body">
                     {{ item.question }}
+                </div>
             </div>
         </div>
-        <div id="answer" class="card card-outline-secondary mb-3 text-center">
-            <div class="card-body">
-                {{ item.answer }}
+        <div class="row">
+            <button class="btn btn-light" id="show">Show</button>
+        </div>
+        <div class="row">
+            <div id="answer" class="card card-outline-light mb-3 text-center">
+                <div class="card-body">
+                    {{ item.answer }}
+                </div>
             </div>
         </div>
 
-        <form method="post" action="{{ path('learn_handle_result', {'item': item.id}) }}">
-            <button name="learn_rating" value="1">1</button>
-            <button name="learn_rating" value="2">2</button>
-            <button name="learn_rating" value="3">3</button>
-            <button name="learn_rating" value="1">4</button>
-            <button name="learn_rating" value="5">5</button>
-        </form>
+        <div class="row">
+            <form method="post" action="{{ path('learn_handle_result', {'item': item.id}) }}">
+                <button class="btn btn-light" name="learn_rating" value="1">1</button>
+                <button class="btn btn-light" name="learn_rating" value="2">2</button>
+                <button class="btn btn-light" name="learn_rating" value="3">3</button>
+                <button class="btn btn-light" name="learn_rating" value="1">4</button>
+                <button class="btn btn-light" name="learn_rating" value="5">5</button>
+            </form>
+        </div>
     {% else %}
         Nothing to learn
-    {% endif %}
+    {% endif %}</div>
 {% endblock %}
