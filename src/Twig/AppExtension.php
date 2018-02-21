@@ -18,14 +18,14 @@ class AppExtension extends AbstractExtension
     public function calcDue(\DateTime $dueDate): string
     {
         $now = new \DateTime();
-        $diff = $dueDate->diff($now);
+        $diff = $now->diff($dueDate);
 
-        $format = '%R %i minutes';
+        $format = '%r %i minutes';
         if ($diff->h > 1){
-            $format = '%R %h hours';
+            $format = '%r %h hours';
         }
         if ($diff->days > 0){
-            $format = '%R %d days';
+            $format = '%r %d days';
         }
 
         return $diff->format($format);
