@@ -15,7 +15,6 @@ class ItemType extends AbstractType
         $builder
             ->add('question')
             ->add('answer')
-            ->add('submit', SubmitType::class)
         ;
     }
 

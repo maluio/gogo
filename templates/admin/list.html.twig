@@ -18,5 +18,9 @@
             {% endfor %}
         </tbody>
     </table>
-    {{ form(form) }}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <button type="submit">create</button>
+    {{ form_end(form) }}
 {% endblock %}
