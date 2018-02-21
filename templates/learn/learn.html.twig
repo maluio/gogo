@@ -2,9 +2,24 @@
 
 {% block body %}
     {% if item %}
+        <div id="question" class="card card-outline-secondary mb-3 text-center">
+            <div class="card-body">
+                    {{ item.question }}
+            </div>
+        </div>
+        <div id="answer" class="card card-outline-secondary mb-3 text-center">
+            <div class="card-body">
+                {{ item.answer }}
+            </div>
+        </div>
 
-        {{ item.question }}
-
+        <form method="post" action="{{ path('learn_handle_result', {'item': item.id}) }}">
+            <button name="learn_rating" value="1">1</button>
+            <button name="learn_rating" value="2">2</button>
+            <button name="learn_rating" value="3">3</button>
+            <button name="learn_rating" value="1">4</button>
+            <button name="learn_rating" value="5">5</button>
+        </form>
     {% else %}
         Nothing to learn
     {% endif %}
