@@ -16,16 +16,16 @@ class ItemController extends Controller
 {
 
     /**
-     * @Route("/", name="item_list")
+     * @Route("/create", name="item_create")
      */
-    public function index(ItemRepository $itemRepository, Request $request)
+    public function create(Request $request)
     {
         $item = new Item();
 
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $item = $form->getData();
             $em = $this->getDoctrine()->getManager();
             $em->persist($item);
@@ -34,12 +34,24 @@ class ItemController extends Controller
             return $this->redirectToRoute('item_list');
         }
 
+        return $this->render('admin/create.html.twig',
+            [
+                'form' => $form->createView()
+            ]
+        );
+    }
+
+
+    /**
+     * @Route("/", name="item_list")
+     */
+    public function list(ItemRepository $itemRepository)
+    {
         $items = $itemRepository->findAll();
 
         return $this->render('admin/list.html.twig',
             [
-                'items' => $items,
-                'form' => $form->createView()
+                'items' => $items
             ]
         );
     }
