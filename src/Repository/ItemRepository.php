@@ -45,4 +45,20 @@ class ItemRepository extends ServiceEntityRepository
         return  $result;
     }
 
+    public function getNumberOfDueItems(): int {
+        $now = new \DateTime();
+
+        try{
+            return $this->createQueryBuilder('item')
+                ->select('count(item.id)')
+                ->andWhere('item.dueAt < :now')
+                ->setParameter('now', $now->format('Y-m-d H:i:s'))
+                ->getQuery()
+                ->getSingleScalarResult();
+        }
+        catch (NonUniqueResultException $e) {
+            return 0;
+        }
+    }
+
 }
