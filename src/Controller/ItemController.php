@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\AppConstants;
 use App\Entity\Item;
 use App\Form\ItemType;
 use App\Repository\ItemRepository;
@@ -34,7 +35,7 @@ class ItemController extends Controller
             $em->persist($item);
             $em->flush();
 
-            $this->addFlash('success', 'Item created');
+            $this->addFlash(AppConstants::FLASH_DEAULT, 'Item created');
 
             return $this->redirectToRoute('item_list');
         }
@@ -63,7 +64,7 @@ class ItemController extends Controller
             $em->persist($item);
             $em->flush();
 
-            $this->addFlash('success', 'Item updated');
+            $this->addFlash(AppConstants::FLASH_DEAULT, 'Item updated');
 
             return $this->redirectToRoute('item_list');
         }

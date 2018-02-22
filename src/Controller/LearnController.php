@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\AppConstants;
 use App\Entity\Item;
 use App\Repository\ItemRepository;
+use App\Utils\DateFormatConstants;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,10 +56,17 @@ class LearnController extends Controller
                 break;
         }
 
-        $item->setDueAt(new \DateTime($nextReview));
+        $newDueDate = new \DateTime($nextReview);
+
+        $item->setDueAt($newDueDate);
 
         $em->persist($item);
         $em->flush();
+
+        $this->addFlash(
+            AppConstants::FLASH_DEAULT,
+            'Next review for this item due at ' . $newDueDate->format(DateFormatConstants::DATE_TIME_DEFAULT)
+        );
 
         return $this->redirectToRoute('learn');
     }
