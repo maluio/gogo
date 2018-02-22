@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Item;
 use App\Form\ItemType;
 use App\Repository\ItemRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -18,7 +19,10 @@ class ItemController extends Controller
     /**
      * @Route("/create", name="item_create")
      */
-    public function create(Request $request)
+    public function create(
+        Request $request,
+        EntityManagerInterface $em
+    )
     {
         $item = new Item();
 
@@ -27,7 +31,6 @@ class ItemController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $item = $form->getData();
-            $em = $this->getDoctrine()->getManager();
             $em->persist($item);
             $em->flush();
 
@@ -46,14 +49,17 @@ class ItemController extends Controller
     /**
      * @Route("/{id}/edit", name="item_edit")
      */
-    public function edit(Item $item, Request $request){
+    public function edit(
+        Item $item,
+        Request $request,
+        EntityManagerInterface $em
+    ){
 
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $item = $form->getData();
-            $em = $this->getDoctrine()->getManager();
             $em->persist($item);
             $em->flush();
 

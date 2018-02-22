@@ -38,7 +38,7 @@ class LearnController extends Controller
 
         switch ($request->get('learn_rating')){
             case 1:
-                $nextReview = '+ 15 minutes';
+                $nextReview = '';
                 break;
             case 2:
                 $nextReview = '+ 90 minutes';
