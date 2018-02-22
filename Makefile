@@ -8,4 +8,4 @@ prod:
 
 .PHONY test:
 test:
-	docker-compose exec app sh -c 'APP_ENV='test' && ./vendor/bin/simple-phpunit'
+	docker-compose run app sh -c " APP_ENV='test' && DATABASE_URL=sqlite:///%kernel.project_dir%/var/test.db && php bin/console doctrine:schema:update --force && ./vendor/bin/simple-phpunit"
