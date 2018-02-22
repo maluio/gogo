@@ -3,7 +3,9 @@
 {% block body %}
 <div id="learn-view">    {% if item %}
         <div class="row">
-            {{ numberOfDueItems }}
+            <div class="due-item-count">
+                {{ numberOfDueItems }}
+            </div>
         </div>
         <div class="row">
             <div id="question" class="card card-outline-secondary mb-3 text-center">

@@ -2,24 +2,48 @@
 
 namespace App\Tests\Controller;
 
-use App\Controller\LearnController;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\DataFixtures\ItemFixtures;
+use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class LearnControllerTest extends WebTestCase
 {
 
-    public function testIndex()
-    {
-
-        $client = static::createClient();
-
-        $client->request('GET', '/');
-
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+    public static function getPhpUnitXmlDir(){
+        return getenv('KERNEL_DIR');
     }
 
-    public function testHandleLearnResult()
+    public function testIndexWithoutDueItems()
+    {
+        $this->loadFixtures(array(
+        ));
+
+        $client = $this->makeClient();
+
+        $crawler = $client->request('GET', '/');
+
+        $this->assertStatusCode(200, $client);
+
+        $this->assertContains(
+            'Nothing to learn',
+            $client->getResponse()->getContent()
+        );
+
+    }
+
+    public function testIndexShowsItemCount()
     {
 
+        $this->loadFixtures(array(
+            ItemFixtures::class
+        ));
+
+        $client = $this->makeClient();
+
+        $crawler = $client->request('GET', '/');
+
+        $this->assertEquals(
+            4,
+            trim($crawler->filter('div.due-item-count')->text())
+        );
     }
 }
