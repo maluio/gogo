@@ -35,7 +35,7 @@ class ItemController extends Controller
             $em->persist($item);
             $em->flush();
 
-            $this->addFlash(AppConstants::FLASH_DEAULT, 'Item created');
+            $this->addFlash(AppConstants::FLASH_DEFAULT, 'Item created');
 
             return $this->redirectToRoute('item_list');
         }
@@ -64,7 +64,7 @@ class ItemController extends Controller
             $em->persist($item);
             $em->flush();
 
-            $this->addFlash(AppConstants::FLASH_DEAULT, 'Item updated');
+            $this->addFlash(AppConstants::FLASH_DEFAULT, 'Item updated');
 
             return $this->redirectToRoute('item_list');
         }

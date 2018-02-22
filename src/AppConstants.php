@@ -6,5 +6,5 @@ namespace App;
 
 class AppConstants
 {
-    const FLASH_DEAULT = 'success';
+    const FLASH_DEFAULT = 'success';
 }

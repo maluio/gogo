@@ -64,7 +64,7 @@ class LearnController extends Controller
         $em->flush();
 
         $this->addFlash(
-            AppConstants::FLASH_DEAULT,
+            AppConstants::FLASH_DEFAULT,
             'Next review for this item due at ' . $newDueDate->format(DateFormatConstants::DATE_TIME_DEFAULT)
         );
 
