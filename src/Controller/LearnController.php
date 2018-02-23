@@ -36,7 +36,8 @@ class LearnController extends Controller
         Item $item,
         EntityManagerInterface $em,
         Request $request,
-        DateTimeProvider $dateTimeProvider
+        DateTimeProvider $dateTimeProvider,
+        DateTimeFormatHelper $dateTimeFormatHelper
     ){
         $nextReview = '';
 
@@ -51,7 +52,7 @@ class LearnController extends Controller
                 $nextReview = '+ 6 hours';
                 break;
             case 4:
-                $nextReview = '+ 1 days';
+                $nextReview = '+ 1 day';
                 break;
             case 5:
                 $nextReview = '+ 3 days';
@@ -67,7 +68,7 @@ class LearnController extends Controller
 
         $this->addFlash(
             AppConstants::FLASH_DEFAULT,
-            'Next review for this item due in ' . $newDueDate->format(DateTimeFormatHelper::DATE_TIME_DEFAULT)
+            'Next review for this item due in ' . $dateTimeFormatHelper->formatDueDiff($newDueDate)
         );
 
         return $this->redirectToRoute('learn');
