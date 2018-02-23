@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Item;
-use App\Utils\DateFormatConstants;
+use App\Utils\DateTimeFormatHelper;
 use App\Utils\DateTimeProvider;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
@@ -39,7 +39,7 @@ class ItemRepository extends ServiceEntityRepository
         try{
             $result = $this->createQueryBuilder('item')
                 ->andWhere('item.dueAt < :now')
-                ->setParameter('now', $now->format(DateFormatConstants::DB_DATE_TIME))
+                ->setParameter('now', $now->format(DateTimeFormatHelper::DB_DATE_TIME))
                 ->orderBy('item.dueAt', 'DESC')
                 // this kinda works around the NonUniqueResultException, but it needs to be catches in any case
                 ->setMaxResults(1)
@@ -58,7 +58,7 @@ class ItemRepository extends ServiceEntityRepository
             return $this->createQueryBuilder('item')
                 ->select('count(item.id)')
                 ->andWhere('item.dueAt < :now')
-                ->setParameter('now', $now->format(DateFormatConstants::DB_DATE_TIME))
+                ->setParameter('now', $now->format(DateTimeFormatHelper::DB_DATE_TIME))
                 ->getQuery()
                 ->getSingleScalarResult();
         }

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Twig;
+namespace App\Tests\Utils;
 
 
-use App\Twig\AppExtension;
+use App\Utils\DateTimeFormatHelper;
 use App\Utils\DateTimeProvider;
 use PHPUnit\Framework\TestCase;
 
-class AppExtensionTest extends TestCase
+class DateTimeFormatHelperTest extends TestCase
 {
     public function testCalcDuePastDates()
     {
@@ -15,14 +15,14 @@ class AppExtensionTest extends TestCase
         $dtProviderStub = $this->createMock(DateTimeProvider::class);
         $fakeNow = new \DateTime('5 march 2017 7pm');
         $dtProviderStub->method('now')->willReturn($fakeNow);
-        $appExtension = new AppExtension($dtProviderStub);
+        $dtfh = new DateTimeFormatHelper($dtProviderStub);
 
 
         $dueDate = new \DateTime('3 march 2017 3pm');
 
         self::assertEquals(
             '- 2 days',
-            trim($appExtension->calcDue($dueDate)),
+            trim($dtfh->formatDueDiff($dueDate)),
             'DueDate 2 days in the past should show day diff'
         );
 
@@ -30,7 +30,7 @@ class AppExtensionTest extends TestCase
 
         self::assertEquals(
             '- 4 hours',
-            trim($appExtension->calcDue($dueDate)),
+            trim($dtfh->formatDueDiff($dueDate)),
             'DueDate 4 hours in the past should show hour diff'
         );
 
@@ -38,7 +38,7 @@ class AppExtensionTest extends TestCase
 
         self::assertEquals(
             '- 30 minutes',
-            trim($appExtension->calcDue($dueDate)),
+            trim($dtfh->formatDueDiff($dueDate)),
             'DueDate 30 minutes in the past should show minute diff'
         );
     }
@@ -49,13 +49,13 @@ class AppExtensionTest extends TestCase
         $dtProviderStub = $this->createMock(DateTimeProvider::class);
         $fakeNow = new \DateTime('5 march 2017 7pm');
         $dtProviderStub->method('now')->willReturn($fakeNow);
-        $appExtension = new AppExtension($dtProviderStub);
+        $dtfh = new DateTimeFormatHelper($dtProviderStub);
 
         $dueDate = new \DateTime('5 march 2017 7:30pm');
 
         self::assertEquals(
             '30 minutes',
-            trim($appExtension->calcDue($dueDate)),
+            trim($dtfh->formatDueDiff($dueDate)),
             'DueDate 30 minutes in the future should show minute diff'
         );
     }

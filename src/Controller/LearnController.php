@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\AppConstants;
 use App\Entity\Item;
 use App\Repository\ItemRepository;
-use App\Utils\DateFormatConstants;
+use App\Utils\DateTimeFormatHelper;
 use App\Utils\DateTimeProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,7 +67,7 @@ class LearnController extends Controller
 
         $this->addFlash(
             AppConstants::FLASH_DEFAULT,
-            'Next review for this item due at ' . $newDueDate->format(DateFormatConstants::DATE_TIME_DEFAULT)
+            'Next review for this item due in ' . $newDueDate->format(DateTimeFormatHelper::DATE_TIME_DEFAULT)
         );
 
         return $this->redirectToRoute('learn');
