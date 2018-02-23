@@ -10,7 +10,7 @@
         <div class="row">
             <div id="question" class="card card-outline-secondary mb-3">
                 <div class="card-body">
-                    {{ item.question|nl2br }}
+                    {{ item.question|markdown }}
                 </div>
             </div>
         </div>
@@ -20,7 +20,7 @@
         <div class="row">
             <div id="answer" class="card card-outline-light mb-3">
                 <div class="card-body">
-                    {{ item.answer|nl2br }}
+                    {{ item.answer|markdown }}
                 </div>
             </div>
         </div>
