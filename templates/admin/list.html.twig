@@ -15,7 +15,7 @@
                     {{ item.dueAt|due_since }}
                 </td>
                 <td>
-                    <a href="{{ path('item_edit', {'id': item.id}) }}">Edit</a>
+                    <a href="{{ path('item_edit', {'id': item.id}) }}"><span class="oi oi-pencil"></span></a>
                 </td>
             </tr>
             {% endfor %}

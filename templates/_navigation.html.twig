@@ -1,9 +1,12 @@
 <nav class="navbar-custom navbar navbar-expand-lg navbar-light bg-light">
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-item nav-link" href="{{ path('learn') }}">Learn &nbsp;<span class="badge badge-secondary">{{ due_amount() }}</span></a>
-            <a class="nav-item nav-link" href="{{ path('item_list') }}">List</a>
-            <a class="nav-item nav-link" href="{{ path('item_create') }}">Create</a>
+            <a class="nav-item nav-link" href="{{ path('learn') }}">
+                                    <span class="oi oi-inbox"></span>
+                    <span class="due-item-count">{{ due_amount() }}</span>
+            </a>
+            <a class="nav-item nav-link" href="{{ path('item_list') }}"><span class="oi oi-list"></span></a>
+            <a class="nav-item nav-link" href="{{ path('item_create') }}"><span class="oi oi-plus"></span></a>
         </div>
         &nbsp;
         &nbsp;

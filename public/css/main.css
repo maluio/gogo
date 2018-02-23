@@ -2,6 +2,10 @@ nav {
     min-height: 75px;
 }
 
+nav a.nav-item {
+    margin-right: 10px;
+}
+
 div#answer {
     display:none;
 }
