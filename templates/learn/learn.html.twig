@@ -8,9 +8,9 @@
             </div>
         </div>
         <div class="row">
-            <div id="question" class="card card-outline-secondary mb-3 text-center">
+            <div id="question" class="card card-outline-secondary mb-3">
                 <div class="card-body">
-                    {{ item.question }}
+                    {{ item.question|nl2br }}
                 </div>
             </div>
         </div>
@@ -18,9 +18,9 @@
             <button class="btn btn-light" id="show">Show</button>
         </div>
         <div class="row">
-            <div id="answer" class="card card-outline-light mb-3 text-center">
+            <div id="answer" class="card card-outline-light mb-3">
                 <div class="card-body">
-                    {{ item.answer }}
+                    {{ item.answer|nl2br }}
                 </div>
             </div>
         </div>

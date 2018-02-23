@@ -6,10 +6,10 @@
             {% for item in items %}
             <tr>
                 <td>
-                    {{ item.question }}
+                    {{ item.question|nl2br }}
                 </td>
                 <td>
-                    {{ item.answer }}
+                    {{ item.answer|nl2br }}
                 </td>
                 <td>
                     {{ item.dueAt|due_since }}
