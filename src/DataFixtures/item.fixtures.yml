@@ -1,5 +1,10 @@
 App\Entity\Item:
-    item{1..100}:
+    item{1..10}:
         question: '<paragraph()>'
         answer: '<paragraph()>'
         dueAt: '<date_create()>'
+        #ratings: '<numberBetween(1, 5)>x @rating*'
+App\Entity\Rating:
+    rating{1..100}:
+        value: '<numberBetween(1, 5)>'
+        item: '@item*'

@@ -42,7 +42,7 @@ class LearnControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/');
 
         $this->assertEquals(
-            4,
+            10,
             trim($crawler->filter('span.due-item-count')->text())
         );
     }

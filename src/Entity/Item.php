@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,13 +38,19 @@ class Item
     private $dueAt;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Rating", mappedBy="item")
+     * @var ArrayCollection|Rating[]
+     */
+    private $ratings;
+
+    /**
      * Item constructor.
      */
     public function __construct()
     {
         $this->dueAt = new \DateTime();
+        $this->ratings = new ArrayCollection();
     }
-
 
     /**
      * @return int
@@ -99,6 +106,27 @@ class Item
     public function setDueAt(\DateTime $dueAt): void
     {
         $this->dueAt = $dueAt;
+    }
+
+    /**
+     * @return Rating[]|ArrayCollection
+     */
+    public function getRatings()
+    {
+        return $this->ratings;
+    }
+
+    /**
+     * @param Rating[]|ArrayCollection $ratings
+     */
+    public function setRatings($ratings): void
+    {
+        $this->ratings = $ratings;
+    }
+
+    public function addRating(Rating $rating): void
+    {
+        $this->ratings->add($rating);
     }
 
 }
