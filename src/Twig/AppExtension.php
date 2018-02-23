@@ -2,9 +2,11 @@
 
 namespace App\Twig;
 
+use App\Repository\ItemRepository;
 use App\Utils\DateTimeFormatHelper;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
@@ -14,9 +16,17 @@ class AppExtension extends AbstractExtension
      */
     private $dateTimeFormatHelper;
 
-    public function __construct(DateTimeFormatHelper $dateTimeFormatHelper)
+    /**
+     * @var ItemRepository
+     */
+    private $itemRepository;
+
+    public function __construct(
+        DateTimeFormatHelper $dateTimeFormatHelper, ItemRepository $itemRepository
+    )
     {
         $this->dateTimeFormatHelper = $dateTimeFormatHelper;
+        $this->itemRepository = $itemRepository;
     }
 
     public function getFilters(): array
@@ -26,8 +36,20 @@ class AppExtension extends AbstractExtension
         ];
     }
 
+    public function getFunctions(): array
+    {
+        return [
+            new TwigFunction('due_amount', [$this, 'getNumberOfDueCards'])
+        ];
+    }
+
     public function renderDueDiff(\DateTime $dueDate): string
     {
         return $this->dateTimeFormatHelper->formatDueDiff($dueDate);
+    }
+
+    public function getNumberOfDueCards(): int
+    {
+        return $this->itemRepository->getNumberOfDueItems();
     }
 }

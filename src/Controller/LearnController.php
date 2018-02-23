@@ -19,12 +19,10 @@ class LearnController extends Controller
      */
     public function index(ItemRepository $itemRepository)
     {
-        $numberOfDueItems = $itemRepository->getNumberOfDueItems();
         $dueItem = $itemRepository->findLatestDue();
         return $this->render('learn/learn.html.twig',
             [
-                'item' => $dueItem,
-                'numberOfDueItems' => $numberOfDueItems
+                'item' => $dueItem
             ]
         );
     }
@@ -68,7 +66,7 @@ class LearnController extends Controller
 
         $this->addFlash(
             AppConstants::FLASH_DEFAULT,
-            'Next review for this item due in ' . $dateTimeFormatHelper->formatDueDiff($newDueDate)
+            'Due in ' . $dateTimeFormatHelper->formatDueDiff($newDueDate)
         );
 
         return $this->redirectToRoute('learn');

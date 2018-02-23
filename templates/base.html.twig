@@ -13,25 +13,34 @@
 </head>
 <body>
 <div class="container">
-    <div class="row">
-        {{ include('_navigation.html.twig') }}
+    <div class="col-md-8 col-sm-12 offset-md-2">
+        <div class="row">
+            <div class="col">
+                {{ include('_navigation.html.twig') }}
+            </div>
+        </div>
+        <div class="row alert-outer">
+            <div class="col" style="min-height: 0px">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
     </div>
-    <div class="row">
-        {{ include('util/_flash_messages.html.twig') }}
-    </div>
-    {% block body %}{% endblock %}
 </div>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-<script src="{{ asset('js/main.js') }}"></script>
-{% block javascripts %}{% endblock %}
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
+{% endblock %}
 </body>
 </html>

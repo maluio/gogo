@@ -6,5 +6,5 @@ namespace App;
 
 class AppConstants
 {
-    const FLASH_DEFAULT = 'success';
+    const FLASH_DEFAULT = 'info';
 }

@@ -1,12 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div id="learn-view">    {% if item %}
-        <div class="row">
-            <div class="due-item-count">
-                {{ numberOfDueItems }}
-            </div>
-        </div>
+<div id="learn-view">
+    {% if item %}
         <div class="row">
             <div id="question" class="card card-outline-secondary mb-3">
                 <div class="card-body">
@@ -15,10 +11,10 @@
             </div>
         </div>
         <div class="row">
-            <button class="btn btn-light" id="show">Show</button>
+            <button class="btn btn-light js-show btn-lg btn-block">Show/Hide</button>
         </div>
         <div class="row">
-            <div id="answer" class="card card-outline-light mb-3">
+            <div id="answer" class="js-answer card card-outline-light mb-3">
                 <div class="card-body">
                     {{ item.answer|markdown }}
                 </div>
@@ -27,14 +23,14 @@
 
         <div class="row">
             <form method="post" action="{{ path('learn_handle_result', {'item': item.id}) }}">
-                <button class="btn btn-light" name="learn_rating" value="1">1</button>
-                <button class="btn btn-light" name="learn_rating" value="2">2</button>
-                <button class="btn btn-light" name="learn_rating" value="3">3</button>
-                <button class="btn btn-light" name="learn_rating" value="4">4</button>
-                <button class="btn btn-light" name="learn_rating" value="5">5</button>
+                {% for i in 1..5 %}
+                    <button class="btn btn-light btn-lg" name="learn_rating" value="{{ i }}">{{ i }}</button>
+                    &nbsp;&nbsp;&nbsp;
+                {% endfor %}
             </form>
         </div>
     {% else %}
         Nothing to learn
     {% endif %}</div>
+
 {% endblock %}
