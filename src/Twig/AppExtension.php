@@ -2,12 +2,24 @@
 
 namespace App\Twig;
 
+use App\Utils\DateTimeProvider;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
-use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
+
+
+    /**
+     * @var DateTimeProvider
+     */
+    private $dateTimeProvider;
+
+    public function __construct(DateTimeProvider $dateTimeProvider)
+    {
+        $this->dateTimeProvider = $dateTimeProvider;
+    }
+
     public function getFilters(): array
     {
         return [
@@ -17,7 +29,7 @@ class AppExtension extends AbstractExtension
 
     public function calcDue(\DateTime $dueDate): string
     {
-        $now = new \DateTime();
+        $now = $this->dateTimeProvider->now();
         $diff = $now->diff($dueDate);
 
         $format = '%r %i minutes';

@@ -6,6 +6,7 @@ use App\AppConstants;
 use App\Entity\Item;
 use App\Repository\ItemRepository;
 use App\Utils\DateFormatConstants;
+use App\Utils\DateTimeProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,7 +35,8 @@ class LearnController extends Controller
     public function handleLearnResult(
         Item $item,
         EntityManagerInterface $em,
-        Request $request
+        Request $request,
+        DateTimeProvider $dateTimeProvider
     ){
         $nextReview = '';
 
@@ -56,7 +58,7 @@ class LearnController extends Controller
                 break;
         }
 
-        $newDueDate = new \DateTime($nextReview);
+        $newDueDate = $dateTimeProvider->fromString($nextReview);
 
         $item->setDueAt($newDueDate);
 

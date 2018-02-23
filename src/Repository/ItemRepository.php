@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Item;
 use App\Utils\DateFormatConstants;
+use App\Utils\DateTimeProvider;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -16,17 +17,22 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class ItemRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    /**
+     * @var DateTimeProvider
+     */
+    private $dateTimeProvider;
+
+    public function __construct(RegistryInterface $registry, DateTimeProvider $dateTimeProvider)
     {
         parent::__construct($registry, Item::class);
+        $this->dateTimeProvider = $dateTimeProvider;
     }
-
 
     /**
      * @return Item|null
      */
     public function findLatestDue(): ?Item {
-        $now = new \DateTime();
+        $now = $this->dateTimeProvider->now();
 
         $result = null;
 
@@ -46,7 +52,7 @@ class ItemRepository extends ServiceEntityRepository
     }
 
     public function getNumberOfDueItems(): int {
-        $now = new \DateTime();
+        $now = $this->dateTimeProvider->now();
 
         try{
             return $this->createQueryBuilder('item')
