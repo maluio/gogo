@@ -46,3 +46,7 @@ div.alert-custom {
     background-color: red;
     height: 10px;
 }
+
+textarea {
+    min-height: 150px;
+}
