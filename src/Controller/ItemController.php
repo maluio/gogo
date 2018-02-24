@@ -71,7 +71,8 @@ class ItemController extends Controller
 
         return $this->render('admin/edit.html.twig',
             [
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'item' => $item
             ]
         );
     }
@@ -89,5 +90,18 @@ class ItemController extends Controller
                 'items' => $items
             ]
         );
+    }
+
+    /**
+     * @Route("/{id}/delete", name="item_delete")
+     */
+    public function delete(Item $item, EntityManagerInterface $entityManager)
+    {
+        $entityManager->remove($item);
+        $entityManager->flush();
+
+        $this->addFlash(AppConstants::FLASH_DANGER, 'Item deleted');
+
+        return $this->redirectToRoute('item_list');
     }
 }
