@@ -45,30 +45,4 @@ RUN composer global require "hirak/prestissimo:^0.3" --prefer-dist --no-progress
 
 WORKDIR /srv/symfony
 
-COPY composer.json ./
-COPY composer.lock ./
-
-RUN mkdir -p \
-		var/cache \
-		var/logs \
-		var/sessions \
-	&& composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress --no-suggest \
-	&& composer clear-cache \
-# Permissions hack because setfacl does not work on Mac and Windows
-	&& chown -R www-data var
-
-COPY config config/
-COPY bin bin/
-COPY src src/
-COPY public public/
-COPY .env.dist .env.dist
-COPY translations translations/
-COPY templates templates/
-
-RUN composer dump-autoload --optimize --classmap-authoritative --no-dev
-
-COPY docker/app/docker-entrypoint.sh /usr/local/bin/docker-app-entrypoint
-RUN chmod +x /usr/local/bin/docker-app-entrypoint
-
-ENTRYPOINT ["docker-app-entrypoint"]
 CMD ["php-fpm"]

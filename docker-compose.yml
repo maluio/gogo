@@ -17,8 +17,6 @@ services:
     expose:
         - 80
     volumes:
-      # Comment out the next line in production
-      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
       - ./public:/srv/symfony/public:ro
   node:
     image: "node:8"
@@ -26,6 +24,3 @@ services:
     working_dir: /home/node/app
     volumes:
       - ./:/home/node/app
-    expose:
-      - 8081
-    #command: "npm start"
