@@ -7,14 +7,36 @@ nav a.nav-item {
 }
 
 div#answer {
-    display:none;
+    display: none;
 }
 
-#learn-view .row{
+#learn-view .row {
     margin: 1rem 0 1rem 0;
 }
 
 div.alert-custom {
     margin-bottom: 0;
     display: none;
+}
+
+.rating-indicator .color-1 {
+    color: red;
+}
+
+.rating-indicator .color-2 {
+    color: orangered;
+}
+
+.rating-indicator .color-3 {
+    color: orange;
+}
+
+.rating-indicator .color-4 {
+    color: yellowgreen;
+
+}
+
+.rating-indicator .color-5 {
+    color: green;
+
 }

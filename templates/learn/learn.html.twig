@@ -6,9 +6,6 @@
         <div class="row">
             <div id="question" class="card card-outline-secondary mb-3">
                 <div class="card-body">
-                    {% for rating in item.ratings %}
-                        {{rating.value}}
-                    {% endfor %}
                     {{ item.question|markdown }}
                 </div>
             </div>
@@ -21,6 +18,7 @@
         <div class="row">
             <div id="answer" class="js-answer card card-outline-light mb-3">
                 <div class="card-body">
+                    {{ include('util/_rating_indicator.html.twig', {'ratings': item.ratings}) }}
                     {{ item.answer|markdown }}
                 </div>
             </div>

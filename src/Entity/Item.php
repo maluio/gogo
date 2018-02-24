@@ -39,6 +39,7 @@ class Item
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Rating", mappedBy="item")
+     * @ORM\OrderBy({"ratedAt" = "ASC"})
      * @var ArrayCollection|Rating[]
      */
     private $ratings;
