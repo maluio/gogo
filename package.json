@@ -15,6 +15,7 @@
         "jquery": "^3.3.1",
         "node-sass": "^4.7.2",
         "open-iconic": "^1.1.1",
-        "sass-loader": "^6.0.6"
+        "sass-loader": "^6.0.6",
+        "simplemde": "^1.11.2"
     }
 }
