@@ -1,15 +1,17 @@
 <nav class="navbar-custom navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="nav-item nav-link" href="{{ path('learn') }}">
+        <span class="oi oi-inbox"></span>
+        <span class="due-item-count">{{ due_amount() }}</span>
+    </a>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-item nav-link" href="{{ path('learn') }}">
-                                    <span class="oi oi-inbox"></span>
-                    <span class="due-item-count">{{ due_amount() }}</span>
-            </a>
             <a class="nav-item nav-link" href="{{ path('item_list') }}"><span class="oi oi-list"></span></a>
             <a class="nav-item nav-link" href="{{ path('item_create') }}"><span class="oi oi-plus"></span></a>
         </div>
-        &nbsp;
-        &nbsp;
-        {{ include('util/_flash_messages.html.twig') }}
     </div>
+    {{ include('util/_flash_messages.html.twig') }}
 </nav>
