@@ -21,3 +21,11 @@ db:
 .PHONY shell:
 shell:
 	docker-compose run app sh
+
+.PHONY webpack:
+webpack:
+	docker-compose run node yarn run encore dev
+
+.PHONY watch:
+watch:
+	docker-compose run node yarn run encore dev --watch
