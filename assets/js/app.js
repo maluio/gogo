@@ -1,7 +1,8 @@
+var $ = require('jquery');
+var learn = require('./learn');
+
 $(function () {
-    $('button.js-show').on('click', function () {
-        $('div.js-answer').toggle();
-    });
+    learn();
 
     $('.alert').fadeIn(200).delay(1000).fadeOut(200);
 });
