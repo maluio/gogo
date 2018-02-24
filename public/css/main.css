@@ -40,3 +40,9 @@ div.alert-custom {
     color: green;
 
 }
+
+.env-indicator {
+    margin-bottom: 0;
+    background-color: red;
+    height: 10px;
+}
