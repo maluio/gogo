@@ -38,7 +38,7 @@ class Item
     private $dueAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Rating", mappedBy="item")
+     * @ORM\OneToMany(targetEntity="App\Entity\Rating", mappedBy="item", cascade="persist")
      * @ORM\OrderBy({"ratedAt" = "ASC"})
      * @var ArrayCollection|Rating[]
      */
@@ -127,6 +127,7 @@ class Item
 
     public function addRating(Rating $rating): void
     {
+        $rating->setItem($this);
         $this->ratings->add($rating);
     }
 

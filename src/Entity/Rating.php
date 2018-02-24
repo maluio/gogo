@@ -36,9 +36,10 @@ class Rating
      */
     private $item;
 
-    public function __construct()
+    public function __construct(int $value = null)
     {
         $this->ratedAt = new \DateTime();
+        $this->value = $value;
     }
 
     /**

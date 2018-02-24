@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\AppConstants;
 use App\Entity\Item;
+use App\Entity\Rating;
 use App\Repository\ItemRepository;
 use App\Utils\DateTimeFormatHelper;
 use App\Utils\DateTimeProvider;
@@ -28,9 +29,9 @@ class LearnController extends Controller
     }
 
     /**
-     * @Route("/result/{item}", name="learn_handle_result")
+     * @Route("/learn/rate/{item}", name="learn_rate")
      */
-    public function handleLearnResult(
+    public function rate(
         Item $item,
         EntityManagerInterface $em,
         Request $request,
@@ -39,7 +40,9 @@ class LearnController extends Controller
     ){
         $nextReview = '';
 
-        switch ($request->get('learn_rating')){
+        $rating = $request->get('learn_rating');
+
+        switch ($rating){
             case 1:
                 $nextReview = '';
                 break;
@@ -60,6 +63,7 @@ class LearnController extends Controller
         $newDueDate = $dateTimeProvider->fromString($nextReview);
 
         $item->setDueAt($newDueDate);
+        $item->addRating(new Rating($rating));
 
         $em->persist($item);
         $em->flush();

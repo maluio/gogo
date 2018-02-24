@@ -25,7 +25,7 @@
         </div>
 
         <div class="row">
-            <form method="post" action="{{ path('learn_handle_result', {'item': item.id}) }}">
+            <form method="post" action="{{ path('learn_rate', {'item': item.id}) }}">
                 {% for i in 1..5 %}
                     <button class="btn btn-light btn-lg" name="learn_rating" value="{{ i }}">{{ i }}</button>
                     &nbsp;&nbsp;&nbsp;
