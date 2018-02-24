@@ -4,8 +4,8 @@ dev:
 
 .PHONY prod:
 prod:
-	docker-compose -f docker-compose.yml -f docker-compose-production.yml up --build
 	docker-compose run node yarn run encore production
+	docker-compose -f docker-compose.yml -f docker-compose-production.yml up --build
 
 .PHONY test:
 test:
