@@ -67,4 +67,18 @@ class ItemRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Item[]|null
+     */
+    public function findAllDue(): ?array {
+        $now = $this->dateTimeProvider->now();
+
+        return  $this->createQueryBuilder('item')
+            ->andWhere('item.dueAt < :now')
+            ->setParameter('now', $now->format(DateTimeFormatHelper::DB_DATE_TIME))
+            ->orderBy('item.dueAt', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 }
