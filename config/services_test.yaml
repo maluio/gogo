@@ -9,3 +9,4 @@ services:
     # test.App\Service\MyService: '@App\Service\MyService'
     App\DataFixtures:
         autowire: true
+        autoconfigure: true
