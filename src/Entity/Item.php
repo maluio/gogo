@@ -58,6 +58,7 @@ class Item
     {
         $this->dueAt = new \DateTime();
         $this->ratings = new ArrayCollection();
+        $this->superMemoRepetitions = new ArrayCollection();
     }
 
     /**

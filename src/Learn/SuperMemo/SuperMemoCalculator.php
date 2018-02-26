@@ -152,6 +152,7 @@ class SuperMemoCalculator
         }
 
         if (1 === $this->oldInterval) {
+            // according to the algo, this should be 6, but 2 seems more reasonable for a new item
             $this->newInterval = 2;
             return;
         }

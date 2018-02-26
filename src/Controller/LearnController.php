@@ -43,7 +43,7 @@ class LearnController extends Controller
 
         $newDueDate = $learnHandler->handle($item, $rating)->getNewDueDate();
 
-        $item->setDueAt(new \DateTime());
+        $item->setDueAt($newDueDate);
         $item->addRating(new Rating($rating));
 
         $em->persist($item);
