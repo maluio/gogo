@@ -7,7 +7,7 @@
             <tr>
                 <td>
                     {{ include('util/_rating_indicator.html.twig', {'ratings': item.ratings}) }}
-                    {{ item.question|markdown }}
+                    {{ item.question|hide_words|markdown }}
                 </td>
                 <td>
                     {{ item.answer|markdown }}

@@ -131,4 +131,8 @@ class Item
         $this->ratings->add($rating);
     }
 
+    public function questionRevealed(): string {
+        return $this->question;
+    }
+
 }

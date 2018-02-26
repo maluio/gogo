@@ -6,7 +6,7 @@
         <div class="row">
             <div id="question" class="card card-outline-secondary mb-3">
                 <div class="card-body">
-                    {{ item.question|markdown }}
+                    {{ item.question|hide_words('*')|markdown }}
                 </div>
             </div>
         </div>
@@ -15,10 +15,15 @@
                 <span class="oi oi-elevator"></span>
             </button>
         </div>
-        <div class="row">
-            <div id="answer" class="js-answer card card-outline-light mb-3">
+        <div class="row js-answer answer">
+            <div id="question-revealed" class="card card-outline-secondary mb-3">
                 <div class="card-body">
                     {{ include('util/_rating_indicator.html.twig', {'ratings': item.ratings}) }}
+                    {{ item.questionRevealed|hide_words|markdown }}
+                </div>
+            </div>
+            <div class="card card-outline-light mb-3">
+                <div class="card-body">
                     {{ item.answer|markdown }}
                 </div>
             </div>
