@@ -10,6 +10,7 @@ use App\Learn\LearnHandler;
 use App\Repository\ItemRepository;
 use App\Utils\DateTimeFormatHelper;
 use App\Utils\DateTimeProvider;
+use App\Utils\LoggerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
