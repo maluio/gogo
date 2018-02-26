@@ -17,6 +17,7 @@
         </div>
         <div class="row js-answer answer">
             <div id="question-revealed" class="card card-outline-secondary mb-3">
+                <a class="edit-item" href="{{ path('item_edit', {'id': item.id}) }}"><span class="oi oi-pencil"></span></a>
                 <div class="card-body">
                     {{ include('util/_rating_indicator.html.twig', {'ratings': item.ratings}) }}
                     {{ item.questionRevealed|hide_words|markdown }}
