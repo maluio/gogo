@@ -27,7 +27,7 @@ class SuperMemoCalculatorTest extends TestCase
 
     public function testSecondRepetition(){
         $this->assertEquals(
-            6,
+            2,
             $this->superMemoCalculator->calcInterval(2, 3.4, 3)
         );
     }
@@ -49,7 +49,7 @@ class SuperMemoCalculatorTest extends TestCase
     public function testCalcNewEfactor(){
         $this->assertEquals(
             3.26,
-            $this->superMemoCalculator->calcNewEFactor(3.4, 3)
+            $this->superMemoCalculator->calcNewEFactor(3,3.4)
         );
     }
 
@@ -57,6 +57,6 @@ class SuperMemoCalculatorTest extends TestCase
      * @expectedException \InvalidArgumentException
      */
     public function testInvalidQuality(){
-        $this->superMemoCalculator->calcNewEFactor(3.4, 9);
+        $this->superMemoCalculator->calcNewEFactor(9,3.4);
     }
 }

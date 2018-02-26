@@ -6,25 +6,27 @@ namespace App\Learn\SuperMemo;
 
 use App\Entity\Item;
 use App\Entity\SuperMemoRepetition;
+use App\Learn\LearnHandlerInterface;
 use App\Repository\SuperMemoRepetitionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class SuperMemoHandler
+class SuperMemoHandler implements LearnHandlerInterface
 {
     /**
      * @var SuperMemoRepetitionRepository
      */
     private $memoRepetitionRepository;
+
     /**
      * @var SuperMemoCalculator
      */
     private $superMemoCalculator;
 
-    private $newInterval;
     /**
      * @var EntityManagerInterface
      */
     private $entityManager;
+
 
     public function __construct(SuperMemoRepetitionRepository $memoRepetitionRepository, SuperMemoCalculator $superMemoCalculator, EntityManagerInterface $entityManager)
     {
@@ -33,30 +35,33 @@ class SuperMemoHandler
         $this->entityManager = $entityManager;
     }
 
-    public function handle(Item $item, int $quality)
+    public function handle(Item $item, int $quality): LearnHandlerInterface
     {
 
         $smrs = $this->memoRepetitionRepository->findAllForItem($item);
 
-        $repetitions = count($smrs);
-        $oldEFactor = $smrs[0]->getFactor();
-        $oldInterval = $smrs[0]->getInterval();
-
-        $newEFactor =  $this->superMemoCalculator->calcNewEFactor($oldEFactor, $quality);
-        $this->newInterval  = $this->superMemoCalculator->calcInterval($repetitions + 1, $newEFactor, $oldInterval);
+        if (0 === count($smrs)){
+            $this->superMemoCalculator->init($quality);
+        }
+        else {
+            $this->superMemoCalculator->init($quality, $smrs[0]->getInterval(), $smrs[0]->getFactor());
+        }
 
         $newSmrs = new SuperMemoRepetition();
         $newSmrs->setItem($item);
-        $newSmrs->setFactor($newEFactor);
-        $newSmrs->setInterval($this->newInterval);
+        $newSmrs->setFactor($this->superMemoCalculator->getNewEFactor());
+        $newSmrs->setInterval($this->superMemoCalculator->getNewInterval());
 
         $this->entityManager->persist($newSmrs);
         $this->entityManager->flush();
 
+        return $this;
     }
 
-    public function getNewInterval(): int
+    public function getNewDueDate(): \DateTime
     {
-        return $this->newInterval;
+        return $this->superMemoCalculator->getNewDueDate();
     }
+
+
 }

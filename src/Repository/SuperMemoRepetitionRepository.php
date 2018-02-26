@@ -19,7 +19,7 @@ class SuperMemoRepetitionRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('smr')
             ->andWhere('smr.item = :item')
             ->setParameter('item', $item)
-            ->orderBy('smr.repeatedAt', 'ASC')
+            ->orderBy('smr.repeatedAt', 'DESC')
             ->getQuery()
             ->getResult();
     }

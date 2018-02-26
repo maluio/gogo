@@ -3,6 +3,9 @@
 
 namespace App\Learn\SuperMemo;
 
+use App\Exception\InitializationException;
+use App\Utils\DateTimeProvider;
+
 /**
  *
  * See https://www.supermemo.com/english/ol/sm2.htm
@@ -36,41 +39,137 @@ namespace App\Learn\SuperMemo;
  */
 class SuperMemoCalculator
 {
+
     /**
-     * @param int $repetition
-     * @param float $eFactor
-     * @param int $oldInterval
-     * @return int
-     * @throws \Exception
+     * @var DateTimeProvider
      */
-    public function calcInterval(int $repetition = 1, float $eFactor = 2.5, int $oldInterval = 1): int
+    private $dateTimeProvider;
+
+    /**
+     * @var int
+     */
+    private $quality;
+
+    /**
+     * @var int
+     */
+    private $oldInterval;
+
+    /**
+     * @var float
+     */
+    private $oldEFactor;
+
+    /**
+     * @var int
+     */
+    private $newInterval;
+
+
+    /**
+     * @var bool
+     */
+    private $initialized = false;
+
+    /**
+     * @var float
+     */
+    private $newEFactor;
+
+    public function __construct(DateTimeProvider $dateTimeProvider)
     {
-        if ($repetition < 1) {
-            throw new \InvalidArgumentException('The number of repetitions must be 1 or higher');
-        }
-        if ($repetition == 1) {
-            $interval = 1;
-        } elseif ($repetition == 2) {
-            $interval = 6;
-        } else {
-            $interval = $oldInterval * $eFactor;
-        }
-        return ceil($interval);
+        $this->dateTimeProvider = $dateTimeProvider;
     }
 
-    /**
-     * @param float $oldEFactor
-     * @param int $quality
-     * @return float
-     * @throws \Exception
-     */
-    public function calcNewEFactor(float $oldEFactor = 2.5, int $quality = 4): float
+    public function init(int $quality, int $oldInterval = 0, float $oldEFactor = 2.5): void
     {
-        if ($quality > 5 || $quality < 0) {
-            throw new \InvalidArgumentException('Quality must be between 0 and 5');
-        }
-        $newEFactor = $oldEFactor + (0.1 - (5 - $quality) * (0.08 + (5 - $quality) * 0.02));
 
-        return max($newEFactor, 1.3);
+        if ($quality < 0 || $quality > 5) {
+            throw new \InvalidArgumentException('Quality');
+        }
+
+        if ($oldInterval < 0) {
+            throw new \InvalidArgumentException('Interval');
+        }
+
+        if ($oldEFactor < 0) {
+            throw new \InvalidArgumentException('EFactor');
+        }
+
+        $this->quality = $quality;
+        $this->oldInterval = $oldInterval;
+        $this->oldEFactor = $oldEFactor;
+
+        $this->calcInterval();
+        $this->calcNewEFactor();
+
+        $this->initialized = true;
+    }
+
+    public function getNewInterval(): int
+    {
+        if (false === $this->initialized) {
+            throw new InitializationException('Not initialized');
+        }
+
+        return $this->newInterval;
+    }
+
+    public function getNewEFactor(): float
+    {
+        if (false === $this->initialized) {
+            throw new InitializationException('Not initialized');
+        }
+
+        return $this->newEFactor;
+    }
+
+    public function getNewDueDate(): \DateTime
+    {
+
+        if (false === $this->initialized) {
+            throw new InitializationException('Not initialized');
+        }
+
+        if ($this->quality < 4) {
+            return $this->dateTimeProvider->now();
+        }
+
+        $nextReview = sprintf('+ %d days', $this->newInterval);
+        return $this->dateTimeProvider->fromString($nextReview);
+    }
+
+    private function calcInterval()
+    {
+        if ($this->quality < 3) {
+            $this->newInterval = 0;
+            return;
+        }
+
+        if (0 === $this->oldInterval) {
+            $this->newInterval = 1;
+            return;
+        }
+
+        if (1 === $this->oldInterval) {
+            $this->newInterval = 2;
+            return;
+        }
+
+        $interval = $this->oldInterval * $this->oldEFactor;
+
+        $this->newInterval = ceil($interval);
+    }
+
+    private function calcNewEFactor()
+    {
+        if ($this->quality < 3) {
+            $this->newEFactor = $this->oldEFactor;
+            return;
+        }
+
+        $newEFactor = $this->oldEFactor + (0.1 - (5 - $this->quality) * (0.08 + (5 - $this->quality) * 0.02));
+
+        $this->newEFactor = max($newEFactor, 1.3);
     }
 }
