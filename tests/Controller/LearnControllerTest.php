@@ -3,16 +3,11 @@
 namespace App\Tests\Controller;
 
 use App\DataFixtures\ItemFixtures;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 
-class LearnControllerTest extends WebTestCase
+class LearnControllerTest extends AbstractWebTestCase
 {
 
-    public static function getPhpUnitXmlDir(){
-        return getenv('KERNEL_DIR');
-    }
-
-    public function testIndexWithoutDueItems()
+    public function testNoDueItems()
     {
         $this->loadFixtures(array(
         ));
@@ -24,13 +19,13 @@ class LearnControllerTest extends WebTestCase
         $this->assertStatusCode(200, $client);
 
         $this->assertContains(
-            'Nothing to learn',
+            '<span class="oi oi-check"></span>',
             $client->getResponse()->getContent()
         );
 
     }
 
-    public function testIndexShowsItemCount()
+    public function testShowItemCount()
     {
 
         $this->loadFixtures(array(
@@ -45,5 +40,19 @@ class LearnControllerTest extends WebTestCase
             10,
             trim($crawler->filter('span.due-item-count')->text())
         );
+    }
+
+    public function testLearnItem()
+    {
+        $this->loadFixtures(array(
+            ItemFixtures::class
+        ));
+
+        $client = $this->makeClient();
+
+        $crawler = $client->request('POST', '/learn/rate/1', ['learn_rating' => 3]);
+
+        $this->assertStatusCode(302, $client);
+
     }
 }

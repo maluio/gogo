@@ -32,8 +32,8 @@
 
         <div class="row">
             <form method="post" action="{{ path('learn_rate', {'item': item.id}) }}">
-                {% for i in 1..5 %}
-                    <button class="btn btn-light btn-lg" name="learn_rating" value="{{ i }}">{{ i }}</button>
+                {% for i in 0..5 %}
+                    <button type="submit" class="btn btn-light btn-lg" name="learn_rating" value="{{ i }}">{{ i }}</button>
                     &nbsp;&nbsp;&nbsp;
                 {% endfor %}
             </form>

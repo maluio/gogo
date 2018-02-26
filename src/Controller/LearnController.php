@@ -21,6 +21,7 @@ class LearnController extends Controller
     public function index(ItemRepository $itemRepository)
     {
         $dueItem = $itemRepository->findLatestDue();
+
         return $this->render('learn/learn.html.twig',
             [
                 'item' => $dueItem

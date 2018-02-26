@@ -8,3 +8,8 @@ App\Entity\Rating:
     rating{1..100}:
         value: '<numberBetween(1, 5)>'
         item: '@item*'
+App\Entity\SuperMemoRepetition:
+    super-memo-rating{1..100}:
+        interval: '<numberBetween(1, 5)>'
+        factor: '2.5'
+        item: '@item*'

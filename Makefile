@@ -16,7 +16,7 @@ migrate:
 	docker-compose exec app php bin/console doctrine:migrations:migrate
 
 fixtures:
-	docker-compose exec app php bin/console doctrine:fixtures:load
+	docker-compose exec app php bin/console doctrine:fixtures:load -n
 
 db:
 	docker-compose run app sqlite3 var/data.db

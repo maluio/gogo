@@ -45,6 +45,13 @@ class Item
     private $ratings;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\SuperMemoRepetition", mappedBy="item", cascade="persist")
+     * @ORM\OrderBy({"repeatedAt" = "DESC"})
+     * @var ArrayCollection|SuperMemoRepetition[]
+     */
+    private $superMemoRepetitions;
+
+    /**
      * Item constructor.
      */
     public function __construct()
@@ -125,12 +132,42 @@ class Item
         $this->ratings = $ratings;
     }
 
+    /**
+     * @param Rating $rating
+     */
     public function addRating(Rating $rating): void
     {
         $rating->setItem($this);
         $this->ratings->add($rating);
     }
 
+    /**
+     * @return SuperMemoRepetition[]|ArrayCollection
+     */
+    public function getSuperMemoRepetitions()
+    {
+        return $this->superMemoRepetitions;
+    }
+
+    /**
+     * @param SuperMemoRepetition[]|ArrayCollection $superMemoRepetitions
+     */
+    public function setSuperMemoRepetitions($superMemoRepetitions): void
+    {
+        $this->superMemoRepetitions = $superMemoRepetitions;
+    }
+
+    /**
+     * @param SuperMemoRepetition
+     */
+    public function addSuperMemoRepetition(SuperMemoRepetition $superMemoRepetition): void {
+        $superMemoRepetition->setItem($this);
+        $this->superMemoRepetitions->add($superMemoRepetition);
+    }
+
+    /**
+     * @return string
+     */
     public function questionRevealed(): string {
         return $this->question;
     }

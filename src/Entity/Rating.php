@@ -33,6 +33,7 @@ class Rating
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Item", inversedBy="ratings")
+     * @var Item
      */
     private $item;
 
@@ -75,9 +76,9 @@ class Rating
     }
 
     /**
-     * @return mixed
+     * @return Item
      */
-    public function getItem()
+    public function getItem(): Item
     {
         return $this->item;
     }
