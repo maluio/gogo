@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Utils;
+namespace App\Learn\SuperMemo;
 
 /**
  *

@@ -112,5 +112,9 @@ class SuperMemoRepetition
     public function setItem(Item $item): void
     {
         $this->item = $item;
+        if(!$item->getSuperMemoRepetitions()->contains($this)){
+            return;
+        }
+        $this->item->addSuperMemoRepetition($this);
     }
 }

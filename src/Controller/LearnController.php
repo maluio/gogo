@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\AppConstants;
 use App\Entity\Item;
 use App\Entity\Rating;
+use App\Exception\InitializationException;
+use App\Learn\LearnHandler;
 use App\Repository\ItemRepository;
 use App\Utils\DateTimeFormatHelper;
 use App\Utils\DateTimeProvider;
@@ -36,32 +38,21 @@ class LearnController extends Controller
         Item $item,
         EntityManagerInterface $em,
         Request $request,
-        DateTimeProvider $dateTimeProvider,
-        DateTimeFormatHelper $dateTimeFormatHelper
+        DateTimeFormatHelper $dateTimeFormatHelper,
+        LearnHandler $learnHandler
     ){
-        $nextReview = '';
-
         $rating = $request->get('learn_rating');
 
-        switch ($rating){
-            case 1:
-                $nextReview = '';
-                break;
-            case 2:
-                $nextReview = '+ 90 minutes';
-                break;
-            case 3:
-                $nextReview = '+ 6 hours';
-                break;
-            case 4:
-                $nextReview = '+ 1 day';
-                break;
-            case 5:
-                $nextReview = '+ 3 days';
-                break;
+        try {
+            $newDueDate = $learnHandler->handle($item, $rating)->getNewDueDate();
         }
-
-        $newDueDate = $dateTimeProvider->fromString($nextReview);
+        catch (InitializationException $exception){
+            $this->addFlash(
+                AppConstants::FLASH_DANGER,
+                'Issue when trying to handle learn rating'
+            );
+            return $this->redirectToRoute('learn');
+        }
 
         $item->setDueAt($newDueDate);
         $item->addRating(new Rating($rating));

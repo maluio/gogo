@@ -1,8 +1,8 @@
 <?php
 
-namespace App\tests\Utils;
+namespace App\Tests\Learn\SuperMemo;
 
-use App\Utils\SuperMemoCalculator;
+use App\Learn\SuperMemo\SuperMemoCalculator;
 use PHPUnit\Framework\TestCase;
 
 class SuperMemoCalculatorTest extends TestCase
@@ -15,7 +15,7 @@ class SuperMemoCalculatorTest extends TestCase
 
     public function setUp()
     {
-        $this->superMemoCalculator = new SuperMemoCalculator();
+        $this->superMemoCalculator = new \App\Learn\SuperMemo\SuperMemoCalculator();
     }
 
     public function testFirstRepetition(){

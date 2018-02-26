@@ -3,6 +3,7 @@
 
 namespace App\Tests\Controller;
 
+use App\DataFixtures\ItemFixtures;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 
