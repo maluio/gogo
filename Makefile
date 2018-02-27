@@ -8,10 +8,10 @@ prod-up:
 	docker-compose exec app bin/console cache:clear
 
 reverse-proxy-down:
-	cd /var/www/reverse-proxy/ && docker-compose down && cd -
+	cd ../reverse-proxy/ && docker-compose down && cd -
 
 reverse-proxy-up:
-	cd /var/www/reverse-proxy/ && docker-compose up -d && cd -
+	cd ../reverse-proxy/ && docker-compose up -d && cd -
 
 up: docker-up reverse-proxy-up permissions logs
 
