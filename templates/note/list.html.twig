@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <table class="table table-sm table-striped table-hover">
+        <tbody>
+        <tr>
+            {{ form(form) }}
+        </tr>
+        {% for note in notes %}
+            <tr>
+                <td>
+                   {{ note.content}}
+                </td>
+                <td>
+                    <a href="{{ path('note_delete', {'id': note.id}) }}"><span class="oi oi-trash"></span></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
