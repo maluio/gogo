@@ -32,7 +32,7 @@ class ItemControllerTest extends AbstractWebTestCase
 
         $this->assertEquals(
             self::FIXTURES_NUMBER_OF_ITEMS + 1,
-            $crawler->filter('tr')->count()
+            $crawler->filter('span.due')->count()
         );
     }
 
@@ -59,7 +59,7 @@ class ItemControllerTest extends AbstractWebTestCase
 
         $this->assertEquals(
             self::FIXTURES_NUMBER_OF_ITEMS,
-            $crawler->filter('tr')->count()
+            $crawler->filter('span.due')->count()
         );
     }
 
@@ -77,7 +77,7 @@ class ItemControllerTest extends AbstractWebTestCase
 
         $this->assertEquals(
             self::FIXTURES_NUMBER_OF_ITEMS,
-            $crawler->filter('tr')->count()
+            $crawler->filter('span.due')->count()
         );
 
     }
@@ -98,7 +98,7 @@ class ItemControllerTest extends AbstractWebTestCase
 
         $this->assertEquals(
             self::FIXTURES_NUMBER_OF_ITEMS - 1,
-            $crawler->filter('tr')->count()
+            $crawler->filter('span.due')->count()
         );
     }
 }

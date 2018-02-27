@@ -6,7 +6,7 @@
             {% for item in items %}
                 <tr>
                     <td colspan="2">
-                        <span class="badge badge-success">{{ item.dueAt|due_since }}</span>
+                        <span class="due"><span class="badge badge-success">{{ item.dueAt|due_since }}</span></span>
                         {{ include('util/_categories.html.twig', {'categories': item.categories}) }}
                     </td>
                     <td>
