@@ -3,6 +3,7 @@
 {% block body %}
 <div id="learn-view">
     {% if item %}
+        {{ include('util/_categories.html.twig', {'categories': item.categories}) }}
         <div class="row">
             <div id="question" class="card card-outline-secondary mb-3">
                 <div class="card-body">

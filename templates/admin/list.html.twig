@@ -6,9 +6,7 @@
             {% for item in items %}
             <tr>
                 <td>
-                    {% for category in item.categories %}
-                        {{category.name}}
-                    {% endfor %}
+                    {{ include('util/_categories.html.twig', {'categories': item.categories}) }}
                     {{ include('util/_rating_indicator.html.twig', {'ratings': item.ratings}) }}
                     {{ item.question|hide_words|markdown }}
                 </td>
