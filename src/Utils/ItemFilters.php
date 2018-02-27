@@ -29,8 +29,9 @@ class ItemFilters
         );
 
         $pattern = sprintf(
-            '/(%s[^\[]+(%s))/',
+            '/(%s[^%s]+(%s))/',
             // preg_quote escapes reqex reserved characters
+            preg_quote(self::HIDDEN_WORD_BEGIN_MARKER),
             preg_quote(self::HIDDEN_WORD_BEGIN_MARKER),
             preg_quote(self::HIDDEN_WORD_END_MARKER)
          );
