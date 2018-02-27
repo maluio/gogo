@@ -1,27 +1,30 @@
 dev: down up
 
-prod: down yarn-install yarn-prod prod-app up
+prod: down yarn-install yarn-prod prod-up reverse-proxy-up permissions logs
 
-prod-app:
+prod-up:
 	docker-compose -f docker-compose.yml -f docker-compose-production.yml up -d --build
 	docker-compose exec app composer install --no-dev --optimize-autoloader
 	docker-compose exec app bin/console cache:clear
 
-rpdown:
+reverse-proxy-down:
 	cd /var/www/reverse-proxy/ && docker-compose down && cd -
 
-rpup:
+reverse-proxy-up:
 	cd /var/www/reverse-proxy/ && docker-compose up -d && cd -
 
-up: dup rpup logs
+up: docker-up reverse-proxy-up permissions logs
 
-down: rpdown ddown
+down: reverse-proxy-down docker-down
 
-dup:
+docker-up:
 	docker-compose up -d
 
-ddown:
+docker-down:
 	docker-compose down
+
+permissions:
+	docker-compose exec app chown -R www-data var
 
 logs:
 	docker-compose logs -f
@@ -41,7 +44,7 @@ fixtures:
 db:
 	docker-compose run app sqlite3 var/data.db
 
-app:
+shell:
 	docker-compose exec app sh
 
 encore:
