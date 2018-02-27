@@ -52,6 +52,12 @@ class Item
     private $superMemoRepetitions;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category")
+     * @var Category[]
+     */
+    private $categories;
+
+    /**
      * Item constructor.
      */
     public function __construct()
@@ -59,6 +65,7 @@ class Item
         $this->dueAt = new \DateTime();
         $this->ratings = new ArrayCollection();
         $this->superMemoRepetitions = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     /**
@@ -171,6 +178,41 @@ class Item
      */
     public function questionRevealed(): string {
         return $this->question;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * @param Category[] $categories
+     */
+    public function setCategories(array $categories): void
+    {
+        $this->categories = $categories;
+    }
+
+    /**
+     * @param Category $category
+     */
+    public function addCategory(Category $category){
+        if(!$this->categories->contains($category)){
+            $category->addItem($this);
+            $this->categories->add($category);
+        }
+    }
+
+    /**
+     * @param Category $category
+     */
+    public function removeCategory(Category $category){
+        if($this->categories->contains($category)){
+            $this->categories->remove($category);
+        }
     }
 
 }

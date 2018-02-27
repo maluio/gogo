@@ -4,6 +4,7 @@ App\Entity\Item:
         answer: '<paragraph()>'
         dueAt: '<date_create()>'
         #ratings: '<numberBetween(1, 5)>x @rating*'
+        categories: '<numberBetween(1, 3)>x @category*'
 App\Entity\Rating:
     rating{1..100}:
         value: '<numberBetween(1, 5)>'
@@ -13,3 +14,10 @@ App\Entity\SuperMemoRepetition:
         interval: '<numberBetween(1, 5)>'
         factor: '2.5'
         item: '@item*'
+App\Entity\Category:
+    category1:
+        name: 'cat A'
+    category2:
+        name: 'cat B'
+    category3:
+        name: 'cat C'
