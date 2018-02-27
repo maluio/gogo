@@ -1,6 +1,7 @@
 sudo: required
 services:
   - docker
+language: php
 
 env:
   - DOCKER_COMPOSE_VERSION=1.18.0
@@ -11,4 +12,4 @@ before_install:
  - sudo mv docker-compose /usr/local/bin
 
 script:
-  - make test
+  - make travis

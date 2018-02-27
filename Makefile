@@ -1,4 +1,4 @@
-dev: down up
+dev: down up logs
 
 prod: down yarn-install yarn-prod prod-up reverse-proxy-up permissions logs
 
@@ -13,7 +13,7 @@ reverse-proxy-down:
 reverse-proxy-up:
 	cd ../reverse-proxy/ && docker-compose up -d && cd -
 
-up: docker-up reverse-proxy-up permissions logs
+up: docker-up reverse-proxy-up permissions
 
 down: reverse-proxy-down docker-down
 
@@ -61,3 +61,5 @@ yarn-prod:
 
 node:
 	docker-compose run node bash
+
+travis: docker-up composer yarn-install encore test
