@@ -62,4 +62,4 @@ yarn-prod:
 node:
 	docker-compose run node bash
 
-travis: up composer test
+travis: docker-up composer test
