@@ -5,9 +5,14 @@ services:
     image: malulu/php-7.1:latest
     environment:
       - DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db
+      # uncomment for mysql
+      # - DATABASE_URL=mysql://gogo:gogo@db:3306/gogo
       - LOCALE=en
     volumes:
       - .:/srv/symfony:rw
+    # uncomment for mysql
+    #links:
+      #- db
   nginx:
     build:
       context: ./docker/nginx
@@ -22,3 +27,15 @@ services:
     working_dir: /home/node/app
     volumes:
       - ./:/home/node/app
+# uncomment for mySql
+#  db:
+#    image: mysql
+#    restart: always
+#    expose:
+#      - 3306
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=gogo
+#      - MYSQL_DATABASE=gogo
+#      - MYSQL_PASSWORD=gogo
+#      - MYSQL_USER=gogo
+

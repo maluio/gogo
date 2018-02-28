@@ -70,7 +70,7 @@ class Category
     }
 
     /**
-     * @return Item[]
+     * @return ArrayCollection|Item[]
      */
     public function getItems(): array
     {
@@ -78,7 +78,7 @@ class Category
     }
 
     /**
-     * @param Item[] $items
+     * @param ArrayCollection|Item[] $items
      */
     public function setItems(array $items): void
     {
