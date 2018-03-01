@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class TestController extends Controller
 {
     /**
-     * @Route("/react/learn/rate/{item}", name="learn_rate")
+     * @Route("/react/learn/rate/{item}", options={"expose"=true}, name="learn_rate")
 /*     */
     public function rate(
         Item $item,
