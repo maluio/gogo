@@ -1,13 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div id="learn-jsx" data-basic-auth-value="{{ basicAuthValue }}">
+    <div id="learn-jsx">
 
-     </div>
+    </div>
 
     <script type="text/javascript">
         let  GoGo = {
-            'item': {{ item | serialize('json') | raw }},
             'basicAuthValue': '{{ basicAuthValue }}'
         };
     </script>

@@ -11,6 +11,7 @@ use App\Repository\ItemRepository;
 use App\Utils\DateTimeFormatHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\Serializer;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -49,17 +50,31 @@ class TestController extends Controller
     }
 
     /**
-     * @Route("/react/", name="learn_react")
+     * @Route("/react/get-due-item", options={"expose"=true}, name="learn_react_due")
      */
-    public function react(ItemRepository $itemRepository, Request $request)
+    public function reactDueItem(ItemRepository $itemRepository, Request $request)
     {
         $dueItem = $itemRepository->findLatestDue();
 
-       // $serializer = $this->get('jms_serializer');
+        $serializer = $this->get('jms_serializer');
+
+        $dueItem = ['item' => $dueItem];
+
+        $json = $serializer->serialize($dueItem, 'json');
+       // dump($json);
+
+        return new JsonResponse($json, 200, [], true);
+
+    }
+
+    /**
+     * @Route("/react/", name="learn_react")
+     */
+    public function react(Request $request)
+    {
 
         return $this->render('learn/react.html.twig',
             [
-                'item' => $dueItem,
                 'basicAuthValue' => $request->headers->get('Authorization')
             ]
         );

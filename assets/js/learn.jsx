@@ -42,9 +42,17 @@ class Learn extends React.Component {
     constructor() {
         super();
         this.state = {
-            showResults: false
+            showResults: false,
+            item: {
+                question: '',
+                answer: '',
+                id: null
+            }
         };
-        console.log(this.props);
+    }
+
+    componentDidMount() {
+        this.fetchDueItem();
     }
 
     toggleShowAnswer() {
@@ -54,12 +62,32 @@ class Learn extends React.Component {
     };
 
     fetchDueItem() {
-
+        fetch(
+            this.props.routing.generate('learn_react_due'),
+            {
+                method: 'GET',
+                headers: {
+                    'Authorization': this.props.pw
+                },
+            })
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState((prevState, props) => {
+                        return {
+                            item: result.item,
+                            showResults: false
+                        }
+                    });
+                },
+                (error) => {
+                }
+            )
     }
 
     handleRate(rating) {
         fetch(
-            this.props.routing.generate('learn_rate', {item: this.props.item.id}),
+            this.props.routing.generate('learn_rate', {item: this.state.item.id}),
             {
                 method: 'POST',
                 body: JSON.stringify({
@@ -68,37 +96,44 @@ class Learn extends React.Component {
                 headers: {
                     'Authorization': this.props.pw
                 },
-            }).then(res => {
-            //  location.reload();
-
-        })
+            })
             .then(
                 (result) => {
-                    //
+                    this.fetchDueItem();
                 },
-                // Note: it's important to handle errors here
-                // instead of a catch() block so that we don't swallow
-                // exceptions from actual bugs in components.
                 (error) => {
-                    //
                 }
             )
+    }
+
+    renderResultButton(){
+        return (
+            <button onClick={() => this.toggleShowAnswer()} className="btn btn-light js-show btn-lg btn-block">
+                <span className="oi oi-elevator"></span>
+            </button>
+        )
+    }
+
+    renderCards() {
+
+        return (
+            <div>
+                <Card content={this.state.item.question}/>
+                {this.renderResultButton()}
+                {this.state.showResults ? <Card content={this.state.item.answer}/> : null}
+                {this.state.showResults ? <RateButtons handleRate={(i) => this.handleRate(i)}/> : null}
+            </div>
+        )
     }
 
     render() {
 
         return (
             <div id="learn-view">
-                <Card content={this.props.item.question}/>
-                <RateButtons handleRate={(i) => this.handleRate(i)}/>
-                <button onClick={() => this.toggleShowAnswer()} className="btn btn-light js-show btn-lg btn-block">
-                    <span className="oi oi-elevator"></span>
-                </button>
-                {this.state.showResults ? <Card content={this.props.item.answer}/> : null}
+                {this.state.item ? this.renderCards() :  <h1><span className="oi oi-check"></span></h1>}
             </div>
         )
     }
 }
 
-ReactDOM.render(<Learn item={GoGo.item} pw={GoGo.basicAuthValue}
-                       routing={Routing}/>, document.getElementById("learn-jsx"));
+ReactDOM.render(<Learn pw={GoGo.basicAuthValue} routing={Routing}/>, document.getElementById("learn-jsx"));
