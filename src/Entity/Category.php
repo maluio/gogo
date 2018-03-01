@@ -7,11 +7,14 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="category")
  * @UniqueEntity("name")
+ * @ExclusionPolicy("all")
  */
 class Category
 {
@@ -20,12 +23,14 @@ class Category
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @var int
+     * @Expose
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", unique=true)
      * @var string
+     * @Expose
      */
     private $name;
 

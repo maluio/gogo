@@ -16,10 +16,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class TestController extends Controller
+/**
+ * @Route("/api")
+ */
+class ApiController extends Controller
 {
     /**
-     * @Route("/react/learn/rate/{item}", options={"expose"=true}, name="learn_rate")
+     * @Route("/items/{item}/rate", options={"expose"=true}, name="api_rate_item")
 /*     */
     public function rate(
         Item $item,
@@ -41,43 +44,35 @@ class TestController extends Controller
         $em->persist($item);
         $em->flush();
 
-        $this->addFlash(
-            AppConstants::FLASH_DEFAULT,
-            'Due in ' . $dateTimeFormatHelper->formatDueDiff($newDueDate)
-        );
-
-        return $this->redirectToRoute('learn');
+       return new JsonResponse('ok');
     }
 
     /**
-     * @Route("/react/get-due-item", options={"expose"=true}, name="learn_react_due")
+     * @Route("/items", options={"expose"=true}, name="api_items")
      */
-    public function reactDueItem(ItemRepository $itemRepository, Request $request)
+    public function getItems(ItemRepository $itemRepository, Request $request)
     {
-        $dueItem = $itemRepository->findLatestDue();
+        if($request->get('due') && 'true' === $request->get('due')){
+            $items = $itemRepository->findAllDue();
+        }
+        else {
+            $items = $itemRepository->findAll();
+        }
+
+/*        foreach ($items as $item){
+            $html['categories'] = $this->renderView('util/_categories.html.twig', [
+                'categories' => $item->getCategories()
+            ]);
+            $item->html = $html;
+        }*/
+
 
         $serializer = $this->get('jms_serializer');
 
-        $dueItem = ['item' => $dueItem];
-
-        $json = $serializer->serialize($dueItem, 'json');
-       // dump($json);
+        $json = $serializer->serialize($items, 'json');
 
         return new JsonResponse($json, 200, [], true);
 
-    }
-
-    /**
-     * @Route("/react/", name="learn_react")
-     */
-    public function react(Request $request)
-    {
-
-        return $this->render('learn/react.html.twig',
-            [
-                'basicAuthValue' => $request->headers->get('Authorization')
-            ]
-        );
     }
 
 }

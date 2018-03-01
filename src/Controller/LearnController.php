@@ -30,6 +30,19 @@ class LearnController extends Controller
     }
 
     /**
+     * @Route("/react-app/", name="react_app")
+     */
+    public function react(Request $request)
+    {
+
+        return $this->render('learn/react.html.twig',
+            [
+                'basicAuthValue' => $request->headers->get('Authorization')
+            ]
+        );
+    }
+
+    /**
      * @Route("/learn/rate/{item}", name="learn_rate")
      */
     public function rate(

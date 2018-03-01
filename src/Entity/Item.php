@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ItemRepository")
+ * @ExclusionPolicy("all")
  */
 class Item
 {
@@ -15,24 +18,28 @@ class Item
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @var int
+     * @Expose
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
      * @var string
+     * @Expose
      */
     private $question;
 
     /**
-     * @ORM\Column(type="text")
-     * @var string
+     * @ORM\Column(type="text", nullable=true)
+     * @var string|null
+     * @Expose
      */
     private $answer;
 
     /**
      * @ORM\Column(type="datetime")
      * @var \DateTime
+     * @Expose
      *
      */
     private $dueAt;
@@ -54,6 +61,7 @@ class Item
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Category")
      * @var Category[]
+     * @Expose
      */
     private $categories;
 
@@ -103,7 +111,7 @@ class Item
     /**
      * @param string $answer
      */
-    public function setAnswer(string $answer): void
+    public function setAnswer(?string $answer): void
     {
         $this->answer = $answer;
     }
@@ -213,6 +221,10 @@ class Item
         if($this->categories->contains($category)){
             $this->categories->remove($category);
         }
+    }
+
+    public function getParsedQuestion(): string {
+
     }
 
 }
