@@ -10,9 +10,8 @@ class ApiControllerTest extends AbstractWebTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->loadFixtures(array(
-            ItemFixtures::class
-        ));
+        $client = $this->makeClient();
+        $client->request('GET', '/api/items?due=true');
     }
 
     public function testRate()
