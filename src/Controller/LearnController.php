@@ -18,21 +18,7 @@ class LearnController extends Controller
     /**
      * @Route("/", name="learn")
      */
-    public function index(ItemRepository $itemRepository)
-    {
-        $dueItem = $itemRepository->findLatestDue();
-
-        return $this->render('learn/learn.html.twig',
-            [
-                'item' => $dueItem
-            ]
-        );
-    }
-
-    /**
-     * @Route("/react-app/", name="react_app")
-     */
-    public function react(Request $request)
+    public function provideReactSkeleton(Request $request)
     {
 
         return $this->render('learn/react.html.twig',
@@ -40,33 +26,5 @@ class LearnController extends Controller
                 'basicAuthValue' => $request->headers->get('Authorization')
             ]
         );
-    }
-
-    /**
-     * @Route("/learn/rate/{item}", name="learn_rate")
-     */
-    public function rate(
-        Item $item,
-        EntityManagerInterface $em,
-        Request $request,
-        DateTimeFormatHelper $dateTimeFormatHelper,
-        LearnHandlerInterface $learnHandler
-    ){
-        $rating = $request->get('learn_rating');
-
-        $newDueDate = $learnHandler->handle($item, $rating)->getNewDueDate();
-
-        $item->setDueAt($newDueDate);
-        $item->addRating(new Rating($rating));
-
-        $em->persist($item);
-        $em->flush();
-
-        $this->addFlash(
-            AppConstants::FLASH_DEFAULT,
-            'Due in ' . $dateTimeFormatHelper->formatDueDiff($newDueDate)
-        );
-
-        return $this->redirectToRoute('learn');
     }
 }

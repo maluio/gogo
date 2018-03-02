@@ -11,6 +11,7 @@ use App\Repository\ItemRepository;
 use App\Utils\DateTimeFormatHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\Serializer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,15 +23,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class ApiController extends Controller
 {
     /**
-     * @Route("/items/{item}/rate", options={"expose"=true}, name="api_rate_item")
-/*     */
+     * @Route("/items/{item}/rate", options={"expose"=true}, name="api_rate_item", methods={"POST"})
+     */
     public function rate(
         Item $item,
         EntityManagerInterface $em,
         Request $request,
         DateTimeFormatHelper $dateTimeFormatHelper,
         LearnHandlerInterface $learnHandler
-    ){
+    ) {
         $content = $request->getContent();
         $content = json_decode($content, true);
 
@@ -44,28 +45,21 @@ class ApiController extends Controller
         $em->persist($item);
         $em->flush();
 
-       return new JsonResponse('ok');
+        $response = 'Item due ' . $dateTimeFormatHelper->formatDueDiff($newDueDate);
+
+        return new JsonResponse($response);
     }
 
     /**
-     * @Route("/items", options={"expose"=true}, name="api_items")
+     * @Route("/items", options={"expose"=true}, name="api_get_items", methods={"GET"})
      */
     public function getItems(ItemRepository $itemRepository, Request $request)
     {
-        if($request->get('due') && 'true' === $request->get('due')){
+        if ($request->get('due') && 'true' === $request->get('due')) {
             $items = $itemRepository->findAllDue();
-        }
-        else {
+        } else {
             $items = $itemRepository->findAll();
         }
-
-/*        foreach ($items as $item){
-            $html['categories'] = $this->renderView('util/_categories.html.twig', [
-                'categories' => $item->getCategories()
-            ]);
-            $item->html = $html;
-        }*/
-
 
         $serializer = $this->get('jms_serializer');
 

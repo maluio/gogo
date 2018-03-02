@@ -1,67 +1,25 @@
-let React = require('react');
-let ReactDOM = require('react-dom');
+// react get loaded in the twig template, because you don't get those insane file sizes from webpack during devlopment
+
+//let React = require('react');
+//let ReactDOM = require('react-dom');
+
+import {Notifications} from "./notifications";
+import {RateButtons} from "./ratebuttons";
+import {HtmlRaw} from "./util";
 
 /* routes */
-const routes = require('../../public/js/fos_js_routes.json');
-import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
+const routes = require('../../../public/js/fos_js_routes.json');
+import Routing from '../../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
 
 Routing.setRoutingData(routes);
 
-class Html extends React.Component {
-
-    createMarkup() {
-        return {__html: this.props.raw};
-    }
-
-    render() {
-
-        return (
-            <div dangerouslySetInnerHTML={this.createMarkup()}/>
-        )
-    }
-}
-
-class RateButtons extends React.Component {
-
-    renderButton(i) {
-        return (
-            <button onClick={() => this.props.handleRate(i)} key={i} type="submit" className="btn btn-light btn-lg"
-                    name="learn_rating" value={i}>{i}
-            </button>
-        )
-    }
-
-    renderUpdatingButton(i) {
-        return (
-            <button key={i} type="submit" className="btn btn-light btn-lg" disabled>
-                {i}
-            </button>
-        )
-    }
-
-    render() {
-        let buttons = [];
-
-        for (let i = 0; i < 6; i++) {
-            buttons.push(
-                this.props.updating ? this.renderUpdatingButton(i) : this.renderButton(i)
-            )
-        }
-
-        return (
-            <div>
-                {buttons}
-            </div>
-        )
-    }
-}
 
 class Card extends React.Component {
     render() {
         return <div className="row">
             <div className="card card-outline-secondary mb-3">
                 <div className="card-body">
-                    <Html raw={this.props.content}/>
+                    <HtmlRaw raw={this.props.content}/>
                 </div>
             </div>
         </div>;
@@ -74,8 +32,9 @@ class Learn extends React.Component {
         super();
         this.state = {
             showResults: false,
-            updating: false,
-            items: false,
+            message: null,
+            rated: false,
+            items: [],
             item: {
                 id: null,
                 html: {
@@ -90,7 +49,7 @@ class Learn extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchDueItem();
+        this.fetchDueItems();
     }
 
     toggleShowAnswer() {
@@ -99,9 +58,9 @@ class Learn extends React.Component {
         });
     };
 
-    fetchDueItem() {
+    fetchDueItems() {
         fetch(
-            this.props.routing.generate('api_items') + '?due=true',
+            this.props.routing.generate('api_get_items') + '?due=true',
             {
                 method: 'GET',
                 headers: {
@@ -111,15 +70,13 @@ class Learn extends React.Component {
             .then(res => res.json())
             .then(
                 (result) => {
-                    console.log(result[0]);
-                    this.state.updating = false;
                     this.setState((prevState, props) => {
                         return {
-                            item: result[0],
+                            items: result,
                             showResults: false,
-                            updating: false
                         }
                     });
+                    this.nextItem();
                 },
                 (error) => {
                 }
@@ -127,11 +84,6 @@ class Learn extends React.Component {
     }
 
     handleRate(rating) {
-        this.setState((prevState, props) => {
-            return {
-                updating: true
-            }
-        });
         fetch(
             this.props.routing.generate('api_rate_item', {item: this.state.item.id}),
             {
@@ -143,9 +95,15 @@ class Learn extends React.Component {
                     'Authorization': this.props.pw
                 },
             })
+            .then(res => res.json())
             .then(
                 (result) => {
-                    this.fetchDueItem();
+                    this.setState((prevState, props) => {
+                        return {
+                            message: result,
+                            rated: true
+                        }
+                    });
                 },
                 (error) => {
                 }
@@ -160,20 +118,65 @@ class Learn extends React.Component {
         )
     }
 
+    renderNextItemButton() {
+        return (
+            <span>
+            {this.state.rated ?
+                <button onClick={() => this.fetchDueItems()} className="btn btn-light btn-lg">
+                    <span className="oi oi-arrow-thick-right"></span>
+                </button> : null}
+            </span>
+        )
+    }
+
+    renderItemCounter(){
+
+        let count = this.state.items.length + 1;
+
+        return(
+            <div>
+                {count}
+            </div>
+        )
+    }
+
+    nextItem() {
+        let item = null;
+        let items = this.state.items;
+
+        if(items.length > 0){
+            item = items.shift();
+        }
+
+        this.setState((prevState, props) => {
+            return {
+                message: null,
+                rated: false,
+                item: item,
+                items: items
+            }
+        });
+    }
+
 
     renderCards() {
 
         return (
             <div>
-                <Html raw={this.state.item.html.categories}/>
+                {this.renderItemCounter()}
+                <HtmlRaw raw={this.state.item.html.categories}/>
                 {this.state.showResults ? <Card content={this.state.item.html.question}/> :
                     <Card content={this.state.item.html.question_masked}/>}
                 {this.renderResultButton()}
-                {this.state.showResults ? <Html raw={this.state.item.html.rating_indicator}/> : null}
+                {this.state.showResults ? <HtmlRaw raw={this.state.item.html.rating_indicator}/> : null}
                 {this.state.showResults && this.state.item.html.answer ?
                     <Card content={this.state.item.html.answer}/> : null}
-                {this.state.showResults ?
-                    <RateButtons updating={this.state.updating} handleRate={(i) => this.handleRate(i)}/> : null}
+                {this.state.showResults && !this.state.rated && this.state.item ?
+                    <RateButtons handleRate={(i) => this.handleRate(i)}/> : null}
+                <div className="row">
+                    {this.renderNextItemButton()}
+                    <Notifications message={this.state.message}/>
+                </div>
             </div>
         )
     }

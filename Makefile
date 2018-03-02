@@ -67,4 +67,4 @@ node:
 travis: docker-up composer yarn-install encore test
 
 js-routes:
-	docker-compose run app bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json
+	docker-compose exec app bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json
