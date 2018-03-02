@@ -60,8 +60,8 @@ class Item
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Category")
-     * @var Category[]
      * @Expose
+     * @var ArrayCollection|Category[]
      */
     private $categories;
 
@@ -189,7 +189,7 @@ class Item
     }
 
     /**
-     * @return ArrayCollection
+     * @return ArrayCollection|Category[]
      */
     public function getCategories()
     {
@@ -197,7 +197,7 @@ class Item
     }
 
     /**
-     * @param Category[] $categories
+     * @param ArrayCollection|Category[] $categories
      */
     public function setCategories(array $categories): void
     {

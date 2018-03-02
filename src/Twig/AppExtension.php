@@ -3,6 +3,7 @@
 namespace App\Twig;
 
 use App\Repository\ItemRepository;
+use App\Repository\NoteRepository;
 use App\Utils\DateTimeFormatHelper;
 use App\Utils\ItemFilters;
 use Twig\Extension\AbstractExtension;
@@ -26,14 +27,19 @@ class AppExtension extends AbstractExtension
      * @var ItemFilters
      */
     private $itemFilters;
+    /**
+     * @var NoteRepository
+     */
+    private $noteRepository;
 
     public function __construct(
-        DateTimeFormatHelper $dateTimeFormatHelper, ItemRepository $itemRepository, ItemFilters $itemFilters
+        DateTimeFormatHelper $dateTimeFormatHelper, ItemRepository $itemRepository, ItemFilters $itemFilters, NoteRepository $noteRepository
     )
     {
         $this->dateTimeFormatHelper = $dateTimeFormatHelper;
         $this->itemRepository = $itemRepository;
         $this->itemFilters = $itemFilters;
+        $this->noteRepository = $noteRepository;
     }
 
     public function getFilters(): array
@@ -47,7 +53,8 @@ class AppExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('due_amount', [$this, 'getNumberOfDueCards'])
+            new TwigFunction('due_amount', [$this, 'getNumberOfDueCards']),
+            new TwigFunction('notes_amount', [$this, 'getNumberOfNotes'])
         ];
     }
 
@@ -59,6 +66,11 @@ class AppExtension extends AbstractExtension
     public function getNumberOfDueCards(): int
     {
         return $this->itemRepository->getNumberOfDueItems();
+    }
+
+    public function getNumberOfNotes(): int
+    {
+        return $this->noteRepository->getNotesCount();
     }
 
     public function hideWords(string $text, $maskCharacter=null, $tagClass='badge badge-success', $tagname='span'): string
