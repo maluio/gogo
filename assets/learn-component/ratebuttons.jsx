@@ -18,7 +18,7 @@ export class RateButtons extends React.Component {
         }
 
         return (
-            <div>
+            <div className="rate">
                 {buttons}
             </div>
         )

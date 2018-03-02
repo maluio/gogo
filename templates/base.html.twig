@@ -10,9 +10,9 @@
     {% endblock %}
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
-<body>
+<body id="{{ app.environment == 'prod' ? 'prod' : 'dev' }}">
 <div class="container">
-    <div class="col-md-8 col-sm-12 offset-md-2">
+    <div class="content col-md-8 col-sm-12 offset-md-2">
         <div class="row">
             <div class="col">
                 {{ include('_navigation.html.twig') }}
