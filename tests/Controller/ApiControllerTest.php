@@ -7,13 +7,6 @@ use App\DataFixtures\ItemFixtures;
 class ApiControllerTest extends AbstractWebTestCase
 {
 
-    public function setUp()
-    {
-        parent::setUp();
-        $client = $this->makeClient();
-        $client->request('GET', '/api/items?due=true');
-    }
-
     public function testRate()
     {
         $this->loadFixtures(array(
