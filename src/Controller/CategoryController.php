@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryController extends Controller
 {
     /**
-     * @Route("/create/{name}")
+     * @Route("/create/{name}", name="category_create")
      */
     public function create(string $name, CategoryRepository $categoryRepository, EntityManagerInterface $entityManager){
         if($categoryRepository->findOneBy(['name' => $name])){

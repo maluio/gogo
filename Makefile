@@ -1,11 +1,13 @@
-dev: down up logs
+dev: down up composer logs
 
-prod: down yarn-install yarn-prod prod-up reverse-proxy-up permissions logs
+prod: down prod-up prod-assets reverse-proxy-up permissions logs
 
 prod-up:
 	docker-compose -f docker-compose.yml -f docker-compose-production.yml up -d --build
 	docker-compose exec app composer install --no-dev --optimize-autoloader
 	docker-compose exec app bin/console cache:clear
+
+prod-assets: yarn-install yarn-prod js-routes
 
 reverse-proxy-down:
 	cd ../reverse-proxy/ && docker-compose down && cd -
@@ -62,4 +64,7 @@ yarn-prod:
 node:
 	docker-compose run node bash
 
-travis: docker-up composer yarn-install encore test
+travis: docker-up composer js-routes yarn-install encore test
+
+js-routes:
+	docker-compose exec app bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json

@@ -33,3 +33,5 @@ services:
             public: false
             arguments:
                 - '%kernel.logs_dir%/%kernel.environment%.log'
+    App\EventSubscriber\ItemSerializeSubscriber:
+        tags: ['jms_serializer.event_subscriber']
