@@ -28,12 +28,12 @@ export class Cards extends React.Component {
 
     renderNextItemButton() {
         return (
-            <span>
+            <div className="col-5 offset-2">
             {this.props.rated ?
-                <button onClick={() => this.props.nextItem()} className="btn btn-light btn-lg">
+                <button onClick={() => this.props.nextItem()} className="btn btn-info btn-light btn-lg btn-block">
                     <span className="oi oi-arrow-thick-right"></span>
                 </button> : null}
-            </span>
+            </div>
         )
     }
 
@@ -101,10 +101,14 @@ export class Cards extends React.Component {
                 <div className="row">{this.renderAnswer()}</div>
                 <div className="row">{this.renderRatingIndicator()}</div>
                 <div className="row">{this.renderRateButtons()}</div>
-                <div className="row">
-                    {this.renderNextItemButton()}
-                    <Notifications message={this.props.message}/>
-                </div>
+                {this.state.showResults ?
+                    <div className="row">
+                        <Notifications message={this.props.message}/>
+                        {this.renderNextItemButton()}
+                    </div>
+                    : null
+                }
+
             </div>
         )
     }

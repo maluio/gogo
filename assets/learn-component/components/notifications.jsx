@@ -6,8 +6,8 @@ export class Notifications extends React.Component{
 
     render(){
         return(
-            <div>
-            { this.props.message ? <div className="alert alert-success">{this.props.message}</div> : null}
+            <div className="col-5">
+            { this.props.message ? <div className="alert alert-info">{this.props.message}</div> : null}
             </div>
         )
     }

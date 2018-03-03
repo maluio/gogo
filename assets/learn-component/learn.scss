@@ -6,8 +6,12 @@
     }
   }
 
-  .found-word {
-      margin-right: 15px;
+  .word-check {
+    margin-right: 15px;
+
+    .word-found {
+      background-color: lightgreen;
+    }
   }
 
 }

@@ -109,6 +109,11 @@ class Learn extends React.Component {
     }
 
     nextItem() {
+        this.setState((prevState, props) => {
+            return {
+                item: null
+            }
+        });
         this.fetchDueItems();
     }
 

@@ -20,10 +20,12 @@ class Word extends React.Component {
 
     render() {
         return (
-            <span className="found-word">
-                {this.state.found ? <strong>{this.props.word}</strong> :
-                    <input onKeyUp={(e) => this.checkWord(e, this.props.word)} type="text"/>
-                }
+            <span className="word-check">
+                    <input
+                        onKeyUp={(e) => this.checkWord(e, this.props.word)}
+                        type="text"
+                        className={this.state.found ? 'word-found' : '' }
+                    />
             </span>
         )
     }
@@ -55,7 +57,7 @@ export class Question extends React.Component {
             <div className="w-100">
                 {this.props.showResults ? <Card content={this.props.question}/> :
                     <Card content={this.props.questionMasked}/>}
-                {this.props.showResults ? null : this.renderMaskedQuestion()}
+                {this.renderMaskedQuestion()}
             </div>
         )
     }
