@@ -60,4 +60,14 @@ class ItemFiltersTest extends TestCase
         );
     }
 
+    public function testSentenceIsSplitUp()
+    {
+        $input = 'Hi, please [split me up]';
+
+        $this->assertEquals(
+            'Hi, please <span class="marker-replaced">*****</span> <span class="marker-replaced">**</span> <span class="marker-replaced">**</span>',
+            $this->itemFilters->replaceMarkerWithHtmlTag($input, '*')
+        );
+    }
+
 }

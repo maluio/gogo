@@ -3,13 +3,15 @@
 //let React = require('react');
 //let ReactDOM = require('react-dom');
 
+require('./learn.scss');
+
 import {Notifications} from "./notifications";
 import {RateButtons} from "./ratebuttons";
 import {HtmlRaw} from "./util";
 
 /* routes */
-const routes = require('../../../public/js/fos_js_routes.json');
-import Routing from '../../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
+const routes = require('../../public/js/fos_js_routes.json');
+import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
 
 Routing.setRoutingData(routes);
 
@@ -134,9 +136,9 @@ class Learn extends React.Component {
         let count = this.state.items.length + 1;
 
         return(
-            <div>
-                {count}
-            </div>
+            <h3>
+                <span className="badge badge-secondary">{count}</span>
+            </h3>
         )
     }
 

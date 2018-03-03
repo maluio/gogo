@@ -10,11 +10,11 @@ Encore
     // uncomment to create hashed filenames (e.g. app.abc123.css)
     // .enableVersioning(Encore.isProduction())
 
-    // uncomment to define the assets of the project
-     .addEntry('js/app', './assets/js/app.js')
-     .addEntry('js/learn', './assets/js//learn-component/learn.jsx')
+    .addEntry('js/app', './assets/app/js/app.js')
+    .addStyleEntry('css/app', './assets/app/scss/app.scss')
 
-     .addStyleEntry('css/app', './assets/scss/app.scss')
+    .addStyleEntry('css/learn', './assets/learn-component/learn.scss')
+    .addEntry('js/learn', './assets/learn-component/learn.jsx')
 
     // uncomment if you use Sass/SCSS files
      .enableSassLoader()

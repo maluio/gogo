@@ -19,11 +19,6 @@ class AppExtension extends AbstractExtension
     private $dateTimeFormatHelper;
 
     /**
-     * @var ItemRepository
-     */
-    private $itemRepository;
-
-    /**
      * @var ItemFilters
      */
     private $itemFilters;
@@ -33,11 +28,10 @@ class AppExtension extends AbstractExtension
     private $noteRepository;
 
     public function __construct(
-        DateTimeFormatHelper $dateTimeFormatHelper, ItemRepository $itemRepository, ItemFilters $itemFilters, NoteRepository $noteRepository
+        DateTimeFormatHelper $dateTimeFormatHelper, ItemFilters $itemFilters, NoteRepository $noteRepository
     )
     {
         $this->dateTimeFormatHelper = $dateTimeFormatHelper;
-        $this->itemRepository = $itemRepository;
         $this->itemFilters = $itemFilters;
         $this->noteRepository = $noteRepository;
     }
@@ -53,7 +47,6 @@ class AppExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('due_amount', [$this, 'getNumberOfDueCards']),
             new TwigFunction('notes_amount', [$this, 'getNumberOfNotes'])
         ];
     }
@@ -63,17 +56,12 @@ class AppExtension extends AbstractExtension
         return $this->dateTimeFormatHelper->formatDueDiff($dueDate);
     }
 
-    public function getNumberOfDueCards(): int
-    {
-        return $this->itemRepository->getNumberOfDueItems();
-    }
-
     public function getNumberOfNotes(): int
     {
         return $this->noteRepository->getNotesCount();
     }
 
-    public function hideWords(string $text, $maskCharacter=null, $tagClass='badge badge-success', $tagname='span'): string
+    public function hideWords(string $text, $maskCharacter=null, $tagClass='', $tagname='strong'): string
     {
         return $this->itemFilters->replaceMarkerWithHtmlTag($text, $maskCharacter, $tagname, $tagClass);
     }

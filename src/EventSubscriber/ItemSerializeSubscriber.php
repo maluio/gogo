@@ -65,7 +65,7 @@ class ItemSerializeSubscriber implements EventSubscriberInterface
         ]);
 
         $html['question']= $this->markdownParser->transformMarkdown(
-            $this->itemFilters->replaceMarkerWithHtmlTag($item->getQuestion(), null, 'span', 'badge badge-success')
+            $this->itemFilters->replaceMarkerWithHtmlTag($item->getQuestion(), null, 'strong')
         );
         $html['question_masked']= $this->markdownParser->transformMarkdown(
             $this->itemFilters->replaceMarkerWithHtmlTag($item->getQuestion(), '*')
