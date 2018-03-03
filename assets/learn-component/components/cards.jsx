@@ -1,18 +1,8 @@
 import {Notifications} from "./notifications";
 import {RateButtons} from "./ratebuttons";
 import {HtmlRaw} from "./util";
-
-class Card extends React.Component {
-    render() {
-        return <div className="row">
-            <div className="card card-outline-secondary mb-3">
-                <div className="card-body">
-                    <HtmlRaw raw={this.props.content}/>
-                </div>
-            </div>
-        </div>;
-    }
-}
+import {Question} from "./question";
+import {Card} from "./card";
 
 export class Cards extends React.Component {
     constructor() {
@@ -47,34 +37,25 @@ export class Cards extends React.Component {
         )
     }
 
-    renderQuestion(){
-        return(
-            <div className="question">
-            {this.state.showResults ? <Card content={this.props.item.html.question}/> :
-                <Card content={this.props.item.html.question_masked}/>}
-            </div>
-        )
-    }
-
-    renderAnswer(){
-        return(
-            <div className="answer">
+    renderAnswer() {
+        return (
+            <div className="answer w-100">
                 {this.state.showResults && this.props.item.html.answer ?
                     <Card content={this.props.item.html.answer}/> : null}
             </div>
         )
     }
 
-    renderItemCounter(){
+    renderItemCounter() {
 
-        return(
+        return (
             <h3 className="item-counter">
                 <span className="badge badge-secondary">{this.props.count}</span>
             </h3>
         )
     }
 
-    renderRateButtons(){
+    renderRateButtons() {
         return (
             <div className="rate-buttons">
                 {this.state.showResults && !this.props.rated && this.props.item ?
@@ -83,10 +64,21 @@ export class Cards extends React.Component {
         )
     }
 
-    renderRatingIndicator(){
+    renderRatingIndicator() {
         return (
             <div className="rating-indicator">
                 {this.state.showResults ? <HtmlRaw raw={this.props.item.html.rating_indicator}/> : null}
+            </div>
+        )
+    }
+
+    renderCategories(){
+
+        return(
+            <div>
+            {this.props.item.html.categories && this.props.item.html.categories > 0 ?
+                <div className="row"><HtmlRaw raw={this.props.item.html.categories}/></div>
+                : null}
             </div>
         )
     }
@@ -95,13 +87,20 @@ export class Cards extends React.Component {
 
         return (
             <div>
-                {this.renderItemCounter()}
-                <HtmlRaw raw={this.props.item.html.categories}/>
-                {this.renderQuestion()}
-                {this.renderResultButton()}
-                {this.renderAnswer()}
-                {this.renderRatingIndicator()}
-                {this.renderRateButtons()}
+                <div className="row"> {this.renderItemCounter()}</div>
+                {this.renderCategories()}
+                <div className="row">
+                    <Question
+                        question={this.props.item.html.question}
+                        questionMasked={this.props.item.html.question_masked}
+                        questionSplit={this.props.item.html.question_split}
+                        showResults={this.state.showResults}
+                    />
+                </div>
+                <div className="row">{this.renderResultButton()}</div>
+                <div className="row">{this.renderAnswer()}</div>
+                <div className="row">{this.renderRatingIndicator()}</div>
+                <div className="row">{this.renderRateButtons()}</div>
                 <div className="row">
                     {this.renderNextItemButton()}
                     <Notifications message={this.props.message}/>

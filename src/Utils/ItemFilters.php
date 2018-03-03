@@ -13,53 +13,95 @@ class ItemFilters
     private $tagName;
     private $tagClass;
 
+    public function splitMarkerString(string $inputStr): array
+    {
+
+        $output = [];
+
+        $currentPart['hidden'] = false;
+        $currentPart['string'] = '';
+
+        $chars = str_split($inputStr);
+
+        for ($i=0; $i<count($chars); $i++) {
+            $char = $chars[$i];
+            if ($char === self::HIDDEN_WORD_BEGIN_MARKER
+                && isset($chars[$i+1])
+                && $chars[$i+1] === self::HIDDEN_WORD_BEGIN_MARKER
+            ) {
+                $output[] = $currentPart;
+                $currentPart['hidden'] = true;
+                $currentPart['string'] = '';
+                $i++;
+                continue;
+            }
+
+            if ($char === self::HIDDEN_WORD_END_MARKER
+                && isset($chars[$i+1])
+                && $chars[$i+1] === self::HIDDEN_WORD_END_MARKER
+
+            ) {
+                $output[] = $currentPart;
+                $currentPart['hidden'] = false;
+                $currentPart['string'] = '';
+                $i++;
+                continue;
+            }
+            if ($currentPart['hidden'] && $char == ' '){
+                $output[] = $currentPart;
+                $currentPart['hidden'] = false;
+                $currentPart['string'] = $char;
+                $output[] = $currentPart;
+                $currentPart['hidden'] = true;
+                $currentPart['string'] = '';
+                continue;
+            }
+
+            $currentPart['string'] .= $char;
+        }
+
+        if($currentPart['string']){
+            $output[] = $currentPart;
+        }
+
+        return $output;
+    }
+
     public function replaceMarkerWithHtmlTag(
         string $text,
         ?string $maskCharacter = null,
-        string $tagName='span',
-        string $tagClass='marker-replaced'
-    ):string
+        string $tagName = 'span',
+        string $tagClass = 'marker-replaced'
+    ): string
     {
         $this->tagName = $tagName;
         $this->tagClass = $tagClass;
 
-        $pattern = sprintf(
-            '/(%s[^%s]+(%s))/',
-            // preg_quote escapes reqex reserved characters
-            preg_quote(self::HIDDEN_WORD_BEGIN_MARKER),
-            preg_quote(self::HIDDEN_WORD_BEGIN_MARKER),
-            preg_quote(self::HIDDEN_WORD_END_MARKER)
-         );
+        $splitText = $this->splitMarkerString($text);
 
-       return preg_replace_callback(
-            $pattern,
-            function($match) use ($maskCharacter){
-                // it's match[0] only because I suck at regExing
-                $sentence = $match[0];
-                $words = $this->splitSentenceIntoWords($sentence);
-                $out = '';
-                foreach ($words as $word){
-                    $maskedWord = '';
-                    foreach (str_split($word) as $char){
-                        if (
-                            self::HIDDEN_WORD_BEGIN_MARKER !== $char
-                            && self::HIDDEN_WORD_END_MARKER !== $char
-                        )
-                            $maskedWord .= $maskCharacter ? $maskCharacter : $char;
-                    }
-                    $out .= $this->addTag($maskedWord) . ' ';
-                }
-                return trim($out);
-            },
-            $text
-        );
+        $output = '';
+
+        foreach ($splitText as $part){
+           if($part['hidden']){
+               $word = $maskCharacter ? $this->maskString($part['string'], $maskCharacter) : $part['string'];
+               $output .= $this->addTag($word);
+               continue;
+           }
+
+           $output .= $part['string'];
+        }
+
+        return $output;
     }
 
-    protected function splitSentenceIntoWords(string $sentence): array {
-        return explode(' ', $sentence);
+    protected function maskString(string $input, string $maskCharacter): string {
+       $count = count(str_split($input));
+        return str_repeat($maskCharacter, $count);
     }
 
-    protected function addTag(string $word): string {
+
+    protected function addTag(string $word): string
+    {
         $openingTag = sprintf(
             '<%s%s>',
             $this->tagName,
@@ -71,7 +113,7 @@ class ItemFilters
             $this->tagName
         );
 
-        return  $openingTag . $word . $closingTag;
+        return $openingTag . $word . $closingTag;
     }
 
 }

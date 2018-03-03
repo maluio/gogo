@@ -70,9 +70,13 @@ class ItemSerializeSubscriber implements EventSubscriberInterface
         $html['question_masked']= $this->markdownParser->transformMarkdown(
             $this->itemFilters->replaceMarkerWithHtmlTag($item->getQuestion(), '*')
         );
+        $html['question_split'] =
+            $this->itemFilters->splitMarkerString(
+                $this->markdownParser->transformMarkdown($item->getQuestion())
+        );
         $item->getAnswer() ? $html['answer'] = $this->markdownParser->transformMarkdown($item->getAnswer()) : null;
 
-        $event->getVisitor()->addData('html',$html);
+        $event->getVisitor()->addData('html', $html);
 
     }
 

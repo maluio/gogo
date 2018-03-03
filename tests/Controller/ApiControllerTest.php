@@ -112,5 +112,9 @@ class ApiControllerTest extends AbstractWebTestCase
         $this->assertTrue(
             isset($data[0]['html']['answer'])
         );
+
+        $this->assertTrue(
+            isset($data[0]['html']['question_split'])
+        );
     }
 }

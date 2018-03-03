@@ -28,6 +28,7 @@ class Learn extends React.Component {
                     rating_indicator: null,
                     question: null,
                     question_masked: null,
+                    question_split: null,
                     answer: null
                 }
             }

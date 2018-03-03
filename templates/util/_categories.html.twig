@@ -1,5 +1,9 @@
-<span class="categories">
-    {% for cat in categories %}
-        <span class="badge badge-light">{{ cat.name }}</span>
-    {% endfor %}
-</span>
+{% if categories|length > 0 %}
+    <span class="categories">
+        {% for cat in categories %}
+            <span class="badge badge-light">{{ cat.name }}</span>
+        {% endfor %}
+    </span>
+{% else %}
+
+{% endif %}
