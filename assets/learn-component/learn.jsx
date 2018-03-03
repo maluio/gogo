@@ -5,9 +5,7 @@
 
 require('./learn.scss');
 
-import {Notifications} from "./notifications";
-import {RateButtons} from "./ratebuttons";
-import {HtmlRaw} from "./util";
+import {Cards} from "./cards";
 
 /* routes */
 const routes = require('../../public/js/fos_js_routes.json');
@@ -15,25 +13,11 @@ import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/pu
 
 Routing.setRoutingData(routes);
 
-
-class Card extends React.Component {
-    render() {
-        return <div className="row">
-            <div className="card card-outline-secondary mb-3">
-                <div className="card-body">
-                    <HtmlRaw raw={this.props.content}/>
-                </div>
-            </div>
-        </div>;
-    }
-}
-
 class Learn extends React.Component {
 
     constructor() {
         super();
         this.state = {
-            showResults: false,
             message: null,
             rated: false,
             items: [],
@@ -54,12 +38,6 @@ class Learn extends React.Component {
         this.fetchDueItems();
     }
 
-    toggleShowAnswer() {
-        this.setState((prevState, props) => {
-            return {showResults: !prevState.showResults}
-        });
-    };
-
     fetchDueItems() {
         fetch(
             this.props.routing.generate('api_get_items') + '?due=true',
@@ -75,10 +53,9 @@ class Learn extends React.Component {
                     this.setState((prevState, props) => {
                         return {
                             items: result,
-                            showResults: false,
                         }
                     });
-                    this.nextItem();
+                    this.handleNewItems();
                 },
                 (error) => {
                 }
@@ -112,41 +89,11 @@ class Learn extends React.Component {
             )
     }
 
-    renderResultButton() {
-        return (
-            <button onClick={() => this.toggleShowAnswer()} className="btn btn-light js-show btn-lg btn-block">
-                <span className="oi oi-elevator"></span>
-            </button>
-        )
-    }
-
-    renderNextItemButton() {
-        return (
-            <span>
-            {this.state.rated ?
-                <button onClick={() => this.fetchDueItems()} className="btn btn-light btn-lg">
-                    <span className="oi oi-arrow-thick-right"></span>
-                </button> : null}
-            </span>
-        )
-    }
-
-    renderItemCounter(){
-
-        let count = this.state.items.length + 1;
-
-        return(
-            <h3>
-                <span className="badge badge-secondary">{count}</span>
-            </h3>
-        )
-    }
-
-    nextItem() {
+    handleNewItems(){
         let item = null;
         let items = this.state.items;
 
-        if(items.length > 0){
+        if (items.length > 0) {
             item = items.shift();
         }
 
@@ -160,25 +107,31 @@ class Learn extends React.Component {
         });
     }
 
+    nextItem() {
+        this.fetchDueItems();
+    }
+
+    renderItemCounter(){
+
+        let count = this.state.items.length;
+
+        return(
+            <h3>
+                <span className="badge badge-secondary">{count}</span>
+            </h3>
+        )
+    }
 
     renderCards() {
-
         return (
             <div>
-                {this.renderItemCounter()}
-                <HtmlRaw raw={this.state.item.html.categories}/>
-                {this.state.showResults ? <Card content={this.state.item.html.question}/> :
-                    <Card content={this.state.item.html.question_masked}/>}
-                {this.renderResultButton()}
-                {this.state.showResults ? <HtmlRaw raw={this.state.item.html.rating_indicator}/> : null}
-                {this.state.showResults && this.state.item.html.answer ?
-                    <Card content={this.state.item.html.answer}/> : null}
-                {this.state.showResults && !this.state.rated && this.state.item ?
-                    <RateButtons handleRate={(i) => this.handleRate(i)}/> : null}
-                <div className="row">
-                    {this.renderNextItemButton()}
-                    <Notifications message={this.state.message}/>
-                </div>
+                <Cards
+                    item={this.state.item}
+                    handleRate={(i) => this.handleRate(i)}
+                    message={this.state.message}
+                    rated={this.state.rated}
+                    nextItem={()=> this.nextItem()}
+                />
             </div>
         )
     }
@@ -187,6 +140,7 @@ class Learn extends React.Component {
 
         return (
             <div id="learn-view">
+                {this.renderItemCounter()}
                 {this.state.item ? this.renderCards() : <h1><span className="oi oi-check"></span></h1>}
             </div>
         )
