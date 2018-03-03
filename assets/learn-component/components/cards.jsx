@@ -47,19 +47,61 @@ export class Cards extends React.Component {
         )
     }
 
+    renderQuestion(){
+        return(
+            <div className="question">
+            {this.state.showResults ? <Card content={this.props.item.html.question}/> :
+                <Card content={this.props.item.html.question_masked}/>}
+            </div>
+        )
+    }
+
+    renderAnswer(){
+        return(
+            <div className="answer">
+                {this.state.showResults && this.props.item.html.answer ?
+                    <Card content={this.props.item.html.answer}/> : null}
+            </div>
+        )
+    }
+
+    renderItemCounter(){
+
+        return(
+            <h3 className="item-counter">
+                <span className="badge badge-secondary">{this.props.count}</span>
+            </h3>
+        )
+    }
+
+    renderRateButtons(){
+        return (
+            <div className="rate-buttons">
+                {this.state.showResults && !this.props.rated && this.props.item ?
+                    <RateButtons handleRate={(i) => this.props.handleRate(i)}/> : null}
+            </div>
+        )
+    }
+
+    renderRatingIndicator(){
+        return (
+            <div className="rating-indicator">
+                {this.state.showResults ? <HtmlRaw raw={this.props.item.html.rating_indicator}/> : null}
+            </div>
+        )
+    }
+
     render() {
 
         return (
             <div>
+                {this.renderItemCounter()}
                 <HtmlRaw raw={this.props.item.html.categories}/>
-                {this.state.showResults ? <Card content={this.props.item.html.question}/> :
-                    <Card content={this.props.item.html.question_masked}/>}
+                {this.renderQuestion()}
                 {this.renderResultButton()}
-                {this.state.showResults ? <HtmlRaw raw={this.props.item.html.rating_indicator}/> : null}
-                {this.state.showResults && this.props.item.html.answer ?
-                    <Card content={this.props.item.html.answer}/> : null}
-                {this.state.showResults && !this.props.rated && this.props.item ?
-                    <RateButtons handleRate={(i) => this.props.handleRate(i)}/> : null}
+                {this.renderAnswer()}
+                {this.renderRatingIndicator()}
+                {this.renderRateButtons()}
                 <div className="row">
                     {this.renderNextItemButton()}
                     <Notifications message={this.props.message}/>

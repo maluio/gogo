@@ -5,7 +5,7 @@
 
 require('./learn.scss');
 
-import {Cards} from "./cards";
+import {Cards} from "./components/cards";
 
 /* routes */
 const routes = require('../../public/js/fos_js_routes.json');
@@ -111,17 +111,6 @@ class Learn extends React.Component {
         this.fetchDueItems();
     }
 
-    renderItemCounter(){
-
-        let count = this.state.items.length;
-
-        return(
-            <h3>
-                <span className="badge badge-secondary">{count}</span>
-            </h3>
-        )
-    }
-
     renderCards() {
         return (
             <div>
@@ -131,6 +120,7 @@ class Learn extends React.Component {
                     message={this.state.message}
                     rated={this.state.rated}
                     nextItem={()=> this.nextItem()}
+                    count={this.state.items.length}
                 />
             </div>
         )
@@ -140,7 +130,6 @@ class Learn extends React.Component {
 
         return (
             <div id="learn-view">
-                {this.renderItemCounter()}
                 {this.state.item ? this.renderCards() : <h1><span className="oi oi-check"></span></h1>}
             </div>
         )
