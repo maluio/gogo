@@ -7,6 +7,7 @@ use App\Entity\Item;
 use App\Form\ItemType;
 use App\Repository\ItemRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -48,7 +49,7 @@ class ItemController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="item_edit")
+     * @Route("/{id}/edit", name="item_edit", options={"expose"=true})
      */
     public function edit(
         Item $item,
@@ -59,6 +60,13 @@ class ItemController extends Controller
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
 
+        $session = $request->getSession();
+
+        if(!$session->get('after_edit_route')){
+            $referer = $request->headers->get('referer');
+            $session->set('after_edit_route', $referer);
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
             $item = $form->getData();
             $em->persist($item);
@@ -66,7 +74,11 @@ class ItemController extends Controller
 
             $this->addFlash(AppConstants::FLASH_DEFAULT, 'Item updated');
 
-            return $this->redirectToRoute('item_list');
+            $redirectRoute = $session->get('after_edit_route');
+            $session->remove('after_edit_route');
+
+            return new RedirectResponse($redirectRoute);
+
         }
 
         return $this->render('admin/edit.html.twig',

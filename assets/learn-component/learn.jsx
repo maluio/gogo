@@ -136,6 +136,7 @@ class Learn extends React.Component {
 
         return (
             <div id="learn-view">
+                {this.state.item ? <a href={this.props.routing.generate('item_edit', {id: this.state.item.id})}>edit</a> : null}
                 {this.state.item ? this.renderCards() : <h1><span className="oi oi-check"></span></h1>}
             </div>
         )
