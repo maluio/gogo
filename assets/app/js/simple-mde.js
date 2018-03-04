@@ -9,7 +9,8 @@ module.exports = function () {
     $('textarea').each(function () {
         new simpleMDE({
             element: $(this)[0],
-            forceSync: true
+            forceSync: true,
+            spellChecker: false
         });
     });
 };
