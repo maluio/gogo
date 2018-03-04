@@ -13,7 +13,7 @@ class Word extends React.Component {
 
         this.setState((prevState, props) => {
             return {
-                found: currentInput === word,
+                found: currentInput.toLowerCase() === word.toLowerCase(),
             }
         });
     }
