@@ -76,7 +76,7 @@ export class Cards extends React.Component {
 
         return(
             <div>
-            {this.props.item.html.categories && this.props.item.html.categories > 0 ?
+            {this.props.item.html.categories && this.props.item.html.categories.length > 0 ?
                 <div className="row"><HtmlRaw raw={this.props.item.html.categories}/></div>
                 : null}
             </div>
