@@ -16,10 +16,14 @@ let simpleMde = require('./simple-mde');
 let highlightJs = require('../../lib/highlightJs/highlightJs.min');
 require('../../lib/highlightJs/highlightJs-solarized-dark.css');
 
+let listView = require('./list_view');
+
 $(function () {
     $('.alert-custom.alert').fadeIn(100).delay(1000).fadeOut(200);
 
     simpleMde($);
 
     highlightJs.initHighlightingOnLoad();
+
+    listView($);
 });
