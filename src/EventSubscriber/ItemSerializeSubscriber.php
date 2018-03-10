@@ -4,6 +4,7 @@
 namespace App\EventSubscriber;
 
 
+use App\AppConstants;
 use App\Entity\Item;
 use App\Utils\ItemFilters;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
@@ -68,7 +69,7 @@ class ItemSerializeSubscriber implements EventSubscriberInterface
             $this->itemFilters->replaceMarker($item->getQuestion(), null, 'strong')
         );
         $html['question_masked']= $this->markdownParser->transformMarkdown(
-            $this->itemFilters->replaceMarker($item->getQuestion(), '*')
+            $this->itemFilters->replaceMarker($item->getQuestion(), AppConstants::MASK_CHARACTER)
         );
         $html['question_split'] =
             $this->itemFilters->splitMarkerString(

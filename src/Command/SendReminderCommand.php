@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\AppConstants;
 use App\Entity\Category;
 use App\Entity\Item;
 use App\Repository\ItemRepository;
@@ -97,7 +98,7 @@ class SendReminderCommand extends ContainerAwareCommand
         $content = '';
 
         foreach ($items as $item) {
-            $renderedItem = $this->itemFilters->replaceMarker($item->getQuestion(), '*');
+            $renderedItem = $this->itemFilters->replaceMarker($item->getQuestion(), AppConstants::MASK_CHARACTER);
 
             $stringBeforeLineBreak = strstr($renderedItem, PHP_EOL, true);
             $renderedItem = $stringBeforeLineBreak ? $stringBeforeLineBreak : $renderedItem;

@@ -4,28 +4,61 @@ class Word extends React.Component {
     constructor() {
         super();
         this.state = {
-            found: false
+            value: ''
         }
     }
 
-    checkWord(e, word) {
-        let currentInput = e.target.value;
+    handleChange(event) {
+        let currentInput = event.target.value;
+        this.handleNewValue(currentInput);
+    }
 
+    handleNewValue(value) {
         this.setState((prevState, props) => {
             return {
-                found: currentInput.toLowerCase() === word.toLowerCase(),
+                value: value,
             }
         });
+    }
+
+    hintLetter() {
+        let word = this.props.word;
+        let value = this.state.value;
+
+        if (0 !== word.indexOf(value)) {
+            value = '';
+        }
+
+        value = value + word.charAt(value.length);
+
+        this.handleNewValue(value);
+    }
+
+    getClass(){
+        let lowerCaseValue = this.state.value.toLowerCase();
+        let lowerCaseWord = this.props.word.toLowerCase();
+
+        if(lowerCaseValue === lowerCaseWord) {
+            return 'word-found';
+        }
+
+        if(0 !== lowerCaseWord.indexOf(lowerCaseValue)){
+            return 'wrong-letter';
+        }
+
+        return '';
     }
 
     render() {
         return (
             <span className="word-check">
                     <input
-                        onKeyUp={(e) => this.checkWord(e, this.props.word)}
+                        value={this.state.value}
+                        onChange={(e) => this.handleChange(e)}
                         type="text"
-                        className={this.state.found ? 'word-found' : '' }
+                        className={this.getClass()}
                     />
+                    <button onClick={() => this.hintLetter()}><span className="oi oi-question-mark"></span></button>
             </span>
         )
     }
@@ -42,11 +75,11 @@ export class Question extends React.Component {
                         return part.hidden;
                     })
                     .map(function (part, i) {
-                        return (
-                            <Word  key={i} word={part.string}/>
-                        )
-                    }
-                ) : null}
+                            return (
+                                <Word key={i} word={part.string}/>
+                            )
+                        }
+                    ) : null}
             </div>
         )
     }

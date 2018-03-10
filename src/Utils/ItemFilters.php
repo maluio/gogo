@@ -70,8 +70,8 @@ class ItemFilters
     public function replaceMarker(
         string $text,
         ?string $maskCharacter = null,
-        string $tagName = null,
-        string $tagClass = null
+        string $tagName = '',
+        string $tagClass = ''
     ): string
     {
         $this->tagName = $tagName;
@@ -84,7 +84,7 @@ class ItemFilters
         foreach ($splitText as $part){
            if($part['hidden']){
                $word = $maskCharacter ? $this->maskString($part['string'], $maskCharacter) : $part['string'];
-               $output .= ($this->tagName && $this->tagClass) ? $this->addTag($word) : $word;
+               $output .= ($this->tagName) ? $this->addTag($word) : $word;
                continue;
            }
 
