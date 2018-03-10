@@ -95,7 +95,7 @@ class ItemController extends Controller
      */
     public function list(ItemRepository $itemRepository)
     {
-        $items = $itemRepository->findBy([], ['dueAt' => 'ASC']);
+        $items = $itemRepository->findAllWithFetchJoin();
 
         return $this->render('admin/list.html.twig',
             [

@@ -28,6 +28,24 @@ class ItemRepository extends ServiceEntityRepository
         $this->dateTimeProvider = $dateTimeProvider;
     }
 
+
+    /**
+     * Explicitly joining the other entities reduces the number of DB requests drastically
+     *
+     * @return array|null
+     */
+    public function findAllWithFetchJoin(): ?array {
+        $em = $this->getEntityManager();
+
+        return $em->createQuery(
+            'SELECT i, c, r FROM App\Entity\Item i
+                  LEFT JOIN i.categories c
+                  LEFT JOIN i.ratings r
+                  ORDER BY i.dueAt ASC'
+        )
+            ->execute();
+    }
+
     /**
      * @return Item|null
      */
