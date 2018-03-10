@@ -63,6 +63,6 @@ class AppExtension extends AbstractExtension
 
     public function hideWords(string $text, $maskCharacter=null, $tagClass='', $tagname='strong'): string
     {
-        return $this->itemFilters->replaceMarkerWithHtmlTag($text, $maskCharacter, $tagname, $tagClass);
+        return $this->itemFilters->replaceMarker($text, $maskCharacter, $tagname, $tagClass);
     }
 }

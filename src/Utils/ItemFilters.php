@@ -67,11 +67,11 @@ class ItemFilters
         return $output;
     }
 
-    public function replaceMarkerWithHtmlTag(
+    public function replaceMarker(
         string $text,
         ?string $maskCharacter = null,
-        string $tagName = 'span',
-        string $tagClass = 'marker-replaced'
+        string $tagName = null,
+        string $tagClass = null
     ): string
     {
         $this->tagName = $tagName;
@@ -84,7 +84,7 @@ class ItemFilters
         foreach ($splitText as $part){
            if($part['hidden']){
                $word = $maskCharacter ? $this->maskString($part['string'], $maskCharacter) : $part['string'];
-               $output .= $this->addTag($word);
+               $output .= ($this->tagName && $this->tagClass) ? $this->addTag($word) : $word;
                continue;
            }
 

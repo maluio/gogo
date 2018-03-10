@@ -24,7 +24,7 @@ class ItemFiltersTest extends TestCase
 
         $this->assertEquals(
             'Hi, please <span class="marker-replaced">****</span> me',
-            $this->itemFilters->replaceMarkerWithHtmlTag($input, '*')
+            $this->itemFilters->replaceMarker($input, '*', 'span', 'marker-replaced')
         );
     }
 
@@ -34,8 +34,8 @@ class ItemFiltersTest extends TestCase
 
         $this->assertEquals(
             'Hi, please <span class="marker-replaced">hide</span> me',
-            $this->itemFilters->replaceMarkerWithHtmlTag(
-                $input
+            $this->itemFilters->replaceMarker(
+                $input, null, 'span', 'marker-replaced'
             )
         );
     }
@@ -46,7 +46,7 @@ class ItemFiltersTest extends TestCase
 
         $this->assertEquals(
             'Hi, please <span class="classy">****</span> me',
-            $this->itemFilters->replaceMarkerWithHtmlTag($input, '*', 'span', 'classy')
+            $this->itemFilters->replaceMarker($input, '*', 'span', 'classy')
         );
     }
 
@@ -56,7 +56,7 @@ class ItemFiltersTest extends TestCase
 
         $this->assertEquals(
             'Hi, please <span class="marker-replaced">****</span> me and <span class="marker-replaced">**</span>, too',
-            $this->itemFilters->replaceMarkerWithHtmlTag($input, '*')
+            $this->itemFilters->replaceMarker($input, '*', 'span', 'marker-replaced')
         );
     }
 
@@ -66,7 +66,7 @@ class ItemFiltersTest extends TestCase
 
         $this->assertEquals(
             'Hi, please <span class="marker-replaced">*****</span> <span class="marker-replaced">**</span> <span class="marker-replaced">**</span>',
-            $this->itemFilters->replaceMarkerWithHtmlTag($input, '*')
+            $this->itemFilters->replaceMarker($input, '*', 'span', 'marker-replaced')
         );
     }
 
