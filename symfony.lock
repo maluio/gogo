@@ -167,12 +167,6 @@
     "psr/simple-cache": {
         "version": "1.0.0"
     },
-    "sendgrid/php-http-client": {
-        "version": "3.8.0"
-    },
-    "sendgrid/sendgrid": {
-        "version": "6.0.0"
-    },
     "sensio/framework-extra-bundle": {
         "version": "4.0",
         "recipe": {
