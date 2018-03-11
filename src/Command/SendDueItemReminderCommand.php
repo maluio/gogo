@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class SendReminderCommand extends ContainerAwareCommand
+class SendDueItemReminderCommand extends ContainerAwareCommand
 {
 
     /**
@@ -61,7 +61,7 @@ class SendReminderCommand extends ContainerAwareCommand
         }
 
         $message = new \Swift_Message();
-        $message->setSubject(count($dueItems))
+        $message->setSubject(count($dueItems) . ' due items are waiting')
             ->setContentType('text/html')
             ->setBody(
                 $this->dueItemReminderMail->createContent($dueItems)
