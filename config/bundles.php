@@ -17,4 +17,5 @@ return [
     Knp\Bundle\MarkdownBundle\KnpMarkdownBundle::class => ['all' => true],
     JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
     FOS\JsRoutingBundle\FOSJsRoutingBundle::class => ['all' => true],
+    Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle::class => ['all' => true],
 ];
