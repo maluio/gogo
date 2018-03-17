@@ -2,12 +2,17 @@ dev: down up composer logs
 
 prod: down prod-up js-routes prod-assets reverse-proxy-up permissions
 
+prod-quick: down prod-up-without-build reverse-proxy-up permissions
+
 prod-up:
 	docker-compose -f docker-compose.yml -f docker-compose-production.yml up -d --build
 	docker-compose exec app composer install --no-dev --optimize-autoloader
 	docker-compose exec app bin/console cache:clear
 
 prod-assets: yarn-install yarn-prod js-routes
+
+prod-up-without-build:
+	docker-compose -f docker-compose.yml -f docker-compose-production.yml up -d
 
 reverse-proxy-down:
 	cd ../reverse-proxy/ && docker-compose down && cd -
