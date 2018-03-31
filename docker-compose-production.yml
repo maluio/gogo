@@ -6,6 +6,6 @@ services:
      - ./prod.env
     environment:
       - APP_ENV=prod
-  nginx:
+  web:
     environment:
       - VIRTUAL_HOST=gogo.*

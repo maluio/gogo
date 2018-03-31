@@ -14,8 +14,8 @@ services:
     #links:
       #- db
     networks:
-      - back
-  nginx:
+      - private
+  web:
     build:
       context: ./docker/nginx
       dockerfile: ./Dockerfile
@@ -25,7 +25,8 @@ services:
       - ./public:/srv/symfony/public:ro
     networks:
       - reverse-proxy
-      - back
+      - private
+      - shared
     environment:
       - VIRTUAL_HOST=gogo-staging.*
   node:
@@ -35,7 +36,7 @@ services:
     volumes:
       - ./:/home/node/app
     networks:
-      - back
+      - private
 
 # uncomment for mySql
 #  db:
@@ -49,11 +50,14 @@ services:
 #      - MYSQL_PASSWORD=gogo
 #      - MYSQL_USER=gogo
 #    networks:
-#      - back
+#      - private
 
 networks:
   reverse-proxy:
     external:
       name: reverseproxy_default
-  back:
+  shared:
+    external:
+      name: shared
+  private:
     driver: bridge
