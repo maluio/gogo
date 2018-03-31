@@ -14,15 +14,9 @@ prod-assets: yarn-install yarn-prod js-routes
 prod-up-without-build:
 	docker-compose -f docker-compose.yml -f docker-compose-production.yml up -d
 
-reverse-proxy-down:
-	cd ../reverse-proxy/ && docker-compose down && cd -
+up: docker-up permissions
 
-reverse-proxy-up:
-	cd ../reverse-proxy/ && docker-compose up -d && cd -
-
-up: docker-up reverse-proxy-up permissions
-
-down: reverse-proxy-down docker-down
+down: docker-down
 
 docker-up:
 	docker-compose up -d
