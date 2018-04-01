@@ -5,6 +5,7 @@ services:
     image: malulu/php-7.1:latest
     environment:
       - DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db
+      - HOSTNAME_OUTER_HOST=${HOSTNAME}
       # uncomment for mysql
       # - DATABASE_URL=mysql://gogo:gogo@db:3306/gogo
       - LOCALE=en

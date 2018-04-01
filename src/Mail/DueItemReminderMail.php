@@ -36,6 +36,10 @@ class DueItemReminderMail
 
         $content = '';
 
+        if(getenv('HOSTNAME_OUTER_HOST')){
+            $content = 'gogo.' . getenv('HOSTNAME_OUTER_HOST') . PHP_EOL;
+        }
+
         foreach ($items as $item) {
             $renderedItem = $this->itemFilters->replaceMarker($item->getQuestion(), AppConstants::MASK_CHARACTER);
 
