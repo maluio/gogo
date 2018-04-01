@@ -28,7 +28,9 @@ services:
       - private
       - shared
     environment:
-      - VIRTUAL_HOST=gogo-staging.*
+      - VIRTUAL_HOST=gogo-staging.${HOSTNAME}
+      - LETSENCRYPT_HOST=gogo-staging.${HOSTNAME}
+      - LETSENCRYPT_EMAIL=${EMAIL}
   node:
     image: "node:8"
     user: "root"
