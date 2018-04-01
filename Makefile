@@ -1,8 +1,8 @@
 dev: down up composer logs
 
-prod: down prod-up js-routes prod-assets reverse-proxy-up permissions
+prod: down prod-up js-routes prod-assets permissions
 
-prod-quick: down prod-up-without-build reverse-proxy-up permissions
+prod-quick: down prod-up-without-build permissions
 
 prod-up:
 	docker-compose -f docker-compose.yml -f docker-compose-production.yml up -d --build
