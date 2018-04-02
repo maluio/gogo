@@ -6,6 +6,9 @@ use App\Entity\Item;
 use App\Mail\DueItemReminderMail;
 use App\Mail\MailProviderInterface;
 use App\Repository\ItemRepository;
+use PhpAmqpLib\Connection\AMQPConnection;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -60,7 +63,21 @@ class SendDueItemReminderCommand extends ContainerAwareCommand
             return;
         }
 
-        $message = new \Swift_Message();
+        $connection = new AMQPStreamConnection('messagebroker_broker_1', 5672, 'malu', 'bhtdrk');
+        $channel = $connection->channel();
+
+        $channel->queue_declare('tasks', false, true, false, false);
+
+
+        $msg = new AMQPMessage('hi there');
+
+        $channel->basic_publish($msg);
+
+        $channel->close();
+        $connection->close();
+
+
+/*        $message = new \Swift_Message();
         $message->setSubject(count($dueItems) . ' due items are waiting')
             ->setContentType('text/html')
             ->setBody(
@@ -69,7 +86,9 @@ class SendDueItemReminderCommand extends ContainerAwareCommand
             ->setFrom("do-not-reply@example.com")
             ->setTo(getenv('MAIL_RECIPIENT'));
 
-        $numberOfSuccessfulRecipients = $this->mailer->send($message);
-        $output->writeln('Number of successful recipients: ' . $numberOfSuccessfulRecipients);
+        $numberOfSuccessfulRecipients = $this->mailer->send($message);*/
+
+
+        //$output->writeln('Number of successful recipients: ' . $numberOfSuccessfulRecipients);
     }
 }

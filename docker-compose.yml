@@ -16,6 +16,7 @@ services:
       #- db
     networks:
       - private
+      - shared
   web:
     build:
       context: ./docker/nginx
