@@ -99,4 +99,16 @@ class ItemRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllDueWithoutReminderSent(): ?array {
+        $now = $this->dateTimeProvider->now();
+
+        return  $this->createQueryBuilder('item')
+            ->andWhere('item.dueAt < :now')
+            ->andWhere('item.isReminderSend = 0')
+            ->setParameter('now', $now->format(DateTimeFormatHelper::DB_DATE_TIME))
+            ->orderBy('item.dueAt', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 }

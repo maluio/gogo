@@ -41,22 +41,9 @@ class DueItemReminderMail
         }
 
         foreach ($items as $item) {
-            $renderedItem = $this->itemFilters->replaceMarker($item->getQuestion(), AppConstants::MASK_CHARACTER);
-
-            $stringBeforeLineBreak = strstr($renderedItem, PHP_EOL, true);
-            $renderedItem = $stringBeforeLineBreak ? $stringBeforeLineBreak : $renderedItem;
-
-            $renderedItem = substr($renderedItem, 0, 75) . ' ...';
-
-            if ($cats = $item->getCategories()->getValues()) {
-                $renderedItem = $this->createCategoryContent($cats) . $renderedItem;
-            }
-
-            $renderedItem = '* ' . $renderedItem;
-
-            $renderedItem = $this->markdownParser->transformMarkdown($renderedItem);
-
             /** @var $item Item */
+            $renderedItem = $this->renderItem($item);
+            $renderedItem = $this->markdownParser->transformMarkdown($renderedItem);
             $content .= $renderedItem;
         }
 
@@ -77,5 +64,27 @@ class DueItemReminderMail
         );
         $parsed = implode($parsed, ', ');
         return '[' . $parsed . '] ';
+    }
+
+    /**
+     * @param $item
+     * @return string
+     */
+    public function renderItem($item): string
+    {
+        $renderedItem = $this->itemFilters->replaceMarker($item->getQuestion(), AppConstants::MASK_CHARACTER);
+
+        $stringBeforeLineBreak = strstr($renderedItem, PHP_EOL, true);
+        $renderedItem = $stringBeforeLineBreak ? $stringBeforeLineBreak : $renderedItem;
+
+        $renderedItem = substr($renderedItem, 0, 75) . ' ...';
+
+        if ($cats = $item->getCategories()->getValues()) {
+            $renderedItem = $this->createCategoryContent($cats) . $renderedItem;
+        }
+
+        $renderedItem = '* ' . $renderedItem;
+        return $renderedItem;
+
     }
 }

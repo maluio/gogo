@@ -66,6 +66,12 @@ class Item
     private $categories;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean", options={"default" : 0})
+     */
+    private $isReminderSend = false;
+
+    /**
      * Item constructor.
      */
     public function __construct()
@@ -223,8 +229,19 @@ class Item
         }
     }
 
-    public function getParsedQuestion(): string {
-
+    /**
+     * @return bool
+     */
+    public function isReminderSend(): bool
+    {
+        return $this->isReminderSend;
     }
 
+    /**
+     * @param bool $isReminderSend
+     */
+    public function setIsReminderSend(bool $isReminderSend): void
+    {
+        $this->isReminderSend = $isReminderSend;
+    }
 }

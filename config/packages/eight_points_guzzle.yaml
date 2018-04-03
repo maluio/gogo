@@ -1,0 +1,6 @@
+eight_points_guzzle:
+    clients:
+        messenger_send_message:
+            base_url: '%env(WEBHOOK_SEND_MESSAGE)%'
+            options:
+                timeout: 30

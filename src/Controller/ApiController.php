@@ -41,6 +41,7 @@ class ApiController extends Controller
 
         $item->setDueAt($newDueDate);
         $item->addRating(new Rating($rating));
+        $item->setIsReminderSend(false);
 
         $em->persist($item);
         $em->flush();
