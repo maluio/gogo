@@ -3,6 +3,9 @@ version: '3'
 services:
   app:
     image: malulu/php-7.1:latest
+    env_file:
+     - ${ENV_CONTAINER_PATH}/global.env
+     - ${ENV_CONTAINER_PATH}/gogo.global.env
     environment:
       - DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db
       - HOSTNAME_OUTER_HOST=${HOSTNAME}
@@ -32,7 +35,7 @@ services:
     environment:
       - VIRTUAL_HOST=gogo-staging.${HOSTNAME}
       - LETSENCRYPT_HOST=gogo-staging.${HOSTNAME}
-      - LETSENCRYPT_EMAIL=${EMAIL}
+      - LETSENCRYPT_EMAIL=${EMAIL_ADMIN}
   node:
     image: "node:8"
     user: "root"

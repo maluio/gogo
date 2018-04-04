@@ -3,7 +3,7 @@ version: '3'
 services:
   app:
     env_file:
-     - ./prod.env
+     - ${ENV_CONTAINER_PATH}/gogo.prod.env
     environment:
       - APP_ENV=prod
   web:
