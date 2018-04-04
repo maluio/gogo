@@ -8,6 +8,7 @@ prod-up:
 	docker-compose -f docker-compose.yml -f docker-compose-production.yml up -d --build
 	docker-compose exec -T app composer install --no-dev --optimize-autoloader
 	docker-compose exec -T app bin/console cache:clear
+	docker-compose exec -T app bin/console doctrine:schema:update --force
 
 prod-assets: yarn-install yarn-prod js-routes
 
