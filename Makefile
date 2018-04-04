@@ -66,7 +66,7 @@ node:
 travis: docker-up composer js-routes yarn-install encore test
 
 js-routes:
-	docker-compose exec app bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json
+	docker-compose exec -T app bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json
 
 run-shell:
 	docker run -v /Users/malu/proj/gogo:/srv/symfony -it malulu/php-7.1:latest sh
