@@ -6,8 +6,8 @@ prod-quick: down prod-up-without-build permissions
 
 prod-up:
 	docker-compose -f docker-compose.yml -f docker-compose-production.yml up -d --build
-	docker-compose exec app composer install --no-dev --optimize-autoloader
-	docker-compose exec app bin/console cache:clear
+	docker-compose exec -T app composer install --no-dev --optimize-autoloader
+	docker-compose exec -T app bin/console cache:clear
 
 prod-assets: yarn-install yarn-prod js-routes
 
@@ -25,7 +25,7 @@ docker-down:
 	docker-compose down
 
 permissions:
-	docker-compose exec app chown -R www-data var
+	docker-compose exec -T app chown -R www-data var
 
 logs:
 	docker-compose logs -f
@@ -40,7 +40,7 @@ migrate:
 	docker-compose exec app php bin/console doctrine:migrations:migrate
 
 fixtures:
-	docker-compose exec app php bin/console doctrine:fixtures:load -n
+	docker-compose exec -T app php bin/console doctrine:fixtures:load -n
 
 db:
 	docker-compose run app sqlite3 var/data.db
