@@ -32,6 +32,10 @@ class Note
     {
         $this->createdAt = new \DateTime();
     }
+    public function __clone()
+    {
+        $this->id = null;
+    }
 
     /**
      * @return mixed

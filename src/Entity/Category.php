@@ -50,6 +50,12 @@ class Category
         return $this->name;
     }
 
+    public function __clone()
+    {
+        $this->id = null;
+        $this->items = new ArrayCollection();
+    }
+
     /**
      * @return int
      */
@@ -77,7 +83,7 @@ class Category
     /**
      * @return ArrayCollection|Item[]
      */
-    public function getItems(): array
+    public function getItems()
     {
         return $this->items;
     }

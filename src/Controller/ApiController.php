@@ -3,15 +3,12 @@
 
 namespace App\Controller;
 
-use App\AppConstants;
 use App\Entity\Item;
 use App\Entity\Rating;
 use App\Learn\LearnHandlerInterface;
 use App\Repository\ItemRepository;
 use App\Utils\DateTimeFormatHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\Serializer\Serializer;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -68,6 +65,24 @@ class ApiController extends Controller
 
         return new JsonResponse($json, 200, [], true);
 
+    }
+
+    /**
+     * @Route("/migrate", options={"expose"=true}, name="api_migrate", methods={"GET"})
+     */
+    public function migrate(){
+        /** @var EntityManagerInterface $emNew */
+        $emNew = $this->get('doctrine.orm.new_entity_manager');
+
+        $items = $this->getDoctrine()->getRepository(Item::class, 'default')->findAll();
+        /* @var $item Item */
+        foreach ($items as $item){
+            $newItem = clone $item;
+            $emNew->persist($newItem);
+        }
+        $emNew->flush();
+
+        return new JsonResponse('ok');
     }
 
 }

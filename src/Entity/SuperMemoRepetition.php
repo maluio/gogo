@@ -22,7 +22,7 @@ class SuperMemoRepetition
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="`interval`"    )
      * @var int
      */
     private $interval;
@@ -48,6 +48,20 @@ class SuperMemoRepetition
     public function __construct()
     {
         $this->repeatedAt = new \DateTime();
+    }
+
+    public function __clone()
+    {
+        $this->id = null;
+        $this->item = null;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     /**

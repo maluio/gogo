@@ -43,6 +43,12 @@ class Rating
         $this->value = $value;
     }
 
+    public function __clone()
+    {
+        $this->id = null;
+        $this->item = null;
+    }
+
     /**
      * @return int
      */

@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
+use App\Utils\ObjectStorage;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ItemRepository")
@@ -59,7 +60,7 @@ class Item
     private $superMemoRepetitions;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Category")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category", cascade="persist")
      * @Expose
      * @var ArrayCollection|Category[]
      */
@@ -80,6 +81,36 @@ class Item
         $this->ratings = new ArrayCollection();
         $this->superMemoRepetitions = new ArrayCollection();
         $this->categories = new ArrayCollection();
+    }
+
+    public function __clone()
+    {
+       $this->id = null;
+
+       foreach ($this->getSuperMemoRepetitions() as $smr){
+           if(!isset(ObjectStorage::$superMemoMapping[$smr->getId()])){
+               ObjectStorage::$superMemoMapping[$smr->getId()] = clone $smr;
+           }
+           $this->removeSuperMemoRepetition($smr);
+           $this->addSuperMemoRepetition(ObjectStorage::$superMemoMapping[$smr->getId()]);
+       }
+
+        foreach ($this->getCategories() as $category){
+            if(!isset(ObjectStorage::$categoryMapping[$category->getId()])){
+                ObjectStorage::$categoryMapping[$category->getId()] = clone $category;
+            }
+            $this->removeCategory($category);
+            $this->addCategory(ObjectStorage::$categoryMapping[$category->getId()]);
+
+        }
+
+        foreach ($this->ratings as $rating){
+            if(!isset(ObjectStorage::$ratingMapping[$rating->getId()])){
+                ObjectStorage::$ratingMapping[$rating->getId()] = clone $rating;
+            }
+            $this->removeRating($rating);
+            $this->addRating(ObjectStorage::$ratingMapping[$rating->getId()]);
+        }
     }
 
     /**
@@ -163,6 +194,12 @@ class Item
         $this->ratings->add($rating);
     }
 
+    public function removeRating(Rating $rating){
+        if($this->ratings->contains($rating)){
+            $this->ratings->removeElement($rating);
+        }
+    }
+
     /**
      * @return SuperMemoRepetition[]|ArrayCollection
      */
@@ -185,6 +222,15 @@ class Item
     public function addSuperMemoRepetition(SuperMemoRepetition $superMemoRepetition): void {
         $superMemoRepetition->setItem($this);
         $this->superMemoRepetitions->add($superMemoRepetition);
+    }
+
+    /**
+     * @param SuperMemoRepetition $superMemoRepetition
+     */
+    public function removeSuperMemoRepetition(SuperMemoRepetition $superMemoRepetition){
+        if($this->superMemoRepetitions->contains($superMemoRepetition)){
+            $this->superMemoRepetitions->removeElement($superMemoRepetition);
+        }
     }
 
     /**
@@ -225,7 +271,7 @@ class Item
      */
     public function removeCategory(Category $category){
         if($this->categories->contains($category)){
-            $this->categories->remove($category);
+            $this->categories->removeElement($category);
         }
     }
 

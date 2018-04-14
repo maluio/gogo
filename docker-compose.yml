@@ -8,15 +8,11 @@ services:
      - ${ENV_CONTAINER_PATH}/gogo.global.env
     environment:
       - DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db
+      - DATABASE_URL_NEW=mysql://root:${DB_PW}@servus_db_1:3306/gogo
       - HOSTNAME_OUTER_HOST=${HOSTNAME}
-      # uncomment for mysql
-      # - DATABASE_URL=mysql://gogo:gogo@db:3306/gogo
       - LOCALE=en
     volumes:
       - .:/srv/symfony:rw
-    # uncomment for mysql
-    #links:
-      #- db
     networks:
       - private
       - shared
