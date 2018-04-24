@@ -74,7 +74,7 @@ class Learn extends React.Component {
                 headers: {
                     'Authorization': this.props.pw
                 },
-                credentials: 'same-origin'
+                credentials: 'include'
             })
             .then(res => res.json())
             .then(
