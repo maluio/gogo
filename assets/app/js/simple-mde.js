@@ -14,9 +14,10 @@ module.exports = function ($) {
             '\n<pre>\n<code class="' + language + '">\n' + selection + '\n</code>\n</pre>\n'
         );
     }
+    let instances = [];
 
     $('textarea').each(function () {
-        new simpleMDE({
+        let instance = new simpleMDE({
             element: $(this)[0],
             forceSync: true,
             spellChecker: false,
@@ -63,5 +64,7 @@ module.exports = function ($) {
                 }
             ],
         });
+        instances.push(instance);
     });
+    return instances;
 };

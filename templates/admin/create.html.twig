@@ -1,6 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
+<div id="js-content-adder">
+    <input id="search" type="text"></div>
+    <button id="trigger-search">search</button>
+    <div id="content"></div>
+</div>
+
 {{ include('admin/_form.html.twig', {
     'label':'create',
     'button_id':'create'
