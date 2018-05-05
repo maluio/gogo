@@ -29,10 +29,43 @@ export class Cards extends React.Component {
     renderNextItemButton() {
         return (
             <div className="col-5 offset-2">
-            {this.props.rated ?
-                <button onClick={() => this.props.nextItem()} className="btn btn-info btn-light btn-lg btn-block">
-                    <span className="oi oi-arrow-thick-right"></span>
-                </button> : null}
+                {this.props.rated ?
+                    <button onClick={() => this.props.nextItem()} className="btn btn-info btn-light btn-lg btn-block">
+                        <span className="oi oi-arrow-thick-right"></span>
+                    </button> : null}
+            </div>
+        )
+    }
+
+    speak(text){
+        //strip html tags
+        text = text.replace(/<(?:.|\n)*?>/gm, '');
+        let synth = window.speechSynthesis;
+        let voices = synth.getVoices();
+        voices = voices.filter(voice => voice.lang === 'fr-FR');
+
+        let utterThis = new SpeechSynthesisUtterance(text);
+        utterThis.onend = function (event) {
+            //console.log('SpeechSynthesisUtterance.onend');
+        };
+        utterThis.onerror = function (event) {
+            //console.error('SpeechSynthesisUtterance.onerror');
+        };
+        utterThis.voice = voices[0];
+        //utterThis.pitch = pitch.value;
+       // utterThis.rate = rate.value;
+        synth.speak(utterThis);
+
+
+    }
+
+    renderButtonAndAnswer() {
+        return (
+            <div>
+                <button onClick={() => this.speak(this.props.item.html.answer)} className="btn btn-light">
+                    <span className="oi oi-media-play"></span>
+                </button>
+                <Card content={this.props.item.html.answer}/>
             </div>
         )
     }
@@ -41,7 +74,7 @@ export class Cards extends React.Component {
         return (
             <div className="answer w-100">
                 {this.state.showResults && this.props.item.html.answer ?
-                    <Card content={this.props.item.html.answer}/> : null}
+                    this.renderButtonAndAnswer() : null}
             </div>
         )
     }
@@ -72,13 +105,13 @@ export class Cards extends React.Component {
         )
     }
 
-    renderCategories(){
+    renderCategories() {
 
-        return(
+        return (
             <div>
-            {this.props.item.html.categories && this.props.item.html.categories.length > 0 ?
-                <div className="row"><HtmlRaw raw={this.props.item.html.categories}/></div>
-                : null}
+                {this.props.item.html.categories && this.props.item.html.categories.length > 0 ?
+                    <div className="row"><HtmlRaw raw={this.props.item.html.categories}/></div>
+                    : null}
             </div>
         )
     }
