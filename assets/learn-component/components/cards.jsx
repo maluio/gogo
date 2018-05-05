@@ -37,44 +37,11 @@ export class Cards extends React.Component {
         )
     }
 
-    speak(text){
-        //strip html tags
-        text = text.replace(/<(?:.|\n)*?>/gm, '');
-        let synth = window.speechSynthesis;
-        let voices = synth.getVoices();
-        voices = voices.filter(voice => voice.lang === 'fr-FR');
-
-        let utterThis = new SpeechSynthesisUtterance(text);
-        utterThis.onend = function (event) {
-            //console.log('SpeechSynthesisUtterance.onend');
-        };
-        utterThis.onerror = function (event) {
-            //console.error('SpeechSynthesisUtterance.onerror');
-        };
-        utterThis.voice = voices[0];
-        //utterThis.pitch = pitch.value;
-       // utterThis.rate = rate.value;
-        synth.speak(utterThis);
-
-
-    }
-
-    renderButtonAndAnswer() {
-        return (
-            <div>
-                <button onClick={() => this.speak(this.props.item.html.answer)} className="btn btn-light">
-                    <span className="oi oi-media-play"></span>
-                </button>
-                <Card content={this.props.item.html.answer}/>
-            </div>
-        )
-    }
-
     renderAnswer() {
         return (
             <div className="answer w-100">
                 {this.state.showResults && this.props.item.html.answer ?
-                    this.renderButtonAndAnswer() : null}
+                    <Card content={this.props.item.html.answer}/> : null}
             </div>
         )
     }
