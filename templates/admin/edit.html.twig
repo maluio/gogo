@@ -1,11 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-        <div class="col col-1 offset-11">
+    <div class="row">
+        <div class="col col-1 offset-10">
+            <a href="{{ path('item_archive', {'id': item.id}) }}" style='color:blue;'>
+                <span class="oi oi-folder"></span>
+            </a>
+        </div>
+        <div class="col col-1">
             <button type="button" class="delete-item btn btn-danger" data-toggle="modal" data-target="#deleteItemModal">
                 <span class="oi oi-trash"></span>
             </button>
         </div>
+    </div>
+
 
     {{ include('admin/_form.html.twig', {
         'label':'update',

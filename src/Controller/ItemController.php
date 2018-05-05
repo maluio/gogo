@@ -6,6 +6,7 @@ use App\AppConstants;
 use App\Entity\Item;
 use App\Form\ItemType;
 use App\Repository\ItemRepository;
+use Carbon\Carbon;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -113,6 +114,19 @@ class ItemController extends Controller
         $entityManager->flush();
 
         $this->addFlash(AppConstants::FLASH_DANGER, 'Item deleted');
+
+        return $this->redirectToRoute('item_list');
+    }
+
+    /**
+     * @Route("/{id}/archive", name="item_archive")
+     */
+    public function archive (Item $item, EntityManagerInterface $entityManager){
+        $item->setDueAt(Carbon::create(3000, 1, 1, 0, 0, 0));
+        $entityManager->persist($item);
+        $entityManager->flush();
+
+        $this->addFlash(AppConstants::FLASH_DEFAULT, 'Item archived');
 
         return $this->redirectToRoute('item_list');
     }
