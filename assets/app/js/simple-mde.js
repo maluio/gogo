@@ -17,6 +17,9 @@ module.exports = function ($) {
     let instances = [];
 
     $('textarea').each(function () {
+        if( $(this).is('#item_data')){
+            return;
+        }
         let instance = new simpleMDE({
             element: $(this)[0],
             forceSync: true,

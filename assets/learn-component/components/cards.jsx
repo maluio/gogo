@@ -83,6 +83,17 @@ export class Cards extends React.Component {
         )
     }
 
+    renderImages(){
+        let images = this.props.item.data.images.map(
+            (img, index) => <img key={index} src={img}/>
+        );
+        return (
+            <div>
+                {images}
+            </div>
+        )
+    }
+
     render() {
 
         return (
@@ -90,6 +101,7 @@ export class Cards extends React.Component {
                 <div className="row"> {this.renderItemCounter()}</div>
                 {this.renderCategories()}
                 <div className="row">
+                    {this.renderImages()}
                     <Question
                         question={this.props.item.html.question}
                         questionMasked={this.props.item.html.question_masked}

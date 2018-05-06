@@ -30,6 +30,9 @@ class Learn extends React.Component {
                     question_masked: null,
                     question_split: null,
                     answer: null
+                },
+                data: {
+                    images:[]
                 }
             }
         };

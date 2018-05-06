@@ -73,6 +73,13 @@ class Item
     private $isReminderSend = false;
 
     /**
+     * @ORM\Column(type="json")
+     * @var array
+     * @Expose
+     */
+    private $data;
+
+    /**
      * Item constructor.
      */
     public function __construct()
@@ -289,5 +296,15 @@ class Item
     public function setIsReminderSend(bool $isReminderSend): void
     {
         $this->isReminderSend = $isReminderSend;
+    }
+
+    public function getData(): ?array
+    {
+        return $this->data;
+    }
+
+    public function setData(array $data): void
+    {
+        $this->data = $data;
     }
 }
