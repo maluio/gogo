@@ -47,9 +47,6 @@ class Learn extends React.Component {
             this.props.routing.generate('api_get_items') + '?due=true',
             {
                 method: 'GET',
-                headers: {
-                    'Authorization': this.props.pw
-                },
                 credentials: 'same-origin'
             })
             .then(res => res.json())
@@ -75,9 +72,6 @@ class Learn extends React.Component {
                 body: JSON.stringify({
                     learn_rating: rating,
                 }),
-                headers: {
-                    'Authorization': this.props.pw
-                },
                 credentials: 'same-origin'
             })
             .then(res => res.json())
@@ -148,4 +142,4 @@ class Learn extends React.Component {
     }
 }
 
-ReactDOM.render(<Learn pw={GoGo.basicAuthValue} routing={Routing}/>, document.getElementById("learn-jsx"));
+ReactDOM.render(<Learn routing={Routing}/>, document.getElementById("learn-jsx"));

@@ -21,10 +21,6 @@ class LearnController extends Controller
     public function provideReactSkeleton(Request $request)
     {
 
-        return $this->render('learn/react.html.twig',
-            [
-                'basicAuthValue' => $request->headers->get('Authorization')
-            ]
-        );
+        return $this->render('learn/react.html.twig');
     }
 }

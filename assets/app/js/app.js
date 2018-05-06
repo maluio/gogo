@@ -10,8 +10,6 @@ require('open-iconic/font/css/open-iconic-bootstrap.css');
 // simple mde
 let simpleMde = require('./simple-mde');
 
-let contentAdder = require('./content_adder');
-
 // highlight js
 // stored in assets/libs because the is no minified dist in the node package and I prefer the minified version
 // for dev, too.
@@ -28,6 +26,4 @@ $(function () {
     highlightJs.initHighlightingOnLoad();
 
     listView($);
-
-    contentAdder($, instances);
 });
