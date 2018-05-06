@@ -85,7 +85,7 @@ export class Cards extends React.Component {
 
     renderImages(){
         let images = this.props.item.data.images.map(
-            (img, index) => <img key={index} src={img}/>
+            (img, index) => <img className="img-thumbnail" key={index} src={img.url}/>
         );
         return (
             <div>

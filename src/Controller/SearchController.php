@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SearchController extends Controller
 {
-    const MAX_NUMBER_OF_IMAGES = 2;
+    const MAX_NUMBER_OF_IMAGES = 10;
 
     /**
      * @Route("/{term}", name="search", options={"expose"=true}, methods={"GET"})
@@ -27,7 +27,8 @@ class SearchController extends Controller
 
         foreach ($result->value as $img) {
             if (false !== strpos($img->contentUrl, 'https')) {
-                $image['url'] = $img->contentUrl;
+                $image['url'] = $img->thumbnailUrl;
+                $image['url_original'] = $img->contentUrl;
                 $image['url_thumbnail'] = $img->thumbnailUrl;
                 $images[] = $image;
             }

@@ -2,6 +2,7 @@
 
 //let React = require('react');
 //let ReactDOM = require('react-dom');
+require('./admin.scss');
 
 
 import {ImageManager} from "./imageManager";
@@ -11,10 +12,15 @@ class Admin extends React.Component {
 
     constructor() {
         let data = document.getElementById('item_data').value;
-
+        data = JSON.parse(data);
+        if(!data){
+            data = {
+                images:[]
+            }
+        }
         super();
         this.state = {
-            data: JSON.parse(data),
+            data: data,
             searchTerm: '',
             newImages: []
         };

@@ -64,10 +64,12 @@ export class ImageManager extends React.Component {
         let images = imagesToRender.map(
             (img, index) => {
                 return (
-                    <div key={index}>
-                        <img className={"img-thumbnail"} src={img.url_thumbnail}/>
-                        <button onClick={()=>this.removeImage(img)}>delete</button>
-                    </div>
+                        <img
+                            key={index}
+                            className={"img-thumbnail existing-image"}
+                            src={img.url}
+                            onClick={()=>this.removeImage(img)}
+                        />
                 );
             }
 
@@ -83,10 +85,12 @@ export class ImageManager extends React.Component {
         let images = imagesToRender.map(
             (img, index) => {
                 return (
-                    <div key={index}>
-                        <img className={"img-thumbnail"} src={img.url_thumbnail}/>
-                        <button onClick={()=>this.addImage(img)}>add</button>
-                    </div>
+                        <img
+                            key={index}
+                            className={"img-thumbnail new-image"}
+                            src={img.url}
+                            onClick={()=>this.addImage(img)}
+                        />
                 );
             }
 
@@ -100,14 +104,22 @@ export class ImageManager extends React.Component {
 
     render() {
         return (
-            <div>
+            <div id="imageManager">
                 {this.renderNewImages(this.state.newImages)}
-                <input
-                    value={this.state.searchTerm}
-                    onChange={this.handleSearchChange}
-                    type="text"
-                />
-                <button onClick={() => this.searchImages(this.state.searchTerm)}><span className="oi oi-question-mark"></span></button>
+                    <div className="form-group">
+                    <input
+                        className="form-control"
+                        value={this.state.searchTerm}
+                        onChange={this.handleSearchChange}
+                        type="text"
+                    />
+                    <button
+                        onClick={() => this.searchImages(this.state.searchTerm)}
+                        className="form-control"
+                    >
+                        <span className="oi oi-question-mark"></span>
+                    </button>
+                </div>
                 {this.renderImages(this.props.images)}
             </div>
         )

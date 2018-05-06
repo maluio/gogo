@@ -16,6 +16,7 @@ Encore
     .addStyleEntry('css/learn', './assets/learn-component/learn.scss')
     .addEntry('js/learn', './assets/learn-component/learn.jsx')
 
+    .addStyleEntry('css/admin', './assets/admin-component/admin.scss')
     .addEntry('js/admin', './assets/admin-component/admin.jsx')
 
     // uncomment if you use Sass/SCSS files

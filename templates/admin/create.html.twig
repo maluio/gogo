@@ -2,10 +2,8 @@
 
 {% block body %}
 
-<div class="row">
-    {{ include('admin/_form.html.twig', {
-        'label':'create',
-        'button_id':'create'
-    }) }}
-</div>
+{{ include('admin/_form.html.twig', {
+    'label':'create',
+    'button_id':'create'
+}) }}
 {% endblock %}
