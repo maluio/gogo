@@ -16,9 +16,9 @@ class SearchController extends Controller
     const MAX_NUMBER_OF_IMAGES = 10;
 
     /**
-     * @Route("/{term}", name="search", options={"expose"=true}, methods={"GET"})
+     * @Route("/{term}", name="search_images", options={"expose"=true}, methods={"GET"})
      */
-    public function search(string $term)
+    public function searchImages(string $term)
     {
 
         $result = json_decode($this->bingImageSearch($term));
@@ -40,7 +40,7 @@ class SearchController extends Controller
         return new JsonResponse($images);
     }
 
-    public function bingImageSearch($query)
+    private function bingImageSearch($query)
     {
         // Prepare HTTP request
         // NOTE: Use the key 'http' even if you are making an HTTPS request. See:

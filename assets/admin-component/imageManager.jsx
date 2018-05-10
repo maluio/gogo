@@ -10,18 +10,20 @@ export class ImageManager extends React.Component {
         super();
         this.state = {
             searchTerm: '',
-            newImages: []
+            newImages: [],
+            imageUrl: ''
         };
 
         this.handleSearchChange = this.handleSearchChange.bind(this);
         this.searchImages = this.searchImages.bind(this);
         this.removeImage = this.removeImage.bind(this);
+        this.handleImageUrlChanges = this.handleImageUrlChanges.bind(this);
 
     }
 
     searchImages(term) {
         fetch(
-            Routing.generate('search', {term: term}),
+            Routing.generate('search_images', {term: term}),
             {
                 method: 'GET',
                 credentials: 'same-origin'
@@ -102,9 +104,46 @@ export class ImageManager extends React.Component {
         )
     }
 
+    handleImageUrlChanges(event){
+        this.setState({imageUrl: event.target.value});
+    }
+
+    addImageUrl(url){
+        if (!url) {
+            return;
+        }
+        this.addImage({
+            'url': url,
+            'url_original': url,
+            'url_thubmnail': url
+            }
+        )
+    }
+
+
+    renderAddImageUrl(){
+
+        return (
+            <div>
+                <input
+                    className="form-control"
+                    value={this.state.imageUrl}
+                    onChange={this.handleImageUrlChanges}
+                    type="text"
+                    placeholder="Add image url"
+                />
+                <button
+                    onClick={() => this.addImageUrl(this.state.imageUrl)}
+                    className="form-control"
+                >Past and add image url</button>
+            </div>
+        )
+    }
+
     render() {
         return (
             <div id="imageManager">
+                {this.renderAddImageUrl()}
                 {this.renderNewImages(this.state.newImages)}
                     <div className="form-group">
                     <input
@@ -112,6 +151,7 @@ export class ImageManager extends React.Component {
                         value={this.state.searchTerm}
                         onChange={this.handleSearchChange}
                         type="text"
+                        placeholder="Search images"
                     />
                     <button
                         onClick={() => this.searchImages(this.state.searchTerm)}
