@@ -1,4 +1,7 @@
 {
+    "aws/aws-sdk-php": {
+        "version": "3.55.10"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -145,6 +148,9 @@
     },
     "monolog/monolog": {
         "version": "1.23.0"
+    },
+    "mtdowling/jmespath.php": {
+        "version": "2.4.0"
     },
     "myclabs/deep-copy": {
         "version": "1.7.0"

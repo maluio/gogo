@@ -6,6 +6,7 @@ require('./admin.scss');
 
 
 import {ImageManager} from "./imageManager";
+import {Words} from "./words";
 
 
 class Admin extends React.Component {
@@ -15,7 +16,8 @@ class Admin extends React.Component {
         data = JSON.parse(data);
         if(!data){
             data = {
-                images:[]
+                images:[],
+                words: []
             }
         }
         super();
@@ -37,9 +39,19 @@ class Admin extends React.Component {
         this.updateData(data)
     }
 
+    updateWords(words){
+        let data = this.state.data;
+        data.words = words;
+        this.updateData(words)
+    }
+
     render() {
         return (
             <div id="admin-view">
+                <Words
+                    words={this.state.words}
+                    updateWords={(words) => this.updateWords(words)}
+                />
                 <ImageManager
                     images={this.state.data.images}
                     updateImages={(images) => this.updateImages(images)}
