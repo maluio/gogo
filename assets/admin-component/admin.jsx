@@ -23,8 +23,7 @@ class Admin extends React.Component {
                     {
                         lemma: '',
                         forms: [],
-                        type: null,
-                        gender: null
+                        gender: ''
                     }
             }
         }
