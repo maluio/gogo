@@ -5,7 +5,7 @@ export class Phrases extends React.Component {
         this.state = {
             newPhrase: {
                 content: '',
-                language: '',
+                language: 'fr',
                 url_source: ''
             }
         };
@@ -69,10 +69,10 @@ export class Phrases extends React.Component {
                         {phrase.content}
                     </td>
                     <td>
-                        {phrase.language}
+                        {phrase.url_source}
                     </td>
                     <td>
-                        {phrase.url_source}
+                        {phrase.language}
                     </td>
                     <td>
                         <button onClick={() => this.removePhrase(phrase)}>remove</button>
@@ -94,10 +94,10 @@ export class Phrases extends React.Component {
                         Content
                     </th>
                     <th>
-                        Language
+                        Source
                     </th>
                     <th>
-                        Source
+                        Language
                     </th>
                     <th>
                         Operations
@@ -108,13 +108,13 @@ export class Phrases extends React.Component {
                 {this.renderPhrases()}
                 <tr>
                     <th>
-                        <input value={this.state.newPhrase.content} onChange={this.handleContentChange}/>
+                        <input value={this.state.newPhrase.content} placeholder="content" onChange={this.handleContentChange}/>
                     </th>
                     <th>
-                        <input value={this.state.newPhrase.language} onChange={this.handleLanguageChange}/>
+                        <input value={this.state.newPhrase.url_source} placeholder="source url" onChange={this.handleSourceChange}/>
                     </th>
                     <th>
-                        <input value={this.state.newPhrase.url_source} onChange={this.handleSourceChange}/>
+                        <input value={this.state.newPhrase.language} placeholder="language" onChange={this.handleLanguageChange}/>
                     </th>
                     <th>
                         <button onClick={this.addPhrase}>Add</button>
