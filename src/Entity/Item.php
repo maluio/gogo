@@ -24,7 +24,7 @@ class Item
     private $id;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      * @var string
      * @Expose
      */
@@ -139,7 +139,7 @@ class Item
     /**
      * @param string $question
      */
-    public function setQuestion(string $question): void
+    public function setQuestion(?string $question): void
     {
         $this->question = $question;
     }

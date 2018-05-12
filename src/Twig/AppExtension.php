@@ -61,8 +61,11 @@ class AppExtension extends AbstractExtension
         return $this->noteRepository->getNotesCount();
     }
 
-    public function hideWords(string $text, $maskCharacter=null, $tagClass='', $tagname='strong'): string
+    public function hideWords(?string $text, $maskCharacter=null, $tagClass='', $tagname='strong'): string
     {
+        if(null === $text){
+            return '';
+        }
         return $this->itemFilters->replaceMarker($text, $maskCharacter, $tagname, $tagClass);
     }
 }
