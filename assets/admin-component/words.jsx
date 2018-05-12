@@ -3,11 +3,13 @@ import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/pu
 
 Routing.setRoutingData(routes);
 
+// not used at the moment
 class Word {
-    constructor(chars, language) {
-        this.chars = chars;
+    constructor(lemma, language, wordClass=null, genus=null) {
+        this.lemma = lemma;
         this.language = language;
-        this.gender = gender;
+        this.wordClass = wordClass;
+        this.genus = genus;
     }
 }
 
@@ -17,11 +19,15 @@ export class Words extends React.Component {
         super();
         this.state = {
             term: '',
-            translation: ''
+            translations: [],
+            translationList: ''
         };
 
         this.translate = this.translate.bind(this);
         this.handleTranslateState = this.handleTranslateState.bind(this);
+        this.renderTranslationList = this.renderTranslationList.bind(this);
+        this.addWord = this.addWord.bind(this);
+        this.removeWord = this.removeWord.bind(this);
 
     }
 
@@ -43,13 +49,65 @@ export class Words extends React.Component {
                 (result) => {
                     this.setState((prevState, props) => {
                         return {
-                            translation: result.translatedText,
+                            translations: result,
                         }
                     });
+                    this.renderTranslationList()
                 },
                 (error) => {
                 }
             )
+    }
+
+    addWord(word){
+        let words = this.props.words;
+        words.push(
+            {
+                lemma: word.translatedText,
+                language: word.language
+            }
+        );
+
+        this.props.updateWords(words);
+    }
+
+    removeWord(word){
+        let words = this.props.words;
+
+        this.props.updateWords(words.filter((w) => w.lemma !== word.lemma));
+    }
+
+    renderTranslationList(){
+        let items = this.state.translations.map((translation, index) =>
+            <li
+                key={index}
+                onClick={() => this.addWord(translation)}
+            >
+                {translation.translatedText}
+            </li>
+        );
+        this.setState((prevState, props) => {
+            return {
+                translationList: (
+                    <div>
+                        <h3>New Words</h3>
+                        <ul>
+                            {items}
+                        </ul>
+                    </div>
+                ),
+            }
+        });
+    }
+
+    renderWords(){
+        return(
+            <ul>
+                {this.props.words.map((word, index)=> <li key={index} onClick={()=>this.removeWord(word)}>
+                    {word.lemma} ({word.language})
+                </li>)}
+            </ul>
+        )
     }
 
     render (){
@@ -62,13 +120,13 @@ export class Words extends React.Component {
                     type="text"
                     placeholder="search word(s)"
                 />
-                <button onClick={this.translate}>Translate</button>
-                <input
+                <button
+                    onClick={this.translate}
                     className="form-control"
-                    value={this.state.translation}
-                    type="text"
-                    placeholder="translation"
-                />
+                >Translate</button>
+                {this.state.translationList}
+                <h3>exsiting words</h3>
+                {this.renderWords()}
             </div>
         )
     }

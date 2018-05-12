@@ -38,7 +38,13 @@ class TranslationController extends Controller
         ]);
 
         return new JsonResponse(
-            ['translatedText' => $result['TranslatedText']]
+            [
+                [
+                    'translatedText' => $result['TranslatedText'],
+                    'language' => 'en',
+                    'source' => 'aws'
+                ]
+            ]
         );
     }
 }

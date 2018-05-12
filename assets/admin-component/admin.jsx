@@ -42,14 +42,14 @@ class Admin extends React.Component {
     updateWords(words){
         let data = this.state.data;
         data.words = words;
-        this.updateData(words)
+        this.updateData(data)
     }
 
     render() {
         return (
             <div id="admin-view">
                 <Words
-                    words={this.state.words}
+                    words={this.state.data.words}
                     updateWords={(words) => this.updateWords(words)}
                 />
                 <ImageManager
