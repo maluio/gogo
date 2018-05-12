@@ -1,17 +1,4 @@
-const routes = require('../../public/js/fos_js_routes.json');
-import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
-
-Routing.setRoutingData(routes);
-
-// not used at the moment
-/*class Word {
-    constructor(lemma, language, wordClass=null, genus=null) {
-        this.lemma = lemma;
-        this.language = language;
-        this.wordClass = wordClass;
-        this.genus = genus;
-    }
-}*/
+import {Http} from "./http";
 
 export class Words extends React.Component {
 
@@ -30,26 +17,16 @@ export class Words extends React.Component {
     }
 
     translate(){
-
-        fetch(
-            Routing.generate('translate', {term: this.props.term}),
-            {
-                method: 'GET',
-                credentials: 'same-origin'
-            })
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    this.setState((prevState, props) => {
+        Http.fetchTranslation(this.props.term).then((result) => {
+                this.setState((prevState, props) => {
                         return {
                             translations: result,
                         }
-                    });
-                    this.renderNewWords();
-                },
-                (error) => {
-                }
-            )
+                    }
+                );
+                this.renderNewWords();
+            }
+        );
     }
 
     addWord(word){

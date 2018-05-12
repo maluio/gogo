@@ -1,8 +1,4 @@
-/* routes */
-const routes = require('../../public/js/fos_js_routes.json');
-import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
-
-Routing.setRoutingData(routes);
+import {Http} from "./http";
 
 export class ImageManager extends React.Component {
 
@@ -21,24 +17,13 @@ export class ImageManager extends React.Component {
     }
 
     searchImages(term) {
-        fetch(
-            Routing.generate('search_images', {term: term}),
-            {
-                method: 'GET',
-                credentials: 'same-origin'
-            })
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    this.setState((prevState, props) => {
-                        return {
-                            newImages: result,
-                        }
-                    });
-                },
-                (error) => {
+        Http.fetchImages(term).then((result) =>
+            this.setState((prevState, props) => {
+                return {
+                    newImages: result,
                 }
-            )
+            })
+        )
     }
 
     removeImage(imgToDelete){
