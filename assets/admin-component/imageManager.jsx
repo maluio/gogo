@@ -124,7 +124,7 @@ export class ImageManager extends React.Component {
     renderAddImageUrl(){
 
         return (
-            <div>
+            <div className="form-group form-inline">
                 <input
                     className="form-control"
                     value={this.state.imageUrl}
@@ -145,7 +145,7 @@ export class ImageManager extends React.Component {
             <div id="imageManager">
                 {this.renderAddImageUrl()}
                 {this.renderNewImages(this.state.newImages)}
-                    <div className="form-group">
+                <div className="form-group form-inline">
                     <input
                         className="form-control"
                         value={this.state.searchTerm}

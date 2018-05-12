@@ -25,7 +25,7 @@ export class Words extends React.Component {
 
         this.translate = this.translate.bind(this);
         this.handleTranslateState = this.handleTranslateState.bind(this);
-        this.renderTranslationList = this.renderTranslationList.bind(this);
+        this.renderNewWords = this.renderNewWords.bind(this);
         this.addWord = this.addWord.bind(this);
         this.removeWord = this.removeWord.bind(this);
 
@@ -52,7 +52,7 @@ export class Words extends React.Component {
                             translations: result,
                         }
                     });
-                    this.renderTranslationList()
+                    this.renderNewWords()
                 },
                 (error) => {
                 }
@@ -77,56 +77,98 @@ export class Words extends React.Component {
         this.props.updateWords(words.filter((w) => w.lemma !== word.lemma));
     }
 
-    renderTranslationList(){
-        let items = this.state.translations.map((translation, index) =>
-            <li
-                key={index}
-                onClick={() => this.addWord(translation)}
-            >
-                {translation.translatedText}
-            </li>
-        );
+    renderNewWords(){
         this.setState((prevState, props) => {
             return {
                 translationList: (
-                    <div>
-                        <h3>New Words</h3>
-                        <ul>
-                            {items}
-                        </ul>
-                    </div>
+                    <tbody>
+                    {this.state.translations.map((word, index) =>
+                        <tr key={index}>
+                            <td>
+                                {word.translatedText}
+                            </td>
+                            <td>
+                                {word.language}
+                            </td>
+                            <td>
+                                {word.source}
+                            </td>
+                            <td>
+                                <button onClick={() => this.addWord(word)}>
+                                    add
+                                </button>
+                            </td>
+                        </tr>
+                    )}
+                    </tbody>
                 ),
             }
         });
     }
 
-    renderWords(){
-        return(
-            <ul>
-                {this.props.words.map((word, index)=> <li key={index} onClick={()=>this.removeWord(word)}>
-                    {word.lemma} ({word.language})
-                </li>)}
-            </ul>
+    renderWords() {
+        return (
+            <tbody>
+            {this.props.words.map((word, index) =>
+                <tr key={index}>
+                    <td>
+                        {word.lemma}
+                    </td>
+                    <td>
+                        {word.language}
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+                        <button onClick={() => this.removeWord(word)}>
+                            remove
+                        </button>
+                    </td>
+                </tr>
+            )}
+            </tbody>
         )
     }
 
     render (){
         return (
             <div className="words">
-                <input
-                    className="form-control"
-                    value={this.state.term}
-                    onChange={this.handleTranslateState}
-                    type="text"
-                    placeholder="search word(s)"
-                />
-                <button
-                    onClick={this.translate}
-                    className="form-control"
-                >Translate</button>
-                {this.state.translationList}
-                <h3>exsiting words</h3>
-                {this.renderWords()}
+                <div className="form-inline">
+                    <input
+                        className="form-control"
+                        value={this.state.term}
+                        onChange={this.handleTranslateState}
+                        type="text"
+                        placeholder="search word(s)"
+                    />
+                    <button
+                        onClick={this.translate}
+                        className="form-control"
+                    >Translate</button>
+                </div>
+                <table className="table table-bordered">
+                    <thead className="thead-light">
+                        <tr>
+                            <th>Lemma</th>
+                            <th>Language</th>
+                            <th>Source</th>
+                            <th>Operations</th>
+                        </tr>
+                    </thead>
+                    <thead className="thead-light">
+                    <tr>
+                        <th colSpan={4}>New Words</th>
+                    </tr>
+                    </thead>
+                    {this.state.translationList ? this.state.translationList : null}
+                    <thead className="thead-light">
+                        <tr>
+                            <th colSpan={4}>Existing Words</th>
+                        </tr>
+                    </thead>
+                    {this.renderWords()}
+                </table>
             </div>
         )
     }
