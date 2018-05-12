@@ -34,6 +34,7 @@ class Learn extends React.Component {
                 data: {
                     images:[],
                     words: [],
+                    phrases: [],
                     mainWord: null
                 }
             }

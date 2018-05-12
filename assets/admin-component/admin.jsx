@@ -8,6 +8,7 @@ require('./admin.scss');
 import {ImageManager} from "./imageManager";
 import {Words} from "./words";
 import {MainWord} from "./mainWord";
+import {Phrases} from "./phrases";
 
 
 class Admin extends React.Component {
@@ -19,6 +20,7 @@ class Admin extends React.Component {
             data = {
                 images:[],
                 words: [],
+                phrases: [],
                 mainWord :
                     {
                         lemma: '',
@@ -56,6 +58,12 @@ class Admin extends React.Component {
         this.updateData(data)
     }
 
+    updatePhrases(phrases){
+        let data = this.state.data;
+        data.phrases = phrases;
+        this.updateData(data)
+    }
+
     updateMainWord(mainWord){
         let data = this.state.data;
         data.mainWord = mainWord;
@@ -73,6 +81,10 @@ class Admin extends React.Component {
                     words={this.state.data.words}
                     updateWords={(words) => this.updateWords(words)}
                     term={this.state.data.mainWord.lemma}
+                />
+                <Phrases
+                    phrases={this.state.data.phrases}
+                    updatePhrases={(phrases) => this.updatePhrases(phrases)}
                 />
                 <ImageManager
                     images={this.state.data.images}

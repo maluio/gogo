@@ -73,7 +73,7 @@ class Item
     private $isReminderSend = false;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="json", nullable=true)
      * @var array
      * @Expose
      */
@@ -303,7 +303,7 @@ class Item
         return $this->data;
     }
 
-    public function setData(array $data): void
+    public function setData(?array $data): void
     {
         $this->data = $data;
     }

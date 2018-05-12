@@ -3,6 +3,7 @@ import {RateButtons} from "./ratebuttons";
 import {HtmlRaw} from "./util";
 import {Question} from "./question";
 import {Card} from "./card";
+import {Phrases} from "./phrases";
 
 export class Cards extends React.Component {
     constructor() {
@@ -113,7 +114,18 @@ export class Cards extends React.Component {
                 {this.renderCategories()}
                 <div className="row">
                     {this.renderImages()}
+                </div>
+                <div className="row">
+                    <Phrases
+                        phrases={this.props.item.data.phrases}
+                        mainWord={this.props.item.data.mainWord}
+                        showResults={this.state.showResults}
+                    />
+                </div>
+                <div className="row">
                     {this.renderWords()}
+                </div>
+                <div className="row">
                     <Question
                         question={this.props.item.html.question}
                         questionMasked={this.props.item.html.question_masked}
