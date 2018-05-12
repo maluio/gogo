@@ -16,7 +16,7 @@ class SearchController extends Controller
     const MAX_NUMBER_OF_IMAGES = 10;
 
     /**
-     * @Route("/{term}", name="search_images", options={"expose"=true}, methods={"GET"})
+     * @Route("/images/{term}", name="search_images", options={"expose"=true}, methods={"GET"})
      */
     public function searchImages(string $term)
     {
@@ -56,5 +56,19 @@ class SearchController extends Controller
         $context = stream_context_create($options);
         return file_get_contents(getenv('IMAGE_SEARCH_ENDPOINT') . "?q=" . urlencode($query), false, $context);
 
+    }
+
+    /**
+     * @Route("/phrases/{term}", name="search_phrases", options={"expose"=true}, methods={"GET"})
+     */
+    public function searchPhrases($term){
+        $phrase = [
+            'content' => 'hu ho hi',
+            'language' => 'fr',
+            'url_source' => 'https://defr.dict.cc/?s=Puff'
+        ];
+        $phrases[] = $phrase;
+
+        return new JsonResponse($phrases);
     }
 }

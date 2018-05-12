@@ -30,4 +30,8 @@ export class Http {
     static fetchTranslation(term){
         return this.fetch(Routing.generate('translate', {term: term}));
     }
+
+    static fetchPhrases(term){
+        return this.fetch(Routing.generate('search_phrases', {term: term}));
+    }
 }

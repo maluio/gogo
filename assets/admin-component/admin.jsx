@@ -85,6 +85,7 @@ class Admin extends React.Component {
                 <Phrases
                     phrases={this.state.data.phrases}
                     updatePhrases={(phrases) => this.updatePhrases(phrases)}
+                    term={this.state.data.mainWord.lemma}
                 />
                 <ImageManager
                     images={this.state.data.images}

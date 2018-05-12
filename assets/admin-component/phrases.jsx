@@ -1,3 +1,5 @@
+import {Http} from "./http";
+
 export class Phrases extends React.Component {
 
     constructor() {
@@ -7,7 +9,8 @@ export class Phrases extends React.Component {
                 content: '',
                 language: 'fr',
                 url_source: ''
-            }
+            },
+            newPhrases: []
         };
 
         this.handleContentChange = this.handleContentChange.bind(this);
@@ -16,10 +19,12 @@ export class Phrases extends React.Component {
         this.renderPhrases = this.renderPhrases.bind(this);
         this.addPhrase = this.addPhrase.bind(this);
         this.removePhrase = this.removePhrase.bind(this);
+        this.fetchPhrases = this.fetchPhrases.bind(this);
+        this.renderNewPhrases = this.renderNewPhrases.bind(this);
 
     }
 
-    handleContentChange(event){
+    handleContentChange(event) {
         let np = this.state.newPhrase;
         np.content = event.target.value;
         this.setState(
@@ -29,7 +34,7 @@ export class Phrases extends React.Component {
         )
     }
 
-    handleLanguageChange(event){
+    handleLanguageChange(event) {
         let np = this.state.newPhrase;
         np.language = event.target.value;
         this.setState(
@@ -39,7 +44,7 @@ export class Phrases extends React.Component {
         )
     }
 
-    handleSourceChange(event){
+    handleSourceChange(event) {
         let np = this.state.newPhrase;
         np.url_source = event.target.value;
         this.setState(
@@ -49,20 +54,52 @@ export class Phrases extends React.Component {
         )
     }
 
-    addPhrase(){
+    addPhrase(phrase) {
         let ph = this.props.phrases;
-        ph.push(this.state.newPhrase);
+        ph.push(phrase);
         this.props.updatePhrases(ph)
     }
 
-    removePhrase(phrase){
-        console.log(phrase);
+    removePhrase(phrase) {
         let ph = this.props.phrases.filter((phr) => phr.content !== phrase.content);
         this.props.updatePhrases(ph)
     }
 
-    renderPhrases(){
-        return(
+    fetchPhrases() {
+        Http.fetchPhrases(this.props.term).then((result) => {
+
+                this.setState((prevState, props) => {
+                    return {
+                        newPhrases: result,
+                    }
+                });
+            }
+        )
+    }
+
+    renderNewPhrases() {
+        return (
+            <React.Fragment>
+                {this.state.newPhrases.map((phrase, key) => <tr key={key}>
+                    <td>
+                        {phrase.content}
+                    </td>
+                    <td>
+                        {phrase.url_source}
+                    </td>
+                    <td>
+                        {phrase.language}
+                    </td>
+                    <td>
+                        <button onClick={() => this.addPhrase(phrase)}>add</button>
+                    </td>
+                </tr>)}
+            </React.Fragment>
+        )
+    }
+
+    renderPhrases() {
+        return (
             <React.Fragment>
                 {this.props.phrases.map((phrase, key) => <tr key={key}>
                     <td>
@@ -77,7 +114,7 @@ export class Phrases extends React.Component {
                     <td>
                         <button onClick={() => this.removePhrase(phrase)}>remove</button>
                     </td>
-               </tr>)}
+                </tr>)}
             </React.Fragment>
         )
     }
@@ -106,19 +143,28 @@ export class Phrases extends React.Component {
                 </thead>
                 <tbody>
                 {this.renderPhrases()}
+                {this.renderNewPhrases()}
                 <tr>
                     <th>
-                        <input value={this.state.newPhrase.content} placeholder="content" onChange={this.handleContentChange}/>
+                        <input value={this.state.newPhrase.content} placeholder="content"
+                               onChange={this.handleContentChange}/>
                     </th>
                     <th>
-                        <input value={this.state.newPhrase.url_source} placeholder="source url" onChange={this.handleSourceChange}/>
+                        <input value={this.state.newPhrase.url_source} placeholder="source url"
+                               onChange={this.handleSourceChange}/>
                     </th>
                     <th>
-                        <input value={this.state.newPhrase.language} placeholder="language" onChange={this.handleLanguageChange}/>
+                        <input value={this.state.newPhrase.language} placeholder="language"
+                               onChange={this.handleLanguageChange}/>
                     </th>
                     <th>
-                        <button onClick={this.addPhrase}>Add</button>
+                        <button onClick={()=> this.addPhrase(this.state.newPhrase)}>Add</button>
                     </th>
+                </tr>
+                <tr>
+                    <td>
+                        <button onClick={this.fetchPhrases}>Fetch phrases for "{this.props.term}"</button>
+                    </td>
                 </tr>
                 </tbody>
             </table>
