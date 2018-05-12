@@ -7,6 +7,7 @@ require('./admin.scss');
 
 import {ImageManager} from "./imageManager";
 import {Words} from "./words";
+import {MainWord} from "./mainWord";
 
 
 class Admin extends React.Component {
@@ -17,7 +18,14 @@ class Admin extends React.Component {
         if(!data){
             data = {
                 images:[],
-                words: []
+                words: [],
+                mainWord :
+                    {
+                        lemma: '',
+                        forms: [],
+                        type: null,
+                        gender: null
+                    }
             }
         }
         super();
@@ -29,7 +37,11 @@ class Admin extends React.Component {
     }
 
     updateData(data){
-        this.setState({data: data});
+        this.setState((prevState, props) => {
+            return {
+                data: data
+            }
+        });
         document.getElementById('item_data').value = JSON.stringify(data);
     }
 
@@ -45,16 +57,28 @@ class Admin extends React.Component {
         this.updateData(data)
     }
 
+    updateMainWord(mainWord){
+        let data = this.state.data;
+        data.mainWord = mainWord;
+        this.updateData(data)
+    }
+
     render() {
         return (
             <div id="admin-view">
+                <MainWord
+                    mainWord={this.state.data.mainWord}
+                    updateMainWord={(word) => this.updateMainWord(word)}
+                />
                 <Words
                     words={this.state.data.words}
                     updateWords={(words) => this.updateWords(words)}
+                    term={this.state.data.mainWord.lemma}
                 />
                 <ImageManager
                     images={this.state.data.images}
                     updateImages={(images) => this.updateImages(images)}
+                    term={this.state.data.mainWord.lemma}
                 />
             </div>
         )

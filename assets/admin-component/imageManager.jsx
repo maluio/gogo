@@ -14,7 +14,6 @@ export class ImageManager extends React.Component {
             imageUrl: ''
         };
 
-        this.handleSearchChange = this.handleSearchChange.bind(this);
         this.searchImages = this.searchImages.bind(this);
         this.removeImage = this.removeImage.bind(this);
         this.handleImageUrlChanges = this.handleImageUrlChanges.bind(this);
@@ -56,10 +55,6 @@ export class ImageManager extends React.Component {
         newImages = newImages.filter(((img) => img !== imgToAdd ? img : null));
         this.setState({newImages: newImages});
 
-    }
-
-    handleSearchChange(event) {
-        this.setState({searchTerm: event.target.value});
     }
 
     renderImages(imagesToRender){
@@ -120,7 +115,6 @@ export class ImageManager extends React.Component {
         )
     }
 
-
     renderAddImageUrl(){
 
         return (
@@ -143,23 +137,16 @@ export class ImageManager extends React.Component {
     render() {
         return (
             <div id="imageManager">
-                {this.renderAddImageUrl()}
                 {this.renderNewImages(this.state.newImages)}
                 <div className="form-group form-inline">
-                    <input
-                        className="form-control"
-                        value={this.state.searchTerm}
-                        onChange={this.handleSearchChange}
-                        type="text"
-                        placeholder="Search images"
-                    />
                     <button
-                        onClick={() => this.searchImages(this.state.searchTerm)}
+                        onClick={() => this.searchImages(this.props.term)}
                         className="form-control"
                     >
                         <span className="oi oi-question-mark"></span>
                     </button>
                 </div>
+                {this.renderAddImageUrl()}
                 {this.renderImages(this.props.images)}
             </div>
         )

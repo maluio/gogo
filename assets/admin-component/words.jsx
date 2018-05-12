@@ -4,42 +4,35 @@ import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/pu
 Routing.setRoutingData(routes);
 
 // not used at the moment
-class Word {
+/*class Word {
     constructor(lemma, language, wordClass=null, genus=null) {
         this.lemma = lemma;
         this.language = language;
         this.wordClass = wordClass;
         this.genus = genus;
     }
-}
+}*/
 
 export class Words extends React.Component {
 
     constructor(){
         super();
         this.state = {
-            term: '',
             translations: [],
             translationList: ''
         };
 
         this.translate = this.translate.bind(this);
-        this.handleTranslateState = this.handleTranslateState.bind(this);
         this.renderNewWords = this.renderNewWords.bind(this);
         this.addWord = this.addWord.bind(this);
         this.removeWord = this.removeWord.bind(this);
 
     }
 
-    handleTranslateState(event){
-        let term = event.target.value;
-        this.setState({term: term});
-    }
-
     translate(){
 
         fetch(
-            Routing.generate('translate', {term: this.state.term}),
+            Routing.generate('translate', {term: this.props.term}),
             {
                 method: 'GET',
                 credentials: 'same-origin'
@@ -52,7 +45,7 @@ export class Words extends React.Component {
                             translations: result,
                         }
                     });
-                    this.renderNewWords()
+                    this.renderNewWords();
                 },
                 (error) => {
                 }
@@ -135,13 +128,6 @@ export class Words extends React.Component {
         return (
             <div className="words">
                 <div className="form-inline">
-                    <input
-                        className="form-control"
-                        value={this.state.term}
-                        onChange={this.handleTranslateState}
-                        type="text"
-                        placeholder="search word(s)"
-                    />
                     <button
                         onClick={this.translate}
                         className="form-control"
