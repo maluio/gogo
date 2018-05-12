@@ -94,6 +94,17 @@ export class Cards extends React.Component {
         )
     }
 
+    renderWords(){
+        let words = this.props.item.data.words.map(
+            (word, index) => <li key={index}>{word.lemma}</li>
+        );
+        return (
+            <ul>
+                {words}
+            </ul>
+        )
+    }
+
     render() {
 
         return (
@@ -102,11 +113,13 @@ export class Cards extends React.Component {
                 {this.renderCategories()}
                 <div className="row">
                     {this.renderImages()}
+                    {this.renderWords()}
                     <Question
                         question={this.props.item.html.question}
                         questionMasked={this.props.item.html.question_masked}
                         questionSplit={this.props.item.html.question_split}
                         showResults={this.state.showResults}
+                        mainWord={this.props.item.data.mainWord}
                     />
                 </div>
                 <div className="row">{this.renderResultButton()}</div>

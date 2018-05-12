@@ -84,13 +84,41 @@ export class Question extends React.Component {
         )
     }
 
+    renderQuestion(){
+        return (
+            <div>
+                {this.props.showResults ? <Card content={this.props.question}/> :
+                    <Card content={this.props.questionMasked}/>}
+                {this.renderMaskedQuestion()}
+            </div>
+        )
+    }
+
+    renderMainWord(){
+        let gender = null;
+        switch(this.props.mainWord.gender ){
+            case 'f':
+                gender = <Word word="la"/>;
+                break;
+            case 'm':
+                gender = <Word word="le"/>;
+                break;
+        }
+
+
+        return (
+            <div>
+                {gender}
+                <Word word={this.props.mainWord.lemma}/>
+            </div>
+        )
+    }
+
     render() {
 
         return (
             <div className="w-100">
-                {this.props.showResults ? <Card content={this.props.question}/> :
-                    <Card content={this.props.questionMasked}/>}
-                {this.renderMaskedQuestion()}
+                {this.props.mainWord ? this.renderMainWord() : this.renderQuestion()}
             </div>
         )
     }

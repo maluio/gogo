@@ -24,3 +24,8 @@
         'item': item
     }) }}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/js/admin.js') }}"></script>
+{% endblock %}

@@ -143,7 +143,7 @@ export class ImageManager extends React.Component {
                         onClick={() => this.searchImages(this.props.term)}
                         className="form-control"
                     >
-                        <span className="oi oi-question-mark"></span>
+                        Serach images for "{this.props.term}"
                     </button>
                 </div>
                 {this.renderAddImageUrl()}

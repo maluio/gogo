@@ -65,16 +65,21 @@ class ItemSerializeSubscriber implements EventSubscriberInterface
             'ratings' => $item->getRatings()
         ]);
 
-        $html['question']= $this->markdownParser->transformMarkdown(
-            $this->itemFilters->replaceMarker($item->getQuestion(), null, 'strong')
-        );
-        $html['question_masked']= $this->markdownParser->transformMarkdown(
-            $this->itemFilters->replaceMarker($item->getQuestion(), AppConstants::MASK_CHARACTER)
-        );
-        $html['question_split'] =
-            $this->itemFilters->splitMarkerString(
-                $this->markdownParser->transformMarkdown($item->getQuestion())
-        );
+        $html['question'] = null;
+
+        if ($item->getQuestion()){
+            $html['question']= $this->markdownParser->transformMarkdown(
+                $this->itemFilters->replaceMarker($item->getQuestion(), null, 'strong')
+            );
+            $html['question_masked']= $this->markdownParser->transformMarkdown(
+                $this->itemFilters->replaceMarker($item->getQuestion(), AppConstants::MASK_CHARACTER)
+            );
+            $html['question_split'] =
+                $this->itemFilters->splitMarkerString(
+                    $this->markdownParser->transformMarkdown($item->getQuestion())
+                );
+        }
+
         $item->getAnswer() ? $html['answer'] = $this->markdownParser->transformMarkdown($item->getAnswer()) : null;
 
         $event->getVisitor()->addData('html', $html);

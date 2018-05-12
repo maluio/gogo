@@ -131,7 +131,7 @@ export class Words extends React.Component {
                     <button
                         onClick={this.translate}
                         className="form-control"
-                    >Translate</button>
+                    >Translate "{this.props.term}"</button>
                 </div>
                 <table className="table table-bordered">
                     <thead className="thead-light">
@@ -144,13 +144,13 @@ export class Words extends React.Component {
                     </thead>
                     <thead className="thead-light">
                     <tr>
-                        <th colSpan={4}>New Words</th>
+                        <th colSpan={4}>New translations</th>
                     </tr>
                     </thead>
                     {this.state.translationList ? this.state.translationList : null}
                     <thead className="thead-light">
                         <tr>
-                            <th colSpan={4}>Existing Words</th>
+                            <th colSpan={4}>Existing translations</th>
                         </tr>
                     </thead>
                     {this.renderWords()}

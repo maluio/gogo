@@ -32,7 +32,9 @@ class Learn extends React.Component {
                     answer: null
                 },
                 data: {
-                    images:[]
+                    images:[],
+                    words: [],
+                    mainWord: null
                 }
             }
         };
