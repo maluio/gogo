@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\AppConstants;
 use App\Entity\Item;
 use App\Form\ItemType;
+use App\Repository\CategoryRepository;
 use App\Repository\ItemRepository;
 use Carbon\Carbon;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,10 +25,13 @@ class ItemController extends Controller
      */
     public function create(
         Request $request,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        CategoryRepository $categoryRepository
     )
     {
         $item = new Item();
+        // add category "francais" by default for now...
+        $item->addCategory($categoryRepository->find(8));
 
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
