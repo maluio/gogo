@@ -100,6 +100,15 @@ class Learn extends React.Component {
             item = items.shift();
         }
 
+        if (undefined === item.data){
+            item.data = {
+                images:[],
+                words: [],
+                phrases: [],
+                mainWord: null
+            }
+        }
+
         this.setState((prevState, props) => {
             return {
                 message: null,
