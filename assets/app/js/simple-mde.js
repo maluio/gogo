@@ -16,7 +16,7 @@ module.exports = function ($) {
     }
     let instances = [];
 
-    $('textarea').each(function () {
+    $('textarea.editor').each(function () {
         if( $(this).is('#item_data')){
             return;
         }

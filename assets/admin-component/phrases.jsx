@@ -21,12 +21,14 @@ export class Phrases extends React.Component {
         this.removePhrase = this.removePhrase.bind(this);
         this.fetchPhrases = this.fetchPhrases.bind(this);
         this.renderNewPhrases = this.renderNewPhrases.bind(this);
+        this.addCustomPhrase = this.addCustomPhrase.bind(this);
 
     }
 
     handleContentChange(event) {
         let np = this.state.newPhrase;
-        np.content = event.target.value;
+        //strip html tags
+        np.content = event.target.value.replace(/<(?:.|\n)*?>/gm, '');
         this.setState(
             {
                 newPhrase: np
@@ -58,6 +60,17 @@ export class Phrases extends React.Component {
         let ph = this.props.phrases;
         ph.push(phrase);
         this.props.updatePhrases(ph)
+    }
+
+    addCustomPhrase(phrase){
+        this.setState({
+            newPhrase: {
+                content: '',
+                language: 'fr',
+                url_source: ''
+            }
+        });
+        this.addPhrase(phrase);
     }
 
     removePhrase(phrase) {
@@ -146,7 +159,7 @@ export class Phrases extends React.Component {
                 {this.renderNewPhrases()}
                 <tr>
                     <th>
-                        <input value={this.state.newPhrase.content} placeholder="content"
+                        <textarea value={this.state.newPhrase.content} placeholder="content"
                                onChange={this.handleContentChange}/>
                     </th>
                     <th>
@@ -158,7 +171,7 @@ export class Phrases extends React.Component {
                                onChange={this.handleLanguageChange}/>
                     </th>
                     <th>
-                        <button onClick={()=> this.addPhrase(this.state.newPhrase)}>Add</button>
+                        <button onClick={()=> this.addCustomPhrase(this.state.newPhrase)}>Add</button>
                     </th>
                 </tr>
                 <tr>

@@ -17,8 +17,8 @@ class ItemType extends AbstractType
     {
         $builder
             ->add('data')
-            ->add('question')
-            ->add('answer')
+           // ->add('question')
+           // ->add('answer')
             ->add('categories', EntityType::class, [
                 'class' => Category::class,
                 'multiple' => true,
