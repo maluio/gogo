@@ -73,8 +73,8 @@ class Item
     private $isReminderSend = false;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
-     * @var array
+     * @ORM\Column(type="text", nullable=true)
+     * @var string
      * @Expose
      */
     private $data;
@@ -298,12 +298,12 @@ class Item
         $this->isReminderSend = $isReminderSend;
     }
 
-    public function getData(): ?array
+    public function getData(): ?string
     {
         return $this->data;
     }
 
-    public function setData(?array $data): void
+    public function setData(?string $data): void
     {
         $this->data = $data;
     }

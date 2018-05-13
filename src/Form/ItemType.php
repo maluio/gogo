@@ -25,14 +25,14 @@ class ItemType extends AbstractType
                 'expanded' => true
             ])
         ;
-        $builder->get('data')->addModelTransformer(new CallbackTransformer(
+/*        $builder->get('data')->addModelTransformer(new CallbackTransformer(
             function($data) {
                 return json_encode($data);
             },
             function($data) {
                 return json_decode($data, true);
             }
-        ));
+        ));*/
     }
 
     public function configureOptions(OptionsResolver $resolver)

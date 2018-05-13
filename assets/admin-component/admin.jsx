@@ -15,7 +15,9 @@ class Admin extends React.Component {
 
     constructor() {
         let data = document.getElementById('item_data').value;
-        data = JSON.parse(data);
+        if(data){
+            data = JSON.parse(data);
+        }
         if(!data){
             data = {
                 images:[],
