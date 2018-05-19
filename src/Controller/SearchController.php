@@ -62,13 +62,36 @@ class SearchController extends Controller
      * @Route("/phrases/{term}", name="search_phrases", options={"expose"=true}, methods={"GET"})
      */
     public function searchPhrases($term){
-        $phrase = [
-            'content' => 'hu ho hi',
-            'language' => 'fr',
-            'url_source' => 'https://defr.dict.cc/?s=Puff'
-        ];
-        $phrases[] = $phrase;
+
+        $phrases = [];
+
+        $news = json_decode($this->bingNewsSearch($term), true);
+
+        foreach ($news['value'] as $n){
+            $phrase = [
+                'content' => $n['name'],
+                'language' => 'fr',
+                'url_source' => $n['url']
+            ];
+            $phrases[] = $phrase;
+        }
 
         return new JsonResponse($phrases);
+    }
+
+    function bingNewsSearch ($term) {
+        // Prepare HTTP request
+        // NOTE: Use the key 'http' even if you are making an HTTPS request. See:
+        // http://php.net/manual/en/function.stream-context-create.php
+        $headers = "Ocp-Apim-Subscription-Key:" . getenv('NEWS_SEARCH_API_KEY') ."\r\n";
+        $options = array ('http' => array (
+            'header' => $headers,
+            'method' => 'GET' ));
+
+        // Perform the Web request and get the JSON response
+        $context = stream_context_create($options);
+        $result = file_get_contents(getenv('NEWS_SEARCH_ENDPOINT') . "?cc=fr&q=" . urlencode($term), false, $context);
+
+        return $result;
     }
 }
