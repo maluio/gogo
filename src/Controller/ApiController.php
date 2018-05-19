@@ -63,6 +63,18 @@ class ApiController extends Controller
 
         $json = $serializer->serialize($items, 'json');
 
+        // This stunt became necessary due to the serializer escaping all quotation marks with slash in the "data" property
+        // which breaks the resulting json. Thanks a lot Mysql for not supporting UTF8 properly in your awesome Json datatype,
+        // forcing me to store the data property as string
+        $array = json_decode($json, true);
+        $array = array_map(function($item){
+            $item['data'] = json_decode($item['data']);
+            return $item;
+        }, $array);
+        $json = json_encode($array);
+
+
+
         return new JsonResponse($json, 200, [], true);
 
     }
