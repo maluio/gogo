@@ -26,7 +26,7 @@ class Admin extends React.Component {
                 mainWord :
                     {
                         lemma: '',
-                        forms: [],
+                        inflections: [],
                         gender: ''
                     }
             }
