@@ -17,6 +17,7 @@ export class MainWord extends React.Component {
     handleLemmaChange(event){
         let mw = this.props.mainWord;
         mw.lemma = event.target.value;
+        mw.lemma = mw.lemma.trim();
         this.props.updateMainWord(mw);
     }
 
