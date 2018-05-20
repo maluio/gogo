@@ -1,3 +1,13 @@
+const {
+    Form,
+    FormGroup,
+    Input,
+    Label,
+    Button,
+    ListGroup,
+    ListGroupItem
+} = Reactstrap;
+
 export class MainWord extends React.Component {
 
     constructor() {
@@ -14,71 +24,82 @@ export class MainWord extends React.Component {
 
     }
 
-    handleLemmaChange(event){
+    handleLemmaChange(event) {
         let mw = this.props.mainWord;
         mw.lemma = event.target.value;
         mw.lemma = mw.lemma.trim();
         this.props.updateMainWord(mw);
     }
 
-    handleGenderChange(event){
+    handleGenderChange(event) {
         let mw = this.props.mainWord;
         mw.gender = event.target.value;
         this.props.updateMainWord(mw);
     }
 
-    addInflection(){
+    addInflection() {
         let mw = this.props.mainWord;
         mw.inflections.push({
-            inflection : this.state.newInflection
+            inflection: this.state.newInflection
         });
         this.props.updateMainWord(mw);
     }
 
-    removeInflection(inflection){
+    removeInflection(inflection) {
         let mw = this.props.mainWord;
         mw.inflections = mw.inflections.filter((frm) => frm.inflection !== inflection.inflection);
         this.props.updateMainWord(mw);
     }
 
-    handleNewInflectionChange(event){
+    handleNewInflectionChange(event) {
         this.setState({
             newInflection: event.target.value
         })
     }
 
-    render (){
+    render() {
         return (
             <div className="mainWord">
-                <h1>{this.props.mainWord.lemma}</h1>
-                <input
-                    className="form-control"
-                    value={this.props.mainWord.lemma}
-                    onChange={this.handleLemmaChange}
-                    type="text"
-                    placeholder="enter word"
-                />
-                <ul>
+                <Form>
+                    <FormGroup>
+                        <h1>{this.props.mainWord.lemma}</h1>
+                        <Label for="lemma">Lemma</Label>
+                        <Input
+                            id="lemma"
+                            className="form-control"
+                            value={this.props.mainWord.lemma}
+                            onChange={this.handleLemmaChange}
+                            type="text"
+                            placeholder="enter word"
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <select
+                            value={this.props.mainWord.gender}
+                            onChange={this.handleGenderChange}
+                            className="form-control"
+                        >
+                            <option value="">gender</option>
+                            <option value="m">male</option>
+                            <option value="f">female</option>
+                        </select>
+                    </FormGroup>
+                </Form>
+                <ListGroup>
                     {this.props.mainWord.inflections.map((inflection, key) =>
-                        <li key={key}>
+                        <ListGroupItem key={key}>
+                            <Button color="danger" onClick={() => this.removeInflection(inflection)}>Remove</Button>
+                            &nbsp;
                             {inflection.inflection}
-                            <button onClick={() => this.removeInflection(inflection)}>Remove</button>
-                        </li>
+                        </ListGroupItem>
                     )}
-                    <li>
-                        <input value={this.state.newInflection} onChange={this.handleNewInflectionChange}/>
-                        <button onClick={this.addInflection}>add inflection</button>
-                    </li>
-                </ul>
-                <select
-                    value={this.props.mainWord.gender}
-                    onChange={this.handleGenderChange}
-                    className="form-control"
-                >
-                    <option value=""> / </option>
-                    <option value="m"> male </option>
-                    <option value="f"> female </option>
-                </select>
+                </ListGroup>
+                    <Form inline>
+                    <FormGroup>
+                        <Input value={this.state.newInflection} onChange={this.handleNewInflectionChange}/>
+                        <Button color="success" onClick={this.addInflection}>Add</Button>
+                    </FormGroup>
+                </Form>
             </div>
         )
     }
