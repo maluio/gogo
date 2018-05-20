@@ -68,7 +68,9 @@ class ApiController extends Controller
         // forcing me to store the data property as string
         $array = json_decode($json, true);
         $array = array_map(function($item){
-            $item['data'] = json_decode($item['data']);
+            if(isset($item['data'])){
+                $item['data'] = json_decode($item['data']);
+            }
             return $item;
         }, $array);
         $json = json_encode($array);

@@ -100,7 +100,7 @@ class Learn extends React.Component {
             item = items.shift();
         }
 
-        if (undefined === item.data){
+        if (undefined === item.data || !item.data){
             item.data = {
                 images:[],
                 words: [],
