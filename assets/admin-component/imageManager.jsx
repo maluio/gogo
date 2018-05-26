@@ -1,5 +1,10 @@
 import {Http} from "./http";
 
+const {
+    Button,
+    Input
+} = Reactstrap;
+
 export class ImageManager extends React.Component {
 
     constructor() {
@@ -103,34 +108,35 @@ export class ImageManager extends React.Component {
     renderAddImageUrl(){
 
         return (
-            <div className="form-group form-inline">
-                <input
-                    className="form-control"
+            <div>
+                <Input
+                    type="text"
                     value={this.state.imageUrl}
                     onChange={this.handleImageUrlChanges}
-                    type="text"
                     placeholder="Add image url"
                 />
-                <button
+                <Button
+                    outline
+                    block
+                    color="success"
                     onClick={() => this.addImageUrl(this.state.imageUrl)}
-                    className="form-control"
-                >Past and add image url</button>
+                >Add image url</Button>
             </div>
         )
     }
 
     render() {
         return (
-            <div id="imageManager">
+            <div id="imageManager" className="component">
                 {this.renderNewImages(this.state.newImages)}
-                <div className="form-group form-inline">
-                    <button
-                        onClick={() => this.searchImages(this.props.term)}
-                        className="form-control"
-                    >
-                        Serach images for "{this.props.term}"
-                    </button>
-                </div>
+                <Button
+                    outline
+                    block
+                    color="info"
+                    onClick={() => this.searchImages(this.props.term)}
+                >
+                    Search images for "{this.props.term}"
+                </Button>
                 {this.renderAddImageUrl()}
                 {this.renderImages(this.props.images)}
             </div>

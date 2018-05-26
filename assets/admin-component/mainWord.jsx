@@ -59,7 +59,7 @@ export class MainWord extends React.Component {
 
     render() {
         return (
-            <div className="mainWord">
+            <div className="mainWord component">
                 <Form>
                     <FormGroup>
                         <h1>{this.props.mainWord.lemma}</h1>
@@ -88,18 +88,15 @@ export class MainWord extends React.Component {
                 <ListGroup>
                     {this.props.mainWord.inflections.map((inflection, key) =>
                         <ListGroupItem key={key}>
-                            <Button color="danger" onClick={() => this.removeInflection(inflection)}>Remove</Button>
-                            &nbsp;
                             {inflection.inflection}
+                            <Button size="lg" className="float-right" outline color="danger" onClick={() => this.removeInflection(inflection)}>-</Button>
                         </ListGroupItem>
                     )}
                 </ListGroup>
-                    <Form inline>
                     <FormGroup>
-                        <Input value={this.state.newInflection} onChange={this.handleNewInflectionChange}/>
-                        <Button color="success" onClick={this.addInflection}>Add</Button>
+                        <Input placeholder="inflection" value={this.state.newInflection} onChange={this.handleNewInflectionChange}/>
+                        <Button block outline color="success" onClick={this.addInflection}>+</Button>
                     </FormGroup>
-                </Form>
             </div>
         )
     }

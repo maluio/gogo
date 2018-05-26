@@ -64,3 +64,9 @@ a.edit-item span {
   top: 5px;
   right: 5px;
 }
+
+form #item {
+  textarea#item_data, [for="item_data"] {
+    display: none;
+  }
+}

@@ -1,22 +1,32 @@
 import {Http} from "./http";
 
+const {
+    Form,
+    FormGroup,
+    Input,
+    Label,
+    Button,
+    ListGroup,
+    ListGroupItem
+} = Reactstrap;
+
 export class Words extends React.Component {
 
     constructor(){
         super();
         this.state = {
             translations: [],
-            translationList: ''
         };
 
         this.translate = this.translate.bind(this);
-        this.renderNewWords = this.renderNewWords.bind(this);
         this.addWord = this.addWord.bind(this);
         this.removeWord = this.removeWord.bind(this);
-
     }
 
     translate(){
+        if (!this.props.term) {
+            return;
+        }
         Http.fetchTranslation(this.props.term).then((result) => {
                 this.setState((prevState, props) => {
                         return {
@@ -24,7 +34,7 @@ export class Words extends React.Component {
                         }
                     }
                 );
-                this.renderNewWords();
+                this.renderWords();
             }
         );
     }
@@ -37,8 +47,15 @@ export class Words extends React.Component {
                 language: word.language
             }
         );
-
         this.props.updateWords(words);
+
+        let translations = this.state.translations.filter((w) => w.translatedText !== word.translatedText);
+        this.setState((prevState, props) => {
+                return {
+                    translations: translations,
+                }
+            }
+        );
     }
 
     removeWord(word){
@@ -47,91 +64,40 @@ export class Words extends React.Component {
         this.props.updateWords(words.filter((w) => w.lemma !== word.lemma));
     }
 
-    renderNewWords(){
-        this.setState((prevState, props) => {
-            return {
-                translationList: (
-                    <tbody>
-                    {this.state.translations.map((word, index) =>
-                        <tr key={index}>
-                            <td>
-                                {word.translatedText}
-                            </td>
-                            <td>
-                                {word.language}
-                            </td>
-                            <td>
-                                {word.source}
-                            </td>
-                            <td>
-                                <button onClick={() => this.addWord(word)}>
-                                    add
-                                </button>
-                            </td>
-                        </tr>
-                    )}
-                    </tbody>
-                ),
-            }
-        });
-    }
-
     renderWords() {
+        let combinedWords = this.props.words.concat(this.state.translations);
         return (
-            <tbody>
-            {this.props.words.map((word, index) =>
-                <tr key={index}>
-                    <td>
-                        {word.lemma}
-                    </td>
-                    <td>
-                        {word.language}
-                    </td>
-                    <td>
-
-                    </td>
-                    <td>
-                        <button onClick={() => this.removeWord(word)}>
-                            remove
-                        </button>
-                    </td>
-                </tr>
-            )}
-            </tbody>
+            <ListGroup>
+                {combinedWords.map((word, index) =>
+                    <ListGroupItem key={index}>
+                            {word.hasOwnProperty('translatedText') ?
+                            word.translatedText : word.lemma
+                            }
+                        {word.hasOwnProperty('translatedText') ?
+                            <Button size="lg" className="float-right" outline color="success" onClick={() => this.addWord(word)}>
+                                +
+                            </Button>
+                            :
+                            <Button size="lg" className="float-right" outline color="danger" onClick={() => this.removeWord(word)}>
+                                -
+                            </Button>
+                        }
+                    </ListGroupItem>
+                )}
+            </ListGroup>
         )
     }
 
     render (){
         return (
-            <div className="words">
-                <div className="form-inline">
-                    <button
+            <div className="words component">
+                <div>
+                    <Button outline block
                         onClick={this.translate}
-                        className="form-control"
-                    >Translate "{this.props.term}"</button>
+                        color="info"
+                    >Translate "{this.props.term}"</Button>
                 </div>
-                <table className="table table-bordered">
-                    <thead className="thead-light">
-                        <tr>
-                            <th>Lemma</th>
-                            <th>Language</th>
-                            <th>Source</th>
-                            <th>Operations</th>
-                        </tr>
-                    </thead>
-                    <thead className="thead-light">
-                    <tr>
-                        <th colSpan={4}>New translations</th>
-                    </tr>
-                    </thead>
-                    {this.state.translationList ? this.state.translationList : null}
-                    <thead className="thead-light">
-                        <tr>
-                            <th colSpan={4}>Existing translations</th>
-                        </tr>
-                    </thead>
-                    {this.renderWords()}
-                </table>
+                {this.renderWords()}
             </div>
         )
     }

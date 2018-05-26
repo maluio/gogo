@@ -1,5 +1,13 @@
 import {Http} from "./http";
 
+const {
+    FormGroup,
+    Input,
+    Button,
+    ListGroup,
+    ListGroupItem
+} = Reactstrap;
+
 export class Phrases extends React.Component {
 
     constructor() {
@@ -17,11 +25,10 @@ export class Phrases extends React.Component {
         this.handleLanguageChange = this.handleLanguageChange.bind(this);
         this.handleSourceChange = this.handleSourceChange.bind(this);
         this.renderPhrases = this.renderPhrases.bind(this);
-        this.addPhrase = this.addPhrase.bind(this);
-        this.removePhrase = this.removePhrase.bind(this);
         this.fetchPhrases = this.fetchPhrases.bind(this);
-        this.renderNewPhrases = this.renderNewPhrases.bind(this);
         this.addCustomPhrase = this.addCustomPhrase.bind(this);
+        this.handlePhrase = this.handlePhrase.bind(this);
+        this.isNewPhrase = this.isNewPhrase.bind(this);
 
     }
 
@@ -56,13 +63,7 @@ export class Phrases extends React.Component {
         )
     }
 
-    addPhrase(phrase) {
-        let ph = this.props.phrases;
-        ph.push(phrase);
-        this.props.updatePhrases(ph)
-    }
-
-    addCustomPhrase(phrase){
+    addCustomPhrase(phrase) {
         this.setState({
             newPhrase: {
                 content: '',
@@ -70,17 +71,31 @@ export class Phrases extends React.Component {
                 url_source: ''
             }
         });
-        this.addPhrase(phrase);
+        this.handlePhrase(phrase);
     }
 
-    removePhrase(phrase) {
-        let ph = this.props.phrases.filter((phr) => phr.content !== phrase.content);
-        this.props.updatePhrases(ph)
+    handlePhrase(phrase) {
+        let ph = this.props.phrases;
+        let nph = this.state.newPhrases;
+        if (this.isNewPhrase(phrase)) {
+            ph.push(phrase);
+            nph = nph.filter((phr) => phr.content !== phrase.content);
+        }
+        else {
+            ph = this.props.phrases.filter((phr) => phr.content !== phrase.content);
+            nph.push(phrase);
+        }
+        this.props.updatePhrases(ph);
+        this.setState((prevState, props) => {
+            return {
+                newPhrases: nph,
+            }
+        });
     }
 
     fetchPhrases() {
         Http.fetchPhrases(this.props.term).then((result) => {
-
+                result = result.filter((p) => this.isNewPhrase(p));
                 this.setState((prevState, props) => {
                     return {
                         newPhrases: result,
@@ -90,97 +105,56 @@ export class Phrases extends React.Component {
         )
     }
 
-    renderNewPhrases() {
-        return (
-            <React.Fragment>
-                {this.state.newPhrases.map((phrase, key) => <tr key={key}>
-                    <td>
-                        {phrase.content}
-                    </td>
-                    <td>
-                        {phrase.url_source}
-                    </td>
-                    <td>
-                        {phrase.language}
-                    </td>
-                    <td>
-                        <button onClick={() => this.addPhrase(phrase)}>add</button>
-                    </td>
-                </tr>)}
-            </React.Fragment>
-        )
+    isNewPhrase(phrase) {
+        return !Boolean(this.props.phrases.find((p) => p.content === phrase.content));
     }
 
     renderPhrases() {
+        let phrases = this.props.phrases.concat(this.state.newPhrases);
+
         return (
-            <React.Fragment>
-                {this.props.phrases.map((phrase, key) => <tr key={key}>
-                    <td>
+            <ListGroup>
+                {phrases.map((phrase, key) =>
+                    <ListGroupItem
+                        key={key}>
                         {phrase.content}
-                    </td>
-                    <td>
-                        {phrase.url_source}
-                    </td>
-                    <td>
-                        {phrase.language}
-                    </td>
-                    <td>
-                        <button onClick={() => this.removePhrase(phrase)}>remove</button>
-                    </td>
-                </tr>)}
-            </React.Fragment>
+                        <Button className="float-right"
+                                size="lg"
+                                outline
+                                onClick={() => this.handlePhrase(phrase)}
+                                color={this.isNewPhrase(phrase) ? 'success' : 'danger'}
+                        >{this.isNewPhrase(phrase) ? '+' : '-'}</Button>
+                    </ListGroupItem>
+                )}
+            </ListGroup>
         )
     }
 
     render() {
         return (
-            <table className="phrases table">
-                <thead className="thead-light">
-                <tr>
-                    <th>Phrases</th>
-                </tr>
-                <tr>
-                    <th>
-                        Content
-                    </th>
-                    <th>
-                        Source
-                    </th>
-                    <th>
-                        Language
-                    </th>
-                    <th>
-                        Operations
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
+            <div className="phrases component">
                 {this.renderPhrases()}
-                {this.renderNewPhrases()}
-                <tr>
-                    <th>
-                        <textarea value={this.state.newPhrase.content} placeholder="content"
-                               onChange={this.handleContentChange}/>
-                    </th>
-                    <th>
-                        <input value={this.state.newPhrase.url_source} placeholder="source url"
-                               onChange={this.handleSourceChange}/>
-                    </th>
-                    <th>
-                        <input value={this.state.newPhrase.language} placeholder="language"
-                               onChange={this.handleLanguageChange}/>
-                    </th>
-                    <th>
-                        <button onClick={()=> this.addCustomPhrase(this.state.newPhrase)}>Add</button>
-                    </th>
-                </tr>
-                <tr>
-                    <td>
-                        <button onClick={this.fetchPhrases}>Fetch phrases for "{this.props.term}"</button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                <FormGroup>
+                    <Button outline block color="info" onClick={this.fetchPhrases}>Fetch phrases for "{this.props.term}"</Button>
+                </FormGroup>
+                <FormGroup>
+                    <Input type="textarea" value={this.state.newPhrase.content} placeholder="content"
+                           onChange={this.handleContentChange}/>
+                </FormGroup>
+                <FormGroup>
+                    <Input type="text" value={this.state.newPhrase.url_source} placeholder="source url"
+                           onChange={this.handleSourceChange}/>
+                </FormGroup>
+
+                <FormGroup>
+                    <Input type="text" value={this.state.newPhrase.language} placeholder="language"
+                           onChange={this.handleLanguageChange}/>
+                </FormGroup>
+
+                <FormGroup>
+                    <Button outline block color="success" onClick={() => this.addCustomPhrase(this.state.newPhrase)}>+</Button>
+                </FormGroup>
+            </div>
         )
     }
 }

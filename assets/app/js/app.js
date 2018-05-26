@@ -3,6 +3,7 @@ let $ = require('jquery/dist/jquery.min.js');
 
 //bootstrap css
 require('bootstrap/dist/css/bootstrap.min.css');
+require('bootstrap/dist/js/bootstrap.min.js');
 
 // icons
 require('open-iconic/font/css/open-iconic-bootstrap.css');
