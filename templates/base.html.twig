@@ -15,16 +15,16 @@
 <body id="{{ app.environment == 'prod' ? 'prod' : 'dev' }}">
 <div class="container">
     <div class="content col-md-8 col-sm-12 offset-md-2">
-        <div class="row">
+        <div class="row no-gutters">
             <div class="col">
                 {{ include('_navigation.html.twig') }}
             </div>
         </div>
-        <div class="row alert-outer">
+        <div class="row no-gutters alert-outer">
             <div class="col" style="min-height: 0px">
             </div>
         </div>
-        <div class="row">
+        <div class="row no-gutters">
             <div class="col">
                 {% block body %}{% endblock %}
             </div>
