@@ -118,6 +118,7 @@ export class Phrases extends React.Component {
                     <ListGroupItem
                         key={key}>
                         {phrase.content}
+                        {phrase.url_source ? <span>&nbsp;[<a href={phrase.url_source} target='_blank'>source</a>]</span> : ''}
                         <Button className="float-right"
                                 size="lg"
                                 outline
