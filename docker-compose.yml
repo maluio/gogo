@@ -4,8 +4,8 @@ services:
   app:
     image: malulu/php-7.1:latest
     env_file:
-     - ${ENV_CONTAINER_PATH}/global.env
-     - ${ENV_CONTAINER_PATH}/gogo.global.env
+     - ../env/global.env
+     - ../env/gogo.global.env
     environment:
       - DATABASE_URL_NEW=sqlite:///%kernel.project_dir%/var/data.db
       - DATABASE_URL=mysql://root:${DB_PW}@servus_db_1:3306/gogo
