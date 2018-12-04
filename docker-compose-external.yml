@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  app:
+    environment:
+      - DATABASE_URL=mysql://root:${DB_PW}@servus_db_1:3306/gogo
+    env_file:
+      - ${ENV_CONTAINER_PATH}/global.env
+      - ${ENV_CONTAINER_PATH}/gogo.global.env
+    networks:
+      - shared
+  web:
+    networks:
+      - reverse-proxy
+      - shared
+    environment:
+      - LETSENCRYPT_HOST=gogo-staging.${HOSTNAME}
+      - LETSENCRYPT_EMAIL=${EMAIL_ADMIN}
+
+networks:
+  reverse-proxy:
+    external:
+      name: reverseproxy_default
+  shared:
+    external:
+      name: shared

@@ -1,4 +1,6 @@
-dev: down up composer logs
+dev: down up composer
+
+dev-full: down up-full composer
 
 prod: down prod-up js-routes prod-assets permissions
 
@@ -17,10 +19,15 @@ prod-up-without-build:
 
 up: docker-up permissions
 
+up-full: docker-up-full permissions
+
 down: docker-down
 
 docker-up:
 	docker-compose up -d
+
+docker-up-full:
+	docker-compose -f docker-compose.yml -f docker-compose-external.yml up -d
 
 docker-down:
 	docker-compose down

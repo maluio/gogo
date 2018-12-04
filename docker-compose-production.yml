@@ -7,6 +7,8 @@ services:
     environment:
       - APP_ENV=prod
   web:
+    expose:
+        - 80
     environment:
       - VIRTUAL_HOST=gogo.${HOSTNAME}
       - LETSENCRYPT_HOST=gogo.${HOSTNAME}

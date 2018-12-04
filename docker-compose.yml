@@ -7,31 +7,23 @@ services:
      - ../env/global.env
      - ../env/gogo.global.env
     environment:
-      - DATABASE_URL_NEW=sqlite:///%kernel.project_dir%/var/data.db
-      - DATABASE_URL=mysql://root:${DB_PW}@servus_db_1:3306/gogo
-      - HOSTNAME_OUTER_HOST=${HOSTNAME}
+      - DATABASE_URL=mysql://gogo:gogo@db:3306/gogo
+      - HOSTNAME_OUTER_HOST=gogo.test
       - LOCALE=en
     volumes:
       - .:/srv/symfony:rw
     networks:
       - private
-      - shared
   web:
+    environment: 
+      - VIRTUAL_HOST=gogo.test
     build:
       context: ./docker/nginx
       dockerfile: ./Dockerfile
-    expose:
-        - 80
     volumes:
       - ./public:/srv/symfony/public:ro
     networks:
-      - reverse-proxy
       - private
-      - shared
-    environment:
-      - VIRTUAL_HOST=gogo-staging.${HOSTNAME}
-      - LETSENCRYPT_HOST=gogo-staging.${HOSTNAME}
-      - LETSENCRYPT_EMAIL=${EMAIL_ADMIN}
   node:
     image: "node:8"
     user: "root"
@@ -41,26 +33,6 @@ services:
     networks:
       - private
 
-# uncomment for mySql
-#  db:
-#    image: mysql
-#    restart: always
-#    expose:
-#      - 3306
-#    environment:
-#      - MYSQL_ROOT_PASSWORD=gogo
-#      - MYSQL_DATABASE=gogo
-#      - MYSQL_PASSWORD=gogo
-#      - MYSQL_USER=gogo
-#    networks:
-#      - private
-
 networks:
-  reverse-proxy:
-    external:
-      name: reverseproxy_default
-  shared:
-    external:
-      name: shared
   private:
     driver: bridge
