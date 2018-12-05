@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  web:
-    ports:
-        - 80
+  app:
+    environment:
+      - DATABASE_URL=mysql://gogo:gogo@db:3306/gogo
   db:
     image: mysql
     restart: always
@@ -15,4 +15,4 @@ services:
       - MYSQL_PASSWORD=gogo
       - MYSQL_USER=gogo
     networks:
-      - private 
+      - private

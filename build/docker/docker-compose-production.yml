@@ -2,13 +2,9 @@ version: '3'
 
 services:
   app:
-    env_file:
-     - ../env/gogo.prod.env
     environment:
       - APP_ENV=prod
   web:
-    expose:
-        - 80
     environment:
       - VIRTUAL_HOST=gogo.${HOSTNAME}
       - LETSENCRYPT_HOST=gogo.${HOSTNAME}

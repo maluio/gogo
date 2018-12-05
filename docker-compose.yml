@@ -4,21 +4,19 @@ services:
   app:
     image: malulu/php-7.1:latest
     env_file:
-     - ../env/global.env
-     - ../env/gogo.global.env
+     - .env
+     - .env.global
     environment:
-      - DATABASE_URL=mysql://gogo:gogo@db:3306/gogo
       - HOSTNAME_OUTER_HOST=gogo.test
       - LOCALE=en
+      #- DATABASE_URL=mysql://${DB_USER}:${DB_PW}@${DB_HOST}:3306/${DB_NAME}
     volumes:
       - .:/srv/symfony:rw
     networks:
       - private
   web:
-    environment: 
-      - VIRTUAL_HOST=gogo.test
     build:
-      context: ./docker/nginx
+      context: ./build/docker/nginx
       dockerfile: ./Dockerfile
     volumes:
       - ./public:/srv/symfony/public:ro

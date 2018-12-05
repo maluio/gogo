@@ -4,12 +4,11 @@ services:
   app:
     environment:
       - DATABASE_URL=mysql://root:${DB_PW}@servus_db_1:3306/gogo
-    env_file:
-      - ${ENV_CONTAINER_PATH}/global.env
-      - ${ENV_CONTAINER_PATH}/gogo.global.env
     networks:
       - shared
   web:
+    expose:
+      - 80
     networks:
       - reverse-proxy
       - shared

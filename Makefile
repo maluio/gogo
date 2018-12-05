@@ -1,4 +1,11 @@
+#! make
+
+include .env
+include .env.global
+
 dev: down up composer
+
+dev-embedded: down up composer
 
 dev-full: down up-full composer
 
@@ -24,7 +31,7 @@ up-full: docker-up-full permissions
 down: docker-down
 
 docker-up:
-	docker-compose up -d
+	docker-compose -f docker-compose.yml -f build/docker/docker-compose-standalone.yml -f build/docker/docker-compose-db.yml up -d
 
 docker-up-full:
 	docker-compose -f docker-compose.yml -f docker-compose-external.yml up -d

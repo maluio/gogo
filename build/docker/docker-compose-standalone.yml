@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  web:
+    environment: 
+      - VIRTUAL_HOST=gogo.test
+    ports:
+        - 80:80
