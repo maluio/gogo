@@ -3,7 +3,7 @@ version: '3'
 services:
   app:
     environment:
-      - DATABASE_URL=mysql://root:${DB_PW}@servus_db_1:3306/gogo
+      - DATABASE_URL=mysql://gogo:${DB_PW}@servus_db_1:3306/gogo
     networks:
       - shared
   web:
