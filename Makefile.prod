@@ -3,7 +3,7 @@ prod: init down prod-up prod-assets permissions
 prod-quick: down prod-up-without-build permissions
 
 prod-up:
-	docker-compose -f docker-compose.yml -f build/docker/docker-compose-standalone.yml -f build/docker/docker-compose-production.yml up -d --build
+	docker-compose -f docker-compose.yml -f build/docker/docker-compose-standalone.yml -f build/docker/docker-compose-db.yml -f build/docker/docker-compose-production.yml up -d --build
 	docker-compose exec -T app composer install --no-dev --optimize-autoloader
 	docker-compose exec -T app bin/console cache:clear
 	docker-compose exec -T app bin/console doctrine:schema:update --force

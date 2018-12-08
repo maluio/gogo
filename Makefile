@@ -10,7 +10,8 @@ init: init-app init-env
 init-dev: init dev yarn-install js-routes
 
 init-env:
-	cp .env.dist .env
+	# -n option: don't overwrite existing file
+	cp -n .env.dist .env
 
 dev: down up composer
 
