@@ -3,6 +3,17 @@ Webapp that helps remembering things, in particular when learning languages.
 
 Inspired by Anki (https://apps.ankiweb.net) and the Super Memo algorithm (https://www.supermemo.com/english/algsm11.htm) 
 
+## Requirements
+* make
+* docker
+* docker compose
+* mysql connection (optional, 'standalone mode' provides it as docker container)
+
+### Embedded mode
+
+## How to run
+* See Makefiles
+
 ## How it works
 Users add what they would like to remember as flash cards.
 Gogo presents the flash cards to users during their learning session. Users rate the flash card based on how easy or diffcult it was to remember the 
@@ -14,7 +25,7 @@ item in question. Based on this rating Gogo calculates the amount of days in whi
 * Bing image search API to add images to given search terms
 
 ## Technologies
-Symfony4 + Api platform + reactJs
+Symfony4 + reactJs
 
 
 

@@ -1,16 +1,16 @@
 #! make
 
--include .env.global
+-include .env
 export
 include Makefile.app
 include Makefile.prod
 
-init: init-app
+init: init-app init-env
 
 init-dev: init dev yarn-install js-routes
 
 init-env:
-	cp .env.global.dist .env.global
+	cp .env.dist .env
 
 dev: down up composer
 

@@ -158,6 +158,9 @@
     "nelmio/alice": {
         "version": "v3.1.3"
     },
+    "nesbot/carbon": {
+        "version": "1.27.0"
+    },
     "ocramius/proxy-manager": {
         "version": "2.1.1"
     },
