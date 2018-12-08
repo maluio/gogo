@@ -4,7 +4,6 @@ services:
   app:
     image: malulu/php-7.1:latest
     env_file:
-     - .env
      - .env.global
     environment:
       - HOSTNAME_OUTER_HOST=gogo.test
