@@ -11,5 +11,3 @@ services:
       - MYSQL_DATABASE=gogo
       - MYSQL_PASSWORD=gogo
       - MYSQL_USER=gogo
-    networks:
-      - private

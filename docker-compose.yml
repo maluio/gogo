@@ -32,6 +32,8 @@ services:
   db:
     # just a dummy image that get replace by a mysql image if the db composer file is included
     image: alpine:3.7
+    networks:
+      - private
 
 networks:
   private:
