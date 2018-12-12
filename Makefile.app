@@ -1,7 +1,7 @@
 init-app:
 	mkdir -p var
 
-db-init:
+init-db:
 	docker-compose exec -T app php bin/console doctrine:database:create
 	docker-compose exec -T app php bin/console doctrine:schema:create -f
 
