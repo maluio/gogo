@@ -5,17 +5,13 @@ export
 include Makefile.app
 include Makefile.prod
 
-init: init-app init-env
+init: init-env init-app init-db
 
-init-dev: init dev yarn-install js-routes
+run: dev
 
 init-env:
 	# -n option: don't overwrite existing file
 	cp -n .env.dist .env
-
-dev: down up composer
-
-dev-embedded: down up-embedded composer
 
 up: docker-up permissions
 

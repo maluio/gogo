@@ -1,0 +1,5 @@
+dev: down up composer
+
+init-dev: init dev yarn-install js-routes
+
+dev-embedded: down up-embedded composer

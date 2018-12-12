@@ -3,6 +3,7 @@ init-app:
 
 db-init:
 	docker-compose exec -T app php bin/console doctrine:database:create
+	docker-compose exec -T app php bin/console doctrine:schema:create -f
 
 db-shell:
 	docker exec -it gogo_db_1 mysql -u $(DB_USER) -p
@@ -27,9 +28,6 @@ watch:
 
 yarn-install:
 	docker-compose run node yarn install
-
-yarn-prod:
-	docker-compose run node yarn run encore production
 
 node:
 	docker-compose run node bash
