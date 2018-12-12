@@ -1,10 +1,3 @@
-init-app:
-	mkdir -p var
-
-init-db:
-	docker-compose exec -T app php bin/console doctrine:database:create
-	docker-compose exec -T app php bin/console doctrine:schema:create -f
-
 db-shell:
 	docker exec -it gogo_db_1 mysql -u $(DB_USER) -p
 

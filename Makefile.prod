@@ -1,8 +1,7 @@
+#prod: init down prod-up prod-assets permissions
 prod:
 	@echo "The prod environment isn't currently working."
 	@echo "Symfony doesn't use the correct database connection/credentials for some reason even when hardcoding them"
-
-#prod: init down prod-up prod-assets permissions
 
 prod-quick: down prod-up-without-build permissions
 

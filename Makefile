@@ -3,15 +3,13 @@
 -include .env
 export
 include Makefile.app
+include Makefile.dev
 include Makefile.prod
 
-init: init-env init-app init-db
+init:
+	/bin/bash build/bin/init.sh
 
 run: dev
-
-init-env:
-	# -n option: don't overwrite existing file
-	cp -n .env.dist .env
 
 up: docker-up permissions
 
